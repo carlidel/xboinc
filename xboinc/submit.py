@@ -196,4 +196,4 @@ class JobManager:
         # clean up
         for thisfile in self._json_files + self._bin_files:
             thisfile.unlink()
-        self._temp.cleanup()
+        # self._temp.cleanup()
