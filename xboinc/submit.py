@@ -140,7 +140,7 @@ class SubmitJobs:
         self._submit_file = f"{self._user}__{self._study_name}__{timestamp()}.tar.gz"
         self._json_files = []
         self._bin_files = []
-        self._tempdir = FsPath(_tempdir).resolve()
+        self._tempdir = FsPath(_tempdir.name).resolve()
         self._submitted = False
 
     def _assert_not_submitted(self):
@@ -270,4 +270,4 @@ class SubmitJobs:
         # clean up
         for thisfile in self._json_files + self._bin_files:
             thisfile.unlink()
-        self._temp.cleanup()
+        # self._temp.cleanup()
