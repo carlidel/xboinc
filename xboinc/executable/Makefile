@@ -1,6 +1,6 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 
@@ -46,7 +46,7 @@ CXXFLAGS += \
     -L/usr/lib \
     -L. \
 	-DXO_CONTEXT_CPU \
-	-DXO_CONTEXT_CPU_OPENMP
+	-DXO_CONTEXT_CPU_SERIAL
 # These last two flags are now needed for the xtrack Python package
 # to compile the xboinc executable correctly
 # For GPU context, different flags are needed, but we are not using them here for now.
@@ -108,7 +108,7 @@ install: xboinc
 # because otherwise, you might get a version in /usr/lib etc.
 
 xtrack.o: xtrack_tracker.h xb_input.h xtrack.c
-	$(CXX) $(CXXFLAGS) -lm -x c -std=c99 -c xtrack.c
+	$(CC) $(CXXFLAGS) -lm -std=c99 -c xtrack.c
 
 xboinc_test: xtrack.o xtrack.h main.c $(MAKEFILE_STDLIB)
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o xboinc_test xtrack.o main.c -lm $(MAKEFILE_LDFLAGS)

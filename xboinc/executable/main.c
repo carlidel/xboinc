@@ -1,14 +1,14 @@
 // copyright ############################### #
 // This file is part of the Xboinc Package.  #
-// Copyright (c) CERN, 2024.                 #
+// Copyright (c) CERN, 2025.                 #
 // ######################################### #
-
 
 // ===============================================================================================
 // IMPORTANT
 // ===============================================================================================
 // Only make changes to this file just before a minor version bump (need a separate commit though)
 // to avoid having multiple xboinc versions with out-of-sync executables.
+// Update the version integer in version.h!
 // ===============================================================================================
 
 #ifdef __cplusplus
@@ -30,6 +30,9 @@
 #ifndef NULL
 #define NULL 0
 #endif
+
+// Version of the Xboinc executable
+#include "version.h"
 
 // Xsuite code (in C) that the BOINC app calls
 // This should be compiled separately in advance
@@ -62,13 +65,6 @@ extern "C" {
 #define XB_OUTPUT_FILENAME "xboinc_state_out.bin"
 #define XB_CHECKPOINT_FILE "checkpoint.bin"
 
-
-// ===============================================================================================
-// Do not change
-// ===============================================================================================
-// version XXX.YYY as int  (no patch)
-const int64_t xboinc_exec_version = 1;
-// ===============================================================================================
 
 int8_t run_slow = 0;
 int8_t early_exit = 0;
@@ -175,8 +171,17 @@ int main(int argc, char **argv){
     }
     const int64_t num_turns = XbInput_get_num_turns(xb_input);
     const int64_t num_elements = XbInput_get_num_elements(xb_input);
+    const int64_t ele_start = XbInput_get_ele_start(xb_input);
+    const int64_t ele_stop = XbInput_get_ele_stop(xb_input);
     XB_fprintf(1, stdout, "num_turns: %d\n", (int) num_turns);
     XB_fprintf(1, stdout, "num_elements: %d\n", (int) num_elements);
+    XB_fprintf(1, stdout, "ele_start: %d\n", (int) ele_start);
+    XB_fprintf(1, stdout, "ele_stop: %d\n", (int) ele_stop);
+
+    int from_element;
+    int to_element;
+    int end_turn_actions = 1;
+
     ParticlesData particles = XbState_getp__particles(xb_state);
     int64_t num_part = 0;
     for (int ii=0; ii<XbState_get__particles__capacity(xb_state); ii++){
@@ -197,21 +202,39 @@ int main(int argc, char **argv){
     // Main loop  ================
     // ===========================
     while (current_turn < num_turns){
+        if(current_turn == 0){
+            from_element = (int) ele_start;
+            if(num_turns == 1){
+                to_element = (int) ele_stop;
+            } else {
+                to_element = ((int) num_elements) - from_element;
+            }
+        } else if(current_turn != num_turns - 1){
+            from_element = 0;
+            to_element = (int) num_elements;
+        } else {
+            from_element = 0;
+            to_element = (int) ele_stop;
+            if (ele_stop != num_elements) {
+                end_turn_actions = 0;  // No end turn actions for the last incomplete turn
+            }
+        }
+
         track_line(
-            sim_buffer, // int8_t* buffer,
-            elem_ref_data, // ElementRefData elem_ref_data
-            particles,          // ParticlesData particles,
-            step_turns,         // int num_turns,
-            0,                  // int ele_start,
-            (int) num_elements, // int num_ele_track,
-            1,    // int flag_end_turn_actions,
-            1,    // int flag_reset_s_at_end_turn,
-            0,    // int flag_monitor,
-            0,    // int64_t num_ele_line, (needed only for backtracking)
-            0.0,  // double line_length, (needed only for backtracking)
-            NULL, // int8_t* buffer_tbt_monitor,
-            0,    // int64_t offset_tbt_monitor
-            NULL  // int8_t* io_buffer,
+            sim_buffer,       // int8_t* buffer,
+            elem_ref_data,    // ElementRefData elem_ref_data
+            particles,        // ParticlesData particles,
+            step_turns,       // int num_turns,
+            from_element,     // int ele_start,
+            to_element,       // int num_ele_track,
+            end_turn_actions, // int flag_end_turn_actions,
+            1,                // int flag_reset_s_at_end_turn,
+            0,                // int flag_monitor,
+            0,                // int64_t num_ele_line, (needed only for backtracking)
+            0.0,              // double line_length, (needed only for backtracking)
+            NULL,             // int8_t* buffer_tbt_monitor,
+            0,                // int64_t offset_tbt_monitor
+            NULL              // int8_t* io_buffer,
         );
         current_turn += step_turns;
         XB_fprintf(2, stdout, "Tracked turn %i\n", current_turn);

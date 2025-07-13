@@ -1,6 +1,6 @@
 // copyright ############################### #
 // This file is part of the Xboinc Package.  #
-// Copyright (c) CERN, 2024.                 #
+// Copyright (c) CERN, 2025.                 #
 // ######################################### #
 
 // This file provides the necessary xsuite functions to main.c
@@ -26,6 +26,8 @@ int64_t XbInput_get_checkpoint_every(const XbInput);
 ElementRefData XbInput_getp_line_metadata(XbInput);
 int64_t XbInput_get_num_turns(const XbInput);
 int64_t XbInput_get_num_elements(const XbInput);
+int64_t XbInput_get_ele_start(const XbInput);
+int64_t XbInput_get_ele_stop(const XbInput);
 XbState XbInput_getp_xb_state(XbInput);
 int64_t XbInput_get_xb_state__xsize(const XbInput);
 
