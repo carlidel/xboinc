@@ -27,19 +27,27 @@ def _get_read_only_wu_db_connection():
 ###################### Getters #################################################
 
 
-def query_all_work_units() -> pd.DataFrame:
+def query_all_work_units(dev_server=False) -> pd.DataFrame:
     """List all work units in the database as a Pandas DataFrame."""
     with _get_read_only_wu_db_connection() as conn:
         df = pd.read_sql_query("SELECT * FROM wu_status", conn)
+        if dev_server:
+            df = df[df["dev_server"] == 1]
+        else:
+            df = df[df["dev_server"] == 0]
         return df
 
 
-def query_work_units_by_user(user: str) -> pd.DataFrame:
+def query_work_units_by_user(user: str, dev_server=False) -> pd.DataFrame:
     """List all work units for a specific user as a Pandas DataFrame."""
     with _get_read_only_wu_db_connection() as conn:
         df = pd.read_sql_query(
             "SELECT * FROM wu_status WHERE user=?", conn, params=(user,)
         )
+        if dev_server:
+            df = df[df["dev_server"] == 1]
+        else:
+            df = df[df["dev_server"] == 0]
         return df
 
 
@@ -77,7 +85,7 @@ def query_registered_work_units(
             df = query_work_units_by_status(status, dev_server)
             df = df[df["user"] == user]
         else:
-            df = query_work_units_by_user(user)
+            df = query_work_units_by_user(user, dev_server)
         if i == 0:
             all_df = df
         else:
