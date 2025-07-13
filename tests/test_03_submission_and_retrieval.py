@@ -1,6 +1,6 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 ########################################### #
 
 import tarfile
@@ -57,7 +57,7 @@ def test_submission():
         else:
             file.unlink()
 
-    jobs = xb.SubmitJobs(user=server_account, study_name=f"{study_name}_1", line=line, dev_server=True)
+    jobs = xb.JobManager(user=server_account, study_name=f"{study_name}_1", line=line, dev_server=True)
     for i in range(num_jobs):
         particles = xp.Particles(x=np.random.normal(0, 0.01, particles_per_sub),
                                  y=np.random.normal(0, 0.003, particles_per_sub))
@@ -69,7 +69,7 @@ def test_submission():
                 checkpoint_every=checkpoint_every)
 
     time.sleep(5)
-    jobs = xb.SubmitJobs(user=server_account, study_name=f"{study_name}_2", line=line, dev_server=True)
+    jobs = xb.JobManager(user=server_account, study_name=f"{study_name}_2", line=line, dev_server=True)
     for i in range(num_jobs):
         particles = xp.Particles(x=np.random.normal(0, 4.7, particles_per_sub),
                                  y=np.random.normal(0, 0.39, particles_per_sub))
@@ -79,7 +79,7 @@ def test_submission():
 
     time.sleep(5)
     with pytest.raises(NotImplementedError):
-        jobs = xb.SubmitJobs(user=server_account, study_name=f"{study_name}_3", line=line)
+        jobs = xb.JobManager(user=server_account, study_name=f"{study_name}_3", line=line)
 
     now = pd.Timestamp.now().timestamp()
     tarfiles = list(input_dir.glob(f"{server_account}__{study_name}_?__*"))

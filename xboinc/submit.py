@@ -1,6 +1,6 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 import json
@@ -18,56 +18,6 @@ from .server import timestamp
 from .simulation_io import XbInput, app_version, assert_versions
 
 
-_line_options = {
-    "store_element_names": False,
-    "remove_markers": True,
-    "remove_zero_length_drifts": True,
-    "remove_inactive_multipoles": True,
-    "remove_redundant_apertures": True,
-    "merge_consecutive_multipoles": True,
-    "merge_consecutive_drifts": True,
-    "use_simple_bends": False,
-    "use_simple_quadrupoles": False,
-}
-
-
-def _preprocess_line(line, options):
-    if line is None:
-        return None
-    has_tracker = False
-    this_options = options.copy()
-    this_options.pop("store_element_names")
-    if not any(this_options.values()):
-        # No reason to discard and rebuild tracker
-        return line
-    if line.tracker is not None:
-        has_tracker = True
-        buffer = line._buffer
-        io_buffer = line.tracker.io_buffer
-        line.discard_tracker()
-    # Optimise
-    if not this_options["remove_markers"]:
-        line.remove_markers()
-    if not this_options["remove_zero_length_drifts"]:
-        line.remove_zero_length_drifts()
-    if not this_options["remove_inactive_multipoles"]:
-        line.remove_inactive_multipoles()
-    if this_options["remove_redundant_apertures"]:
-        line.remove_redundant_apertures()
-    if this_options["merge_consecutive_multipoles"]:
-        line.merge_consecutive_multipoles()
-    if this_options["merge_consecutive_drifts"]:
-        line.merge_consecutive_drifts()
-    if this_options["use_simple_bends"]:
-        line.use_simple_bends()
-    if this_options["use_simple_quadrupoles"]:
-        line.use_simple_quadrupoles()
-    # Rebuild tracker if it was present
-    if has_tracker:
-        line.build_tracker(_buffer=buffer, io_buffer=io_buffer)
-    return line
-
-
 def _get_num_elements_from_line(line):
     if line is None:
         return {}
@@ -77,7 +27,7 @@ def _get_num_elements_from_line(line):
     return dict(zip(*elements))
 
 
-class SubmitJobs:
+class JobManager:
 
     def __init__(self, user, study_name, line=None, dev_server=False, **kwargs):
         """
@@ -96,22 +46,10 @@ class SubmitJobs:
         dev_server: bool, optional
             Whether or not to submit to the dev server. Defaults to False.
 
-        Additionally, the following optimisation flags can be passed
-        globally:
-            store_element_names : default False.
-            remove_markers : default True.
-            remove_zero_length_drifts : default True.
-            remove_inactive_multipoles : default True.
-            remove_redundant_apertures : default True.
-            merge_consecutive_multipoles : default True.
-            merge_consecutive_drifts : default True.
-            use_simple_bends : default False.
-            use_simple_quadrupoles : default False.
-
         Usage
         -----
-        Create one SubmitJobs instance per study, add jobs one-by-one with
-        SubmitJobs.add(), and submit with SubmitJobs.submit().
+        Create one JobManager instance per study, add jobs one-by-one with
+        JobManager.add(), and submit with JobManager.submit().
         """
 
         assert_versions()
@@ -134,19 +72,18 @@ class SubmitJobs:
         else:
             self._target = get_directory(user) / "input"
         self._study_name = study_name
-        self._line_options = {k: kwargs.pop(k, v) for k, v in _line_options.items()}
-        self._line = _preprocess_line(line, self._line_options)
+        self._line = line
         self._num_elements = _get_num_elements_from_line(line)
         self._submit_file = f"{self._user}__{self._study_name}__{timestamp()}.tar.gz"
         self._json_files = []
         self._bin_files = []
-        self._tempdir = FsPath(_tempdir).resolve()
+        self._tempdir = FsPath(_tempdir.name).resolve()
         self._submitted = False
 
     def _assert_not_submitted(self):
         if self._submitted:
             raise ValueError(
-                "Jobs already submitted! Make a new SubmitJobs object to continue."
+                "Jobs already submitted! Make a new JobManager object to continue."
             )
 
     def add(
@@ -160,7 +97,7 @@ class SubmitJobs:
         **kwargs,
     ):
         """
-        Add a single job to the SubmitJobs instance. This will create a binary input file and a
+        Add a single job to the JobManager instance. This will create a binary input file and a
         json file (with the same name) containing the job metadata.
 
         Parameters
@@ -190,27 +127,17 @@ class SubmitJobs:
                 "The character sequence '__' is not allowed in 'job_name'!"
             )
 
-        # Get the line options from kwargs, and default to the options in SubmitJobs
-        _line_options = {k: kwargs.pop(k, v) for k, v in self._line_options.items()}
-
-        # Get the line from kwargs, and default to the line in SubmitJobs
+        # Get the line from kwargs, and default to the line in JobManager
         if line is None:
             if self._line is None:
                 raise ValueError(
                     "Need to provide a line! This can be done for "
-                    + "each job separately, or at the SubmitJobs init."
-                )
-            if not xt.line._dicts_equal(_line_options, self._line_options):
-                raise ValueError(
-                    f"Some different line options are given to job "
-                    + f"{job_name}, compared to the options in SubmitJobs, "
-                    + f"but no new line given!"
+                    + "each job separately, or at the JobManager init."
                 )
             line = self._line
             num_elements = self._num_elements
         else:
             # If a new line is given, preprocess it
-            line = _preprocess_line(line, _line_options)
             num_elements = _get_num_elements_from_line(line)
 
         sleep(0.001)  # To enforce different filenames
@@ -228,15 +155,14 @@ class SubmitJobs:
             "num_turns": num_turns,
             **kwargs,
         }
-        with json_file.open("w") as fid:
+        with json_file.open("w", encoding="utf-8") as fid:
             json.dump(json_dict, fid, cls=xo.JEncoder)
-        store_element_names = _line_options["store_element_names"]
         data = XbInput(
             num_turns=num_turns,
             line=line,
             checkpoint_every=checkpoint_every,
             particles=particles,
-            store_element_names=store_element_names,
+            store_element_names=False,
         )
         data.to_binary(bin_file)
         self._json_files += [json_file]
