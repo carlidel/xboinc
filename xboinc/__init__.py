@@ -1,12 +1,12 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 from .general import _pkg_root, __version__, __xsuite__versions__
 
 from .register import register, deregister
-from .submit import SubmitJobs
+from .submit import JobManager
 from .retrieve import RetrieveJobs
 
 from .simulation_io import XbState, XbInput, app_version, app_version_int, assert_versions
