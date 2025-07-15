@@ -29,6 +29,9 @@ def _get_num_elements_from_line(line):
 
 
 class JobManager:
+    """
+    A class to manage jobs for submission to the Xboinc server.
+    This class allows adding jobs one-by-one, and then submitting them all at once."""
 
     def __init__(self, user, study_name, line=None, dev_server=False, **kwargs):
         """
@@ -58,6 +61,7 @@ class JobManager:
             raise NotImplementedError(
                 "Regular server not yet operational. " + "Please use dev_server=True."
             )
+        self.dev_server = dev_server
         if "__" in study_name:
             raise ValueError(
                 "The character sequence '__' is not allowed in 'study_name'!"
@@ -68,7 +72,7 @@ class JobManager:
             assert (
                 eos_accessible
             ), "EOS is not accessible! Please check your connection."
-        if dev_server:
+        if self.dev_server:
             self._target = get_directory(user) / "input_dev"
         else:
             self._target = get_directory(user) / "input"
@@ -168,6 +172,10 @@ class JobManager:
         data.to_binary(bin_file)
         self._json_files += [json_file]
         self._bin_files += [bin_file]
+        print(
+            f"Added job {job_name} for user {self._user} in study {self._study_name} "
+            + f"with {len(particles)} particles and {num_turns} turns."
+        )
 
     def submit(self):
         """
@@ -198,3 +206,57 @@ class JobManager:
         for thisfile in self._json_files + self._bin_files:
             thisfile.unlink()
         # self._temp.cleanup()
+
+        print(
+            f"Submitted {len(self._json_files)} jobs to BOINC server for user "
+            + f"{self._user} in study {self._study_name}."
+        )
+
+    def __len__(self):
+        """
+        Returns the number of jobs added to this JobManager instance.
+
+        Returns
+        -------
+        int
+            The number of jobs added.
+        """
+        return len(self._json_files)
+    
+    def __repr__(self):
+        """
+        Returns a string representation of the JobManager instance.
+
+        Returns
+        -------
+        str
+            A string representation of the JobManager instance.
+        """
+        return (
+            f"JobManager(user={self._user}, study_name={self._study_name}, "
+            + f"num_jobs={len(self)}, dev_server={self.dev_server})"
+        )
+    
+    def get_job_summary(self):
+        """
+        Returns a summary of the jobs added to this JobManager instance.
+
+        Returns
+        -------
+        dict
+            A dictionary summarizing the jobs.
+        """
+        return {
+            "user": self._user,
+            "study_name": self._study_name,
+            "num_jobs": len(self),
+            "dev_server": self.dev_server,
+            "jobs": [
+                {
+                    "job_name": job["job_name"],
+                    "num_turns": job["num_turns"],
+                    "num_particles": job["num_part"],
+                }
+                for job in self._json_files
+            ],
+        }
