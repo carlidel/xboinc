@@ -22,8 +22,7 @@ def list_registered_users():
     """
     with user_data_file.open("r") as fid:
         userdict = json.load(fid)
-    for key in userdict:
-        yield key
+    yield from userdict.keys()
 
 
 def update_user_data(user, data):
