@@ -234,7 +234,7 @@ class JobManager:
         """
         return (
             f"JobManager(user={self._user}, study_name={self._study_name}, "
-            + f"num_jobs={len(self)}, dev_server={self.dev_server})"
+            + f"num_jobs={len(self)}, dev_server={self.dev_server}, submitted={self._submitted})"
         )
     
     def get_job_summary(self):
@@ -259,4 +259,5 @@ class JobManager:
                 }
                 for job in self._json_files
             ],
+            "submitted": self._submitted,
         }
