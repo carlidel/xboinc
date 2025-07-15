@@ -3,10 +3,10 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-from pathlib import Path
+from xaux import FsPath
 
-afsusr  = Path('/afs/cern.ch/user/s/sixtadm')
-eosusr  = Path('/eos/user/s/sixtadm')
+afsusr  = FsPath('/afs/cern.ch/user/s/sixtadm')
+eosusr  = FsPath('/eos/user/s/sixtadm')
 
 eosdir     = eosusr / 'xboinc_server'         # EOS spooldir for server
 dropdir    = eosdir / 'drop'                  # only location where users have write access (i.e. to register)
