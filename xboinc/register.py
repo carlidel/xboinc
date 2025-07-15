@@ -1,16 +1,16 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 import json
 from warnings import warn
-from xaux import FsPath, AfsPath, EosPath, LocalPath, eos_accessible, is_egroup_member
+
+from xaux import AfsPath, EosPath, FsPath, LocalPath, eos_accessible, is_egroup_member
 
 from .general import _pkg_root
-from .user import update_user_data, get_user_data, remove_user
-from .server import server_account, dropdir
-
+from .server import dropdir, server_account
+from .user import get_user_data, remove_user, update_user_data
 
 user_data_file = _pkg_root / "user_data.json"
 

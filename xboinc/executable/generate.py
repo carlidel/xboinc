@@ -3,23 +3,24 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
+import os
 import platform
+import shutil
+import subprocess
+from pathlib import Path
 
 import xobjects as xo
 import xtrack as xt
 
+from ..general import _pkg_root
 from ..simulation_io import (
-    XbState,
     XbInput,
+    XbState,
     XbVersion,
     app_version,
-    get_default_tracker_kernel,
     assert_versions,
+    get_default_tracker_kernel,
 )
-from ..general import _pkg_root
-
-from pathlib import Path
-import shutil, subprocess, os
 
 # ===============================================================================================
 # IMPORTANT

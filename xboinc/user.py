@@ -4,10 +4,10 @@
 # ######################################### #
 
 import json
+
 from xaux import FsPath
 
 from .general import _pkg_root
-
 
 user_data_file = FsPath(_pkg_root / "user_data.json")
 

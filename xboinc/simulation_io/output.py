@@ -1,18 +1,20 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-# ===============================================================================================
+# ==============================================================================
 # IMPORTANT
-# ===============================================================================================
-# Only make changes to this file just before a minor version bump (need a separate commit though)
-# to avoid having multiple xboinc versions with out-of-sync executables.
-# ===============================================================================================
+# ==============================================================================
+# Only make changes to this file just before a minor version bump (need a
+# separate commit though) to avoid having multiple xboinc versions with
+# out-of-sync executables.
+# ==============================================================================
+
 
 from pathlib import Path
-import numpy as np
 
+import numpy as np
 import xobjects as xo
 import xtrack as xt
 
@@ -108,4 +110,3 @@ class XbState(xo.Struct):
     @property
     def i_turn(self):
         return self._i_turn
-

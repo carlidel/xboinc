@@ -3,17 +3,17 @@
 # Copyright (c) CERN, 2025.                        #
 # ################################################ #
 
-
-import sqlite3
 import json
-from typing import Dict, Any
-from xaux import FsPath, timestamp
+import sqlite3
 from datetime import datetime, timedelta
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
+
 import pandas as pd
 
-from .user import list_registered_users
+from xaux import FsPath, timestamp
+
 from .server.paths import infowudir
+from .user import list_registered_users
 
 wu_db = infowudir / "wu_status.db"
 

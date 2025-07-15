@@ -3,13 +3,17 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-from .general import _pkg_root, __version__, __xsuite__versions__
-
-from .register import register, deregister
-from .submit import JobManager
+from .executable import generate_executable, generate_executable_source
+from .general import __version__, __xsuite__versions__, _pkg_root
+from .register import deregister, register
 from .retrieve import RetrieveJobs
-
-from .simulation_io import XbState, XbInput, app_version, app_version_int, assert_versions
-from .executable import generate_executable_source, generate_executable
+from .simulation_io import (
+    XbInput,
+    XbState,
+    app_version,
+    app_version_int,
+    assert_versions,
+)
+from .submit import JobManager
 
 _skip_xsuite_version_check = False

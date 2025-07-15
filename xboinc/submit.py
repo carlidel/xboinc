@@ -5,17 +5,18 @@
 
 import json
 import tarfile
-import numpy as np
 from time import sleep
 
+import numpy as np
 import xobjects as xo
 import xtrack as xt
+
 from xaux import FsPath, eos_accessible
 from xaux.fs.temp import _tempdir
 
-from .user import get_domain, get_directory
 from .server import timestamp
 from .simulation_io import XbInput, app_version, assert_versions
+from .user import get_directory, get_domain
 
 
 def _get_num_elements_from_line(line):

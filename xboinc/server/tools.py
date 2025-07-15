@@ -1,14 +1,12 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-from pathlib import Path
-import logging as lg
-import traceback
-import tarfile
 import datetime
-
+import logging as lg
+import tarfile
+from pathlib import Path
 
 
 def timestamp(ms=False, in_filename=True):

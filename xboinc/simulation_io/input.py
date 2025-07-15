@@ -3,12 +3,13 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-# ===============================================================================================
+# ==============================================================================
 # IMPORTANT
-# ===============================================================================================
-# Only make changes to this file just before a minor version bump (need a separate commit though)
-# to avoid having multiple xboinc versions with out-of-sync executables.
-# ===============================================================================================
+# ==============================================================================
+# Only make changes to this file just before a minor version bump (need a 
+# separate commit though) to avoid having multiple xboinc versions with 
+# out-of-sync executables.
+# ==============================================================================
 
 import numpy as np
 from pathlib import Path

@@ -1,15 +1,15 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 import json
 
 from xaux import eos_accessible
 
-from .user import get_directory, get_domain
 from .server.tools import untar
 from .simulation_io import XbState, assert_versions
+from .user import get_directory, get_domain
 
 
 class RetrieveJobs:
