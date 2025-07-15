@@ -22,13 +22,9 @@ from .version import XbVersion, assert_versions
 from .default_tracker import default_element_classes, get_default_config, ElementRefData
 from .output import XbState
 
-# TODO: check compilation on office PC
 # TODO: line.particle_ref is not dumped nor retrieved... Why is this no issue?
-# TODO: update xsuite_versions
 # TODO: parity
 # TODO: can we cache the view on line?
-# TODO: docstrings!!
-# TODO: remove xobject
 
 # TODO: Caching does not work as moving elements to buffer does not work correctly
 #       Can we cache by making the line_metadata in one buffer which we then always merge to a new one?
