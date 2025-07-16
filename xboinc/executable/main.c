@@ -205,7 +205,10 @@ int main(int argc, char **argv){
         if(current_turn == 0){
             from_element = (int) ele_start;
             if(num_turns == 1){
-                to_element = (int) ele_stop;
+                to_element = ((int) ele_stop) - from_element;
+                if (ele_stop != num_elements) {
+                    end_turn_actions = 0; // No end turn actions for the last incomplete turn
+                }
             } else {
                 to_element = ((int) num_elements) - from_element;
             }
