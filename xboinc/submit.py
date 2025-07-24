@@ -174,7 +174,7 @@ class JobManager:
         self._bin_files += [bin_file]
         print(
             f"Added job {job_name} for user {self._user} in study {self._study_name} "
-            + f"with {len(particles)} particles and {num_turns} turns."
+            + f"with {len(particles.x)} particles and {num_turns} turns."
         )
 
     def submit(self):
