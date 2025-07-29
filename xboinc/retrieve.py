@@ -13,7 +13,7 @@ from xaux import eos_accessible, FsPath
 from .server.tools import untar
 from .simulation_io import XbState, assert_versions
 from .user import get_directory, get_domain
-from .df_wu import get_work_units_by_user
+from .df_wu import query_work_units_by_user
 
 
 class ResultRetriever:
@@ -220,7 +220,7 @@ class ResultRetriever:
         if study_name not in self._df["study_name"].unique():
             raise ValueError(f"Study name {study_name} not found in results.")
         # Get server dataframe
-        server_df = get_work_units_by_user(self._user, dev_server=self._dev_server)
+        server_df = query_work_units_by_user(self._user, dev_server=self._dev_server)
         if study_name not in server_df["study_name"].unique():
             raise ValueError(f"Study name {study_name} not found in server work units.")
         result_job_names = self._df[self._df["study_name"] == study_name][
