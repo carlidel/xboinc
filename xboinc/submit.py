@@ -12,6 +12,7 @@ import xobjects as xo
 import xtrack as xt
 from warnings import warn
 
+from tqdm.auto import tqdm
 from xaux import FsPath, eos_accessible
 from xaux.fs.temp import _tempdir
 
@@ -213,7 +214,7 @@ class JobManager:
 
         self._assert_not_submitted()
         with tarfile.open(self._tempdir / self._submit_file, "w:gz") as tar:
-            for thisfile in self._json_files + self._bin_files:
+            for thisfile in tqdm(self._json_files + self._bin_files, desc="Zipping files"):
                 tar.add(thisfile, arcname=thisfile.name)
         if self._domain in ["eos", "afs"]:
             FsPath(self._tempdir / self._submit_file).move_to(self._target)
