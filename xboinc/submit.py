@@ -10,6 +10,7 @@ from time import sleep
 import numpy as np
 import xobjects as xo
 import xtrack as xt
+from warnings import warn
 
 from xaux import FsPath, eos_accessible
 from xaux.fs.temp import _tempdir
@@ -84,6 +85,7 @@ class JobManager:
         self._bin_files = []
         self._tempdir = FsPath(_tempdir.name).resolve()
         self._submitted = False
+        self._unique_job_names = set()
 
     def _assert_not_submitted(self):
         if self._submitted:
@@ -131,6 +133,23 @@ class JobManager:
             raise ValueError(
                 "The character sequence '__' is not allowed in 'job_name'!"
             )
+
+        if job_name in self._unique_job_names:
+            warn(
+                f"The job name '{job_name}' has already been added. "
+                "The job will be renamed to avoid conflicts."
+            )
+            # check if the job name ends with a number after an underscore
+            if "_" in job_name:
+                parts = job_name.rsplit("_", 1)
+                if parts[-1].isdigit():
+                    job_name = f"{parts[0]}_{int(parts[-1]) + 1}"
+                else:
+                    job_name = f"{job_name}_1"
+            else:
+                job_name = f"{job_name}_1"
+
+        self._unique_job_names.add(job_name)
 
         # Get the line from kwargs, and default to the line in JobManager
         if line is None:
