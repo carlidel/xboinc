@@ -6,7 +6,7 @@
 from .executable import generate_executable, generate_executable_source
 from .general import __version__, __xsuite__versions__, _pkg_root
 from .register import deregister, register
-from .retrieve import RetrieveJobs
+from .retrieve import ResultRetriever
 from .simulation_io import (
     XbInput,
     XbState,
