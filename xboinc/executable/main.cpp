@@ -51,8 +51,8 @@ extern "C" {
 #endif
 #ifdef _WIN32
 #include "boinc_win.h"
-#else
-#include "config.h"
+// #else
+// #include "config.h"
 #endif
 #include "str_util.h"
 #include "util.h"

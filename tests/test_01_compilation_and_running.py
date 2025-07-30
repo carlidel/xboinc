@@ -23,14 +23,13 @@ input_filename = "xboinc_input.bin"
 output_filename = "xboinc_state_out.bin"
 checkpoint_filename = "checkpoint.bin"
 
-boinc_path = xb._pkg_root.parents[1] / "boinc"
-boinc_api = boinc_path / "api" / "libboinc_api.a"
-boinc_lib = boinc_path / "lib" / "libboinc.a"
-boinc_missing = (
-    not boinc_path.is_dir()
-    or not boinc_path.exists()
-    or not boinc_api.exists()
-    or not boinc_lib.exists()
+# TODO: Change this to your vcpkg root path!
+vcpkg_root = Path("/path/to/vcpkg")
+
+vcpkg_missing = (
+    not vcpkg_root.is_dir()
+    or not vcpkg_root.exists()
+    or not (vcpkg_root / "installed" / "x64-linux" / "lib" / "libboinc.a").exists()
 )
 
 
@@ -104,9 +103,9 @@ def test_source():
     [
         None,
         pytest.param(
-            boinc_path,
+            vcpkg_root,
             marks=pytest.mark.skipif(
-                boinc_missing, reason="BOINC installation not found"
+                vcpkg_missing, reason="VCPKG + BOINC installation not found"
             ),
         ),
     ],
@@ -115,7 +114,7 @@ def test_source():
 def test_compilation(boinc):
     xb._skip_xsuite_version_check = True
     keep_source = True if boinc is None else False
-    xb.generate_executable(keep_source=keep_source, boinc_path=boinc)
+    xb.generate_executable(keep_source=keep_source, vcpkg_root=boinc)
     app = "xboinc_test" if boinc is None else "xboinc"
     exec_file = list(Path.cwd().glob(f"{app}_{xb.app_version}-*"))
     assert len(exec_file) == 1
@@ -138,9 +137,9 @@ def _get_exec(boinc):
     [
         None,
         pytest.param(
-            boinc_path,
+            vcpkg_root,
             marks=pytest.mark.skipif(
-                boinc_missing, reason="BOINC installation not found"
+                vcpkg_missing, reason="VCPKG + BOINC installation not found"
             ),
         ),
     ],
@@ -213,9 +212,9 @@ def _get_output(boinc):
     [
         None,
         pytest.param(
-            boinc_path,
+            vcpkg_root,
             marks=pytest.mark.skipif(
-                boinc_missing, reason="BOINC installation not found"
+                vcpkg_missing, reason="VCPKG + BOINC installation not found"
             ),
         ),
     ],
@@ -301,8 +300,8 @@ def test_vs_xtrack():
     xb._skip_xsuite_version_check = True
 
     exec_test = _get_exec(boinc=None)
-    if not boinc_missing:
-        exec_boinc = _get_exec(boinc_path)
+    if not vcpkg_missing:
+        exec_boinc = _get_exec(vcpkg_root)
     output_file = Path.cwd() / output_filename
 
     for at_element in [None, "ip2", 3500]:
@@ -332,7 +331,7 @@ def test_vs_xtrack():
         )
         safe_remove(*files_to_remove)
 
-        if not boinc_missing:
+        if not vcpkg_missing:
             try:
                 cmd = subprocess.run(
                     [exec_boinc, "--verbose", "1"],
@@ -383,7 +382,7 @@ def test_vs_xtrack():
         )
         safe_remove(*files_to_remove)
 
-        if not boinc_missing:
+        if not vcpkg_missing:
             try:
                 cmd = subprocess.run(
                     [exec_boinc, "--verbose", "1"],
