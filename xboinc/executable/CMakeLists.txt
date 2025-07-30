@@ -21,7 +21,7 @@ set(XTRACK_PYTHON_DIR "/path/to/xtrack/" CACHE PATH "XTrack Python package dir")
 set(VCPKG_TARGET_TRIPLET "x64-linux" CACHE STRING "VCPKG target triplet")
 
 # === Flags and Definitions ===
-set(COMMON_COMPILE_FLAGS -Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wunused-parameter -Wno-write-strings -fno-common)
+set(COMMON_COMPILE_FLAGS -Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wunused-parameter -Wno-write-strings -fno-common -O2)
 set(COMMON_DEFINITIONS XO_CONTEXT_CPU XO_CONTEXT_CPU_SERIAL)
 set(SYSTEM_LIBS pthread m)
 
