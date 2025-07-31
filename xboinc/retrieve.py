@@ -58,10 +58,12 @@ class ResultRetriever:
         silent : bool, optional
             If True, suppress progress bar output (default: False)
         """
-        for tar_file in tqdm(
-            path.glob("*.tar.gz"), desc="Untarring results", disable=silent
-        ):
-            untar(tar_file)
+        tar_list = list(path.glob("*.tar.gz"))
+        if len(tar_list) != 0:
+            for tar_file in tqdm(
+                tar_list, desc="Untarring results", disable=silent
+            ):
+                untar(tar_file)
 
     def _index_results(self, path: FsPath, silent: bool = False) -> pd.DataFrame:
         """
@@ -88,7 +90,7 @@ class ResultRetriever:
         )
 
         # iterate all folders in the path
-        for folder in tqdm(path.glob("*/"), desc="Indexing results", disable=silent):
+        for folder in tqdm(list(path.glob("*/")), desc="Indexing results in folders", disable=silent):
             if not folder.is_dir():
                 continue
             # iterate all result bin files in the folder
@@ -99,19 +101,17 @@ class ResultRetriever:
                     continue
                 user = parts[0]
                 study_name = parts[1]
-                job_name = "__".join(parts[2])
+                job_name = parts[2]
                 wu_name = bin_file.name.replace(".bin", "")
                 # append to the DataFrame
-                df = df.append(
-                    {
-                        "user": user,
-                        "study_name": study_name,
-                        "job_name": job_name,
-                        "wu_name": wu_name,
-                        "bin_file": bin_file,
-                    },
-                    ignore_index=True,
-                )
+                new_row = pd.DataFrame([{
+                    "user": user,
+                    "study_name": study_name,
+                    "job_name": job_name,
+                    "wu_name": wu_name,
+                    "bin_file": bin_file,
+                }])
+                df = pd.concat([df, new_row], ignore_index=True)
         return df
 
     def __init__(self, user, dev_server=False, silent=False):
@@ -256,7 +256,7 @@ class ResultRetriever:
                 UserWarning,
             )
         diff_jobs = set(remote_job_names) - set(result_job_names)
-        err_jobs = result_job_names - diff_jobs
+        err_jobs = set(result_job_names) - diff_jobs
         # Print statistics
         print(f"Study: {study_name}")
         print(f"Total jobs in results: {len(result_job_names)}")
@@ -371,7 +371,7 @@ class ResultRetriever:
         print(f"Cleaned up results for study {study_name}!")
 
     @classmethod
-    def iterate(cls, user, study_name, dev_server=False, silent=True):
+    def iterate(cls, user, study_name, dev_server=False, silent=False):
         """
         Class method to directly iterate over results for a user and study.
         
@@ -404,7 +404,7 @@ class ResultRetriever:
         return instance.iterate_results(study_name)
 
     @classmethod
-    def overview(cls, user, dev_server=False, silent=True):
+    def overview(cls, user, dev_server=False, silent=False):
         """
         Class method to get an overview of results for a specific user.
         
@@ -431,7 +431,7 @@ class ResultRetriever:
         return instance.get_overview()
 
     @classmethod
-    def status(cls, user, study_name, dev_server=False, silent=True, verbose=False):
+    def status(cls, user, study_name, dev_server=False, silent=False, verbose=False):
         """
         Class method to get status of results for a specific user and study.
         
@@ -461,3 +461,30 @@ class ResultRetriever:
         """
         instance = cls(user, dev_server=dev_server, silent=silent)
         return instance.get_study_status(study_name=study_name, verbose=verbose)
+
+    @classmethod
+    def study_list(cls, user, dev_server=False, silent=False):
+        """
+        Class method to get a list of all studies for a specific user.
+        
+        Parameters
+        ----------
+        user : str
+            The user that submitted the BOINC jobs
+        dev_server : bool, optional
+            Whether to use development server (default: False)
+        silent : bool, optional
+            Whether to suppress output messages (default: True)
+            
+        Returns
+        -------
+        list of str
+            Sorted list of unique study names found in the results
+            
+        Examples
+        --------
+        >>> studies = ResultRetriever.study_list('myuser', dev_server=True)
+        >>> print(studies)
+        """
+        instance = cls(user, dev_server=dev_server, silent=silent)
+        return instance.get_study_list()
