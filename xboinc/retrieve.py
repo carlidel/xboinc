@@ -4,16 +4,17 @@
 # ######################################### #
 
 import json
+from warnings import warn
 
 import pandas as pd
 from tqdm.auto import tqdm
-from warnings import warn
-from xaux import eos_accessible, FsPath
 
+from xaux import FsPath, eos_accessible
+
+from .df_wu import query_work_units_by_user
 from .server.tools import untar
 from .simulation_io import XbState, assert_versions
 from .user import get_directory, get_domain
-from .df_wu import query_work_units_by_user
 
 
 class ResultRetriever:
