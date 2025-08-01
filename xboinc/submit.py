@@ -78,7 +78,7 @@ def _get_num_elements_from_line(line):
 class JobManager:
     """
     A class to manage jobs for submission to the Xboinc server.
-    
+
     This class provides a convenient interface for adding multiple particle tracking
     jobs and submitting them as a batch to the BOINC server. It handles job validation,
     time estimation, file preparation, and submission.
@@ -93,19 +93,19 @@ class JobManager:
     ----------
     dev_server : bool
         Whether jobs are submitted to the development server.
-    
+
     Examples
     --------
     Basic usage with a single line for all jobs:
-    
+
     >>> line = xtrack.Line.from_dict(line_dict)
     >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
     >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
     >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
     >>> manager.submit()
-    
+
     Usage with different lines per job:
-    
+
     >>> manager = JobManager("user123", "my_study", dev_server=True)
     >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
     >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
@@ -182,7 +182,7 @@ class JobManager:
     def _assert_not_submitted(self):
         """
         Ensure that jobs have not already been submitted.
-        
+
         Raises
         ------
         ValueError
@@ -198,6 +198,8 @@ class JobManager:
         *,
         job_name,
         num_turns,
+        ele_start=0,
+        ele_stop=-1,
         particles,
         line=None,
         checkpoint_every=-1,
@@ -205,7 +207,7 @@ class JobManager:
     ):
         """
         Add a single job to the JobManager instance.
-        
+
         This method creates the necessary input files (binary and JSON metadata)
         for a single tracking job. The job is validated for execution time bounds
         and prepared for batch submission.
@@ -241,7 +243,7 @@ class JobManager:
         -----
         Job execution time is estimated using benchmark data and must fall
         between LOWER_TIME_BOUND (90s) and UPPER_TIME_BOUND (3 days).
-        
+
         The method creates two files per job:
         - A .json file with job metadata
         - A .bin file with the binary simulation input data
@@ -337,6 +339,8 @@ class JobManager:
             checkpoint_every=checkpoint_every,
             particles=particles,
             store_element_names=False,
+            ele_start=0,
+            ele_stop=-1,
         )
         data.to_binary(bin_file)
         self._json_files += [json_file]
@@ -350,7 +354,7 @@ class JobManager:
     def submit(self):
         """
         Package and submit all added jobs to the BOINC server.
-        
+
         This method creates a compressed tar archive containing all job files
         and moves it to the user's submission directory where the BOINC server
         will periodically check for new submissions.
@@ -370,7 +374,7 @@ class JobManager:
         -----
         After submission, this JobManager instance cannot be used to add more
         jobs. Create a new JobManager instance for additional submissions.
-        
+
         The submission directory depends on the dev_server setting:
         - Development server: {user_directory}/input_dev
         - Production server: {user_directory}/input
@@ -422,7 +426,7 @@ class JobManager:
         -------
         str
             A concise string representation showing key attributes and status.
-            
+
         Examples
         --------
         >>> manager = JobManager("user123", "my_study", dev_server=True)

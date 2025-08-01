@@ -20,11 +20,11 @@ from .user import get_directory, get_domain
 class ResultRetriever:
     """
     Class to retrieve and manage results from Xboinc simulations.
-    
+
     This class provides functionality to retrieve, index, and manage simulation
     results from BOINC work units. It can untar result files, create indexes,
     and provide various views and statistics about completed jobs.
-    
+
     Attributes
     ----------
     _user : str
@@ -37,7 +37,7 @@ class ResultRetriever:
         Whether using development server
     _df : pd.DataFrame
         Indexed DataFrame of all available results
-    
+
     Examples
     --------
     >>> retriever = ResultRetriever('myuser', dev_server=True)
@@ -68,17 +68,17 @@ class ResultRetriever:
     def _index_results(self, path: FsPath, silent: bool = False) -> pd.DataFrame:
         """
         Index all result files in the given path and create a DataFrame.
-        
+
         Scans for .bin files in subdirectories and extracts metadata from
         filenames to create a structured index of available results.
-        
+
         Parameters
         ----------
         path : FsPath
             Directory path to scan for result files
         silent : bool, optional
             If True, suppress progress bar output (default: False)
-            
+
         Returns
         -------
         pd.DataFrame
@@ -117,7 +117,7 @@ class ResultRetriever:
     def __init__(self, user, dev_server=False, silent=False):
         """
         Initialize the ResultRetriever for a specific user.
-        
+
         Parameters
         ----------
         user : str
@@ -127,14 +127,14 @@ class ResultRetriever:
             Whether to retrieve from the development server (default: False)
         silent : bool, optional
             Whether to suppress output messages and progress bars (default: False)
-            
+
         Raises
         ------
         NotImplementedError
             If dev_server=False (regular server not yet operational)
         ConnectionError
             If EOS is not accessible when domain is 'eos'
-            
+
         Examples
         --------
         >>> retriever = ResultRetriever('myuser', dev_server=True, silent=True)
@@ -167,7 +167,7 @@ class ResultRetriever:
     def get_overview(self):
         """
         Get a comprehensive overview of all available results.
-        
+
         Returns
         -------
         pd.DataFrame
@@ -179,7 +179,7 @@ class ResultRetriever:
     def get_study_list(self):
         """
         Get a list of all unique study names in the available results.
-        
+
         Returns
         -------
         list of str
@@ -190,28 +190,28 @@ class ResultRetriever:
     def get_study_status(self, study_name, verbose=False):
         """
         Get detailed status information for a specific study.
-        
+
         Compares local results with server work units to provide comprehensive
         status information including completion rates and missing jobs.
-        
+
         Parameters
         ----------
         study_name : str
             Name of the study to check status for
         verbose : bool, optional
             If True, print detailed job lists (default: False)
-            
+
         Returns
         -------
         tuple of (list, set)
             - list: Job names available in results
             - set: Job names missing from results but present on server
-            
+
         Raises
         ------
         ValueError
             If study_name is not found in results or server work units
-            
+
         Warnings
         --------
         UserWarning
@@ -288,30 +288,30 @@ class ResultRetriever:
     def iterate_results(self, study_name):
         """
         Iterate over all results for a specific study.
-        
+
         Yields tuples of job names and their corresponding particle data
         for all completed jobs in the specified study.
-        
+
         Parameters
         ----------
         study_name : str
             Name of the study to iterate over
-            
+
         Yields
         ------
         tuple of (str, xpart.Particles)
             Job name and corresponding particles object for each result
-            
+
         Raises
         ------
         ValueError
             If study_name is not found in available results
-            
+
         Warnings
         --------
         UserWarning
             If a binary file is incompatible with current Xboinc version
-            
+
         Examples
         --------
         >>> retriever = ResultRetriever('myuser', dev_server=True)
@@ -337,20 +337,20 @@ class ResultRetriever:
     def clean(self, study_name):
         """
         Clean up results for a specific study.
-        
+
         Removes all binary result files, empty directories, and clears
         the study from the internal DataFrame index.
-        
+
         Parameters
         ----------
         study_name : str
             Name of the study to clean up
-            
+
         Raises
         ------
         ValueError
             If study_name is not found in available results
-            
+
         Warning
         -------
         This operation is irreversible. All result files for the study
@@ -374,10 +374,10 @@ class ResultRetriever:
     def iterate(cls, user, study_name, dev_server=False, silent=False):
         """
         Class method to directly iterate over results for a user and study.
-        
+
         Convenient method that creates a ResultRetriever instance and immediately
         starts iterating over results without requiring explicit instantiation.
-        
+
         Parameters
         ----------
         user : str
@@ -388,12 +388,12 @@ class ResultRetriever:
             Whether to use development server (default: False)
         silent : bool, optional
             Whether to suppress output messages (default: True)
-            
+
         Yields
         ------
         tuple of (str, xpart.Particles)
             Job name and corresponding particles object for each result
-            
+
         Examples
         --------
         >>> for job_name, particles in ResultRetriever.iterate('myuser', 'my_study', dev_server=True):
@@ -407,7 +407,7 @@ class ResultRetriever:
     def overview(cls, user, dev_server=False, silent=False):
         """
         Class method to get an overview of results for a specific user.
-        
+
         Parameters
         ----------
         user : str
@@ -416,12 +416,12 @@ class ResultRetriever:
             Whether to use development server (default: False)
         silent : bool, optional
             Whether to suppress output messages (default: True)
-            
+
         Returns
         -------
         pd.DataFrame
             DataFrame with overview of all available results
-            
+
         Examples
         --------
         >>> overview_df = ResultRetriever.overview('myuser', dev_server=True)
@@ -434,7 +434,7 @@ class ResultRetriever:
     def status(cls, user, study_name, dev_server=False, silent=False, verbose=False):
         """
         Class method to get status of results for a specific user and study.
-        
+
         Parameters
         ----------
         user : str
@@ -447,13 +447,13 @@ class ResultRetriever:
             Whether to suppress output messages (default: True)
         verbose : bool, optional
             If True, print detailed job lists (default: False)
-            
+
         Returns
         -------
         tuple of (list, set)
             - list: Job names available in results
             - set: Job names missing from results but present on server
-            
+
         Examples
         --------
         >>> available, missing = ResultRetriever.status('myuser', 'my_study', dev_server=True)
@@ -466,7 +466,7 @@ class ResultRetriever:
     def study_list(cls, user, dev_server=False, silent=False):
         """
         Class method to get a list of all studies for a specific user.
-        
+
         Parameters
         ----------
         user : str
@@ -475,12 +475,12 @@ class ResultRetriever:
             Whether to use development server (default: False)
         silent : bool, optional
             Whether to suppress output messages (default: True)
-            
+
         Returns
         -------
         list of str
             Sorted list of unique study names found in the results
-            
+
         Examples
         --------
         >>> studies = ResultRetriever.study_list('myuser', dev_server=True)

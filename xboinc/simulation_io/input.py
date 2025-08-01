@@ -42,7 +42,7 @@ class XbInput(xo.Struct):
     num_turns        = xo.Int64
     num_elements     = xo.Int64
     ele_start        = xo.Int64      # The start index of the elements in the line
-    ele_stop          = xo.Int64      # The end index of the elements in the line
+    ele_stop         = xo.Int64      # The end index of the elements in the line
     checkpoint_every = xo.Int64
     _parity_check    = xo.Int64      # TODO
     xb_state         = XbState
@@ -145,12 +145,12 @@ class XbInput(xo.Struct):
         """
         Create an XbInput from a binary file. The file should not
         contain anything else (otherwise the offset will be wrong).
-    
+
         Parameters
         ----------
         filename : pathlib.Path
             The binary containing the simulation state.
-    
+
         Returns
         -------
         XbInput
@@ -178,12 +178,12 @@ class XbInput(xo.Struct):
     def to_binary(self, filename):
         """
         Dump the XbInput to a binary file.
-    
+
         Parameters
         ----------
         filename : pathlib.Path
             The binary containing the simulation state.
-    
+
         Returns
         -------
         None.
