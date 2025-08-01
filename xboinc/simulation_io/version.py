@@ -1,12 +1,11 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
 import sys
 
 import xobjects as xo
-import xpart as xp
 import xboinc as xb
 
 from ..general import __version__, __xsuite__versions__
