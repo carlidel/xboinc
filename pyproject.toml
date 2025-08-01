@@ -21,15 +21,17 @@ include = [ "LICENSE", "NOTICE" ]
 
 
 [tool.poetry.dependencies]
-python   = '>=3.9'
-numpy    = '>=1.0'
-xobjects = ">=0.5.0"
-xdeps    = '==0.10.5'
-xpart    = '==0.23.0'
-xtrack   = '==0.84.7'
-xfields  = '==0.24.0'
-xcoll    = '==0.6.1'
-xaux     = '==0.3.5'
+python    = '>=3.9'
+numpy     = '>=1.0'
+packaging = '>=23.0'
+xobjects  = ">=0.5.0"
+xdeps     = '==0.10.5'
+xpart     = '==0.23.0'
+xtrack    = '==0.84.7'
+xfields   = '==0.24.0'
+xcoll     = '==0.6.1'
+xaux      = '==0.3.5'
+xsuite    = '==0.32.3'
 
 [poetry.group.dev.dependencies]
 pytest = ">7"

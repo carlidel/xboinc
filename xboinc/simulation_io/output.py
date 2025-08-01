@@ -1,29 +1,31 @@
 # copyright ############################### #
 # This file is part of the Xboinc Package.  #
-# Copyright (c) CERN, 2024.                 #
+# Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
-# ===============================================================================================
+# ==============================================================================
 # IMPORTANT
-# ===============================================================================================
-# Only make changes to this file just before a minor version bump (need a separate commit though)
-# to avoid having multiple xboinc versions with out-of-sync executables.
-# ===============================================================================================
+# ==============================================================================
+# Only make changes to this file just before a minor version bump (need a
+# separate commit though) to avoid having multiple xboinc versions with
+# out-of-sync executables.
+# ==============================================================================
+
 
 from pathlib import Path
-import numpy as np
 
+import numpy as np
 import xobjects as xo
-import xpart as xp
+import xtrack as xt
 
 from .version import XbVersion, assert_versions
 
 
 class XbState(xo.Struct):
-    _version   = XbVersion    # This HAS to be the first field!
+    _version   = XbVersion     # This HAS to be the first field!
     _i_turn    = xo.Int64      # Current turn in tracking (not necessarily the same as particles.at_turn)
     _xsize     = xo.Int64      # Needed to have access to the size in C
-    _particles = xp.Particles._XoStruct
+    _particles = xt.Particles._XoStruct
 
     def __init__(self, **kwargs):
         """
@@ -36,7 +38,7 @@ class XbState(xo.Struct):
         assert_versions()
         kwargs['_version'] = XbVersion()
         particles = kwargs.pop('particles', None)
-        if particles is None or not isinstance(particles, xp.Particles):
+        if particles is None or not isinstance(particles, xt.Particles):
             raise ValueError("Need to provide `particles` to XbState.")
         kwargs['_particles'] = particles._xobject
         super().__init__(**kwargs)
@@ -48,12 +50,12 @@ class XbState(xo.Struct):
         """
         Create an XbState from a binary file. The file should not
         contain anything else (otherwise the offset will be wrong).
-    
+
         Parameters
         ----------
         filename : pathlib.Path
             The binary containing the simulation state.
-    
+
         Returns
         -------
         XbState
@@ -81,12 +83,12 @@ class XbState(xo.Struct):
     def to_binary(self, filename):
         """
         Dump the XbState to a binary file.
-    
+
         Parameters
         ----------
         filename : pathlib.Path
             The binary containing the simulation state.
-    
+
         Returns
         -------
         None.
@@ -103,9 +105,8 @@ class XbState(xo.Struct):
 
     @property
     def particles(self):
-        return xp.Particles(_xobject=self._particles)
+        return xt.Particles(_xobject=self._particles)
 
     @property
     def i_turn(self):
         return self._i_turn
-
