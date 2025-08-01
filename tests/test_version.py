@@ -12,7 +12,7 @@ from xboinc.simulation_io.version import _version_to_int, _int_to_version, asser
 
 
 def test_version():
-    assert __version__ == '0.4.0rc0'
+    assert __version__ == '0.4.0'
 
 
 def test_xb_ver():
