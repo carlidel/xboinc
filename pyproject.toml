@@ -5,7 +5,7 @@
 
 [tool.poetry]
 name = "xboinc"
-version = "0.3.0"
+version = "0.4.0rc0"
 description = "Xsuite BOINC interface"
 homepage = "https://github.com/xsuite/xboinc"
 repository = "https://github.com/xsuite/xboinc"
