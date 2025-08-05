@@ -64,7 +64,7 @@ def query_registered_work_units(
     Parameters
     ----------
     status : Optional[str]
-        The status to filter work units (e.g., 'pending', 'running', 'completed').
+        The status to filter work units (e.g., 'running', 'completed').
     dev_server : bool
         Whether to query for the development server or production server.
 
@@ -73,6 +73,7 @@ def query_registered_work_units(
     pd.DataFrame
         DataFrame containing the work units for the user.
     """
+    all_df = None
     for i, user in enumerate(list_registered_users()):
         if status:
             df = query_work_units_by_status(status, dev_server)
