@@ -1,302 +1,114 @@
-# XBOINC
+# Xboinc
 
-## Python package for submitting track simulations in particle accelerators with BOINC system
+Xboinc is a package within the Xsuite project that provides tools for easily submit and manage tracking jobs on the BOINC computing platform. It is designed to streamline the process of job submission, management, and monitoring for users of the Xsuite framework in need for large-scale computing resources, with a project adaptable to volunteer-based computing. Note that the services provided by this package are available only to CERN users with a valid computing account.
 
-## INSTRUCTIONS FOR WINDOWS:
+# How to use Xboinc
 
-### How to install boinc client/manager on Windows
+## 1. Install Xboinc
 
-Use the installer at: https://boinc.berkeley.edu/download.php
-
-
-### Compile boinc api and examples from source on Windows
-
-We use MSys2, in particular **MINGW64**
-
-Follow the instruction at https://www.msys2.org to install MSYS2 and GCC:
-```
-pacman -S mingw-w64-x86_64-gcc
-pacman -Suy
-pacman -Suy  # you need indeed twice!
-```
-
-Install git and python packages:
-```
-pacman -S git
-pacman -Sy mingw-w64-x86_64-python-numpy
-pacman -Sy mingw-w64-x86_64-python-scipy
-pacman -Sy mingw-w64-x86_64-python-pandas
-pacman -Sy mingw-w64-x86_64-python-pip
-pacman -Sy mingw-w64-x86_64-python-wheel
-pacman -Sy vim
-```
-
-#### Compile BOINC
-```
-pacman -S autotools
-cd
-git clone https://github.com/BOINC/boinc
-cd boinc
-export BOINC_DIR=$PWD
- 
-./_autosetup
- 
-./configure --disable-server --disable-client --disable-manager --disable-gui
-# This one takes very long
- 
-make
-# This also takes quite long
-```
-
-### Generate xboinc source and input files on windows
-
-```
-cd 
-mkdir xsuite_packages
-cd xsuite_packages
-git clone https://github.com/xsuite/xobjects.git
-git clone https://github.com/xsuite/xpart.git
-git clone https://github.com/xsuite/xtrack.git
-git clone https://github.com/xsuite/xfields.git
-git clone https://github.com/xsuite/xboinc.git
-
-pip install --no-deps --no-build-isolation -e xtrack
-pip install --no-deps --no-build-isolation -e xobjects
-pip install --no-deps --no-build-isolation -e xpart
-pip install --no-deps --no-build-isolation -e xfields
-pip install --no-deps --no-build-isolation -e xboinc
-```
-
-#### Compile and generate input
-
+Any Xboinc version **must** be used with a specific version of the Xsuite framework. To be sure you are using the correct version of Xsuite dependencies along with Xboinc, we highly recommend to install Xboinc in a dedicated Python virtual environment. You can create a new virtual environment with the following command:
 
 ```bash
-cd xboinc/examples/000_build_executable
-python 000_build_executable.py
-bash 001msys2_compile_executable.sh
-cd ../002_lhc
-python 001_build_input.py
-cd ../003_boinc
-echo $BOINC_DIR # Check if points into the BOINC source directory 
-python 000_build_executable.py
-make
+python3 -m venv /path/to/your/new/venv
+source /path/to/your/new/venv/bin/activate
 ```
 
-#### Run/test the executable
-```
-cp ../002_lhc/xboinc_input.bin .
-chmod +x xboinc_executable
-./xboinc_executable
-```
-
-#### Running the test application with boinc server
-We still work in MSYS2 (MINGW64)
-
-In order to have it working we needed to have the file structure in C:\PrgramData\Boinc
-
-```
-cd /c/ProgramData/BOINC # This in WINDOWS is hidden
-cp ~/xsuite_packages/xboinc/examples/003_boinc/client_state_save.xml .
-```
-then
-
-```
-nano account_test.xml 
-```
-
-write
-```
-<account>
-    <master_url>http://test.test</master_url>
-    <project_name>test_project</project_name>
-</account>
-```
-then 
-```nano cc_config.xml```
-write
-```
-<cc_config>
-    <options>
-        <skip_cpu_benchmarks/>
-        <unsigned_apps_ok/>
-    </options>
-</cc_config>
-```
-Then make folder structure
-```
-mkdir projects/test.test
-cp ~/xsuite_packages/xboinc/examples/002_lhc/xboinc_input.bin projects/test.test/input.bin
-cp ~/xsuite_packages/xboinc/examples/003_boinc/xboinc_executable.exe projects/test.test/xboinc_executable
-```
-
-In one terminal:
-`cp client_state_save.xml client_state.xml; ./../../Program\ Files/BOINC/boinc.exe`
-
-In another:
-`/c/Program\ Files/BOINC/boincmgr.exe`
-
-In case of problems stop boing client in the status bar:
-
-<img width="427" alt="image" src="https://user-images.githubusercontent.com/8049893/191972091-13fee31a-9dc8-459e-9f3f-3224c09bec47.png">
-
-You can suspend using the activity menu:
-
-<img width="785" alt="image" src="https://user-images.githubusercontent.com/8049893/191973210-64e0c156-9565-41d9-9e8c-8e5eeef19b2b.png">
-
-You can see the checkpoints in:
-
-<img width="835" alt="image" src="https://user-images.githubusercontent.com/8049893/191973307-498ce522-7542-4975-9e18-702bf449abd3.png">
-
-You can restart from the same menu. 
-
-
-When the job is finished, the result are saved in "projects/test.test/output.bin"
-
-
-## INSTRUCTIONS FOR UBUNTU:
-
-### How to install boinc client/manager on Ubuntu
-https://boinc.berkeley.edu/wiki/Installing_BOINC_on_Ubuntu
-
-Basically only:
-```
-sudo apt-get install aptitude
-sudo aptitude install boinc-client boinc-manager
-```
-#### Compile boinc api and examples from source on Ubuntu
-
-On a fresh ubuntu installation I neede to:
-
-```
-sudo apt install make
-sudo apt install m4
-sudo apt install pkg-config
-sudo apt install autoconf
-sudo apt install libtool
-sudo apt install g++
-```
-
-```
-cd
-git clone https://github.com/BOINC/boinc
-cd boinc
-export BOINC_DIR=$PWD
-./_autosetup
-```
-From 
-https://boinc.berkeley.edu/trac/wiki/BuildSystem
-
-"If you're developing or porting a BOINC application, you need only the API: "
-```
-./configure --disable-server --disable-client --disable-manager --disable-gui
-# This one takes very long
-```
-and then
-```
-make
-# This also takes quite long
-```
-
-### Installing xsuite packages
-```
-cd
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-source miniconda3/bin/activate
-pip install numpy scipy matplotlib pandas ipython pytest
-mkdir xsuite_packages
-cd xsuite_packages
-
-git clone https://github.com/xsuite/xobjects
-git clone https://github.com/xsuite/xdeps
-git clone https://github.com/xsuite/xpart
-git clone https://github.com/xsuite/xtrack
-git clone https://github.com/xsuite/xfields
-git clone https://github.com/xsuite/xboinc
-
-pip install -e xobjects
-pip install -e xdeps
-pip install -e xpart
-pip install -e xtrack
-pip install -e xfields
-pip install -e xboinc
-```
-
-#### Compile and generate input
+Then, you can install Xboinc using pip:
 
 ```bash
-cd xboinc/examples/000_build_executable
-python 000_build_executable.py
-bash 001msys2_compile_executable.sh
-cd ../002_lhc
-python 001_build_input.py
-cd ../003_boinc
-echo $BOINC_DIR # Check if points into the BOINC source directory 
-python 000_build_executable.py
-make
+pip install xboinc
 ```
 
-#### Run/test the executable
-```
-cp ../002_lhc/xboinc_input.bin .
-chmod +x xboinc_executable
-./xboinc_executable
+or, if you want to install it from the source code (for example, if you want to contribute to the development of Xboinc), you can clone the repository and install it with pip:
+
+```bash
+git clone https://github.com/yourusername/xboinc.git
+cd xboinc
+pip install -e .
 ```
 
-### Running the test application with boinc server
-```
-cd
-mkdir xboinc_test
-cp ~/xsuite_packages/xboinc/examples/003_boinc/client_state_save.xml .
-```
-then
+## 2. Subscribe to the Xboinc submitter e-group
 
-```
-vim account_test.xml 
-```
+To be able to submit jobs to the LHC@home project, you need to subscribe to the `xboinc-submitters` Egroup. You can do this by accessing the webpage https://e-groups.cern.ch/e-groups/Egroup.do?egroupId=10558435 and adding yourself in the `Members` tab.
 
-write
-```
-<account>
-    <master_url>http://test.test</master_url>
-    <project_name>test_project</project_name>
-</account>
-```
-then 
-```vim cc_config.xml```
-write
-```
-<cc_config>
-    <options>
-        <skip_cpu_benchmarks/>
-        <unsigned_apps_ok/>
-    </options>
-</cc_config>
+## 3. Allocate a folder and register your username under the Xboinc server
+
+To use Xboinc, you need to allocate a folder in either your AFS or EOS storage, which will be used to store your job results and other data. You can do this by running the following commands:
+
+### Folder in AFS
+
+```python
+import xboinc as xb
+xb.register("mycernshortname", "/afs/cern.ch/user/m/mycernshortname/my_xboinc_folder")
 ```
 
-Add the same GUI RPC passwords in
-```
-vim gui_rpc_auth.cfg
-```
-and in
-```
-vim /etc/boinc-client/gui_rpc_auth.cfg
+No more steps are needed as AFS can handle the I/O permissions for the Xboinc server automatically. However, be sure you have enough storage space available in your AFS folder!!!
+
+### Folder in EOS
+
+**Important!!! If you are using EOS, you need to set the proper permissions for the Xboinc server to access your folder!!**
+
+You can do this by accessing the desired folder from the CERNBox web interface, right-clicking on the folder and selecting "Share", then adding the user `a:sixtadm` (n.b. this is the Xboinc service account) with the "Write" permission. It should look like this:
+
+![Share folder with Xboinc service account](img/share_folder_with_xboinc_service_account.png)
+
+After that, you can register your username with the Xboinc server by running the following command:
+
+```python
+import xboinc as xb
+xb.register("mycernshortname", "/eos/user/m/mycernshortname/my_xboinc_folder")
 ```
 
-Then make folder structure
-```
-mkdir projects/test.test
-cp ~/xsuite_packages/xboinc/examples/002_lhc/xboinc_input.bin projects/test.test/input.bin
-cp ~/xsuite_packages/xboinc/examples/003_boinc/xboinc_executable.exe projects/test.test/xboinc_executable
+## 4. Submit a job
+
+To submit a job to the LHC@home project, you can use the `JobManager` class from the `xboinc` package. With `JobManager`, you can create a study, which will contain a set of jobs to be executed. Ideally, you should create a study for a single line to track, with multiple jobs for spreading the number of particles to track. However, it is also possible to create a study with multiple lines.
+
+Here is an example of how to submit a job:
+
+```python
+import xtrack as xt
+import xboinc as xb
+
+# prepare the line
+line = xt.Line.from_json("path/to/your/line.json")
+
+# create a job manager
+job_manager = xb.JobManager(
+    user="mycernshortname",
+    study_name="a_relevant_study_name",
+    line=line,
+    dev_server=True # currently, the dev server is the only one available
+)
+
+# prepare a big batch of particles
+particles = xt.Partilces(...)
+
+# create jobs with the job manager with splits of particles
+for i in range(0, len(particles.x), 1000):
+    this_part = particles.filter(
+        (particles.particle_id >= i)
+        & (particles.particle_id < i + 1000)
+    )
+    # create job
+    job_manager.add(
+        job_name=f"job{i}", # relevant job name
+        num_turns=num_turns, # number of turns to track
+        particles=this_part, # particles to track
+        checkpoint_every=1000, # checkpoint every 1000 turns
+    )
+
+# submit the jobs to the server!
+job_manager.submit()
 ```
 
-In one terminal:
-`cp client_state_save.xml client_state.xml; boinc --gui_rpc_port 31417`
+Note that the jobs will be executed on a single CPU core from a volunteer computer, we therefore recommend balancing the workload across multiple jobs to optimize the usage of available resources. Xboinc will offer a time estimate for each job, which can help you to decide how many particles to track in each job. Note also that we are currently enforcing a lower time limit of 90 seconds for each job, as it becomes not practical to use the BOINC platform for jobs that take less time than that.
 
-In another:
-`boincmgr --gui_rpc_port 31417`
+## 5. Retrieve the results
 
-!! Before running BOINC client or manager, kill the previous BOINC session
-```
-sudo /etc/init.d/boinc-client stop
-```
+When the jobs are completed, the Xboinc server will store the results in your allocated folder in compressed tar files. You can decompress and explore them by using the `ResultRetriever` class from the `xboinc` package. The simplest way to do that is:
+
+```python
+import xboinc as xb
+
+for job_name, result_particles in xb.ResultRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
+    print(f"Job {job_name} completed with particles: {result_particles.to_dict()}")
