@@ -21,7 +21,7 @@ import xboinc as xb
 class TestConfig:
     """Configuration constants for submission and retrieval tests."""
 
-    TEST_ACCOUNT = "camontan"
+    TEST_ACCOUNT = "testuser"
     # Directory paths
     BASE_DIR = Path(f"/afs/cern.ch/user/{TEST_ACCOUNT[0]}/{TEST_ACCOUNT}/test_xboinc")
     INPUT_DIR = BASE_DIR / "input_dev"
