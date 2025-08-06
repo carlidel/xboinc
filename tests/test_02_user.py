@@ -16,6 +16,7 @@ from xboinc.server import dropdir
 from xboinc.user import get_directory, get_domain, get_user_data, user_data_file
 
 
+# NOTE: to have these tests running, you might want to alter some of these parameters!
 class TestConfig:
     """Configuration constants for user management tests."""
 

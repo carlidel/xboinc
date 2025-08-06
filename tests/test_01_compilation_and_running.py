@@ -17,6 +17,7 @@ import xtrack as xt
 import xboinc as xb
 
 
+# NOTE: to have these tests running, you might want to alter some of these parameters!
 class TestConfig:
     """Configuration constants for the test suite."""
     
