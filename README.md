@@ -4,7 +4,7 @@ Xboinc is a package within the Xsuite project that provides tools for easily sub
 
 # How to use Xboinc
 
-## 1. Install Xboinc
+## Install Xboinc
 
 Any Xboinc version **must** be used with a specific version of the Xsuite framework. To be sure you are using the correct version of Xsuite dependencies along with Xboinc, we highly recommend to install Xboinc in a dedicated Python virtual environment. You can create a new virtual environment with the following command:
 
@@ -27,11 +27,11 @@ cd xboinc
 pip install -e .
 ```
 
-## 2. Subscribe to the Xboinc submitter e-group
+## Subscribe to the Xboinc submitter e-group
 
 To be able to submit jobs to the LHC@home project, you need to subscribe to the `xboinc-submitters` Egroup. You can do this by accessing the webpage https://e-groups.cern.ch/e-groups/Egroup.do?egroupId=10558435 and adding yourself in the `Members` tab.
 
-## 3. Allocate a folder and register your username under the Xboinc server
+## Allocate a folder and register your username under the Xboinc server
 
 To use Xboinc, you need to allocate a folder in either your AFS or EOS storage, which will be used to store your job results and other data. You can do this by running the following commands:
 
@@ -50,7 +50,7 @@ No more steps are needed as AFS can handle the I/O permissions for the Xboinc se
 
 You can do this by accessing the desired folder from the CERNBox web interface, right-clicking on the folder and selecting "Share", then adding the user `a:sixtadm` (n.b. this is the Xboinc service account) with the "Write" permission. It should look like this:
 
-![Share folder with Xboinc service account](img/share_folder_with_xboinc_service_account.png)
+![Share folder with Xboinc service account](docs/img/share_folder_with_xboinc_service_account.png)
 
 After that, you can register your username with the Xboinc server by running the following command:
 
@@ -59,7 +59,7 @@ import xboinc as xb
 xb.register("mycernshortname", "/eos/user/m/mycernshortname/my_xboinc_folder")
 ```
 
-## 4. Submit a job
+## Submit a job
 
 To submit a job to the LHC@home project, you can use the `JobManager` class from the `xboinc` package. With `JobManager`, you can create a study, which will contain a set of jobs to be executed. Ideally, you should create a study for a single line to track, with multiple jobs for spreading the number of particles to track. However, it is also possible to create a study with multiple lines.
 
@@ -103,7 +103,7 @@ job_manager.submit()
 
 Note that the jobs will be executed on a single CPU core from a volunteer computer, we therefore recommend balancing the workload across multiple jobs to optimize the usage of available resources. Xboinc will offer a time estimate for each job, which can help you to decide how many particles to track in each job. Note also that we are currently enforcing a lower time limit of 90 seconds for each job, as it becomes not practical to use the BOINC platform for jobs that take less time than that.
 
-## 5. Retrieve the results
+## Retrieve the results
 
 When the jobs are completed, the Xboinc server will store the results in your allocated folder in compressed tar files. You can decompress and explore them by using the `ResultRetriever` class from the `xboinc` package. The simplest way to do that is:
 
