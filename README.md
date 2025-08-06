@@ -2,6 +2,8 @@
 
 Xboinc is a package within the Xsuite project that provides tools for easily submit and manage tracking jobs on the BOINC computing platform. It is designed to streamline the process of job submission, management, and monitoring for users of the Xsuite framework in need for large-scale computing resources, with a project adaptable to volunteer-based computing. Note that the services provided by this package are available only to CERN users with a valid computing account.
 
+**NOTE: CURRENTLY, ONLY THE DEVELOPMENT SERVER IS AVAILABLE! Be sure to always set the `dev_server` parameter to `True` when using the package!**
+
 # How to use Xboinc
 
 ## Install Xboinc
@@ -112,3 +114,22 @@ import xboinc as xb
 
 for job_name, result_particles in xb.ResultRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
     print(f"Job {job_name} completed with particles: {result_particles.to_dict()}")
+
+```
+
+## Check your subscription and jobs status
+
+You can check if you are subscribed to the Xboinc service and if your jobs are running or completed by using the `check_user_subscription` and `query_registered_work_units` functions from the `xboinc` package:
+
+```python
+import xboinc as xb
+# Check if the user is subscribed to the Xboinc service
+print("Am I subscribed?")
+print(xb.check_user_subscription("mycernshortname"))
+# Query the registered work units for the user
+print("What are my jobs?")
+# Probes the work units for the user registered in this Xboinc installation
+print(xb.query_registered_work_units(dev_server=True))
+```
+
+Other convenience functions are available in the `xboinc` package, be sure to inspect the API documentation and docstrings for more details! 
