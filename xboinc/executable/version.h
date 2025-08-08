@@ -19,7 +19,7 @@
 // Do not change
 // =============================================================================
 // version XXX.YYY as int  (no patch)
-const int64_t xboinc_exec_version = 4;
+const int64_t xboinc_exec_version = 5;
 // =============================================================================
 
 #endif /* XB_EXECUTABLE_VERSION_H */

@@ -6,7 +6,7 @@
 # ################################################################################
 
 cmake_minimum_required(VERSION 3.16)
-project(xboinc VERSION 0.4.0 LANGUAGES C CXX)
+project(xboinc VERSION 0.5.0 LANGUAGES C CXX)
 
 # === Compiler and Build Options ===
 set(CMAKE_C_STANDARD 99)

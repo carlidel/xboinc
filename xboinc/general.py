@@ -12,19 +12,20 @@ _pkg_root = Path(__file__).parent.absolute()
 # Do not change
 # ==============================================================================
 
-__version__ = '0.4.1'
+__version__ = '0.5.0'
 
 # These are the xsuite modules that are used by boinc and the versions they are
 # tied to. This will be automatically updated from the active environment when
 # making a minor release. If a new package needs to be pinned, add it here with
 # a random version number, and similarily in the pyproject.toml
 __xsuite__versions__ = {
-    'xobjects' : '0.5.0',
+    'xobjects' : '0.5.2',
     'xdeps'    : '0.10.5',
-    'xpart'    : '0.23.0',
-    'xtrack'   : '0.84.7',
-    'xfields'  : '0.24.0',
-    'xcoll'    : '0.6.1',
+    'xpart'    : '0.23.1',
+    'xtrack'   : '0.88.2',
+    'xfields'  : '0.25.1',
+    'xcoll'    : '0.6.2',
+    'xsuite'   : '0.36.1',
     'xaux'     : '0.3.5',
 }
 # ==============================================================================

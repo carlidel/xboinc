@@ -10,7 +10,7 @@ author = (
     "Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala"
 )
 copyright = f"2025, {author}"
-release = "0.4.1"
+release = "0.5.0"
 version = release
 
 # -- General configuration ---------------------------------------------------
