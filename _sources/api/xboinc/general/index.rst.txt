@@ -1,0 +1,27 @@
+xboinc.general
+==============
+
+.. py:module:: xboinc.general
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.general._pkg_root
+   xboinc.general.__version__
+   xboinc.general.__xsuite__versions__
+
+
+Module Contents
+---------------
+
+.. py:data:: _pkg_root
+
+.. py:data:: __version__
+   :value: '0.4.1'
+
+
+.. py:data:: __xsuite__versions__
+

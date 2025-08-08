@@ -1,0 +1,97 @@
+xboinc.df_wu
+============
+
+.. py:module:: xboinc.df_wu
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.df_wu.wu_db
+   xboinc.df_wu.wu_db_dev
+   xboinc.df_wu.user_db
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.df_wu._get_read_only_wu_db_connection
+   xboinc.df_wu._get_read_only_user_db_connection
+   xboinc.df_wu.query_all_work_units
+   xboinc.df_wu.query_work_units_by_user
+   xboinc.df_wu.query_work_units_by_status
+   xboinc.df_wu.query_registered_work_units
+   xboinc.df_wu.query_subscribed_users
+   xboinc.df_wu.check_user_subscription
+
+
+Module Contents
+---------------
+
+.. py:data:: wu_db
+
+.. py:data:: wu_db_dev
+
+.. py:data:: user_db
+
+.. py:function:: _get_read_only_wu_db_connection(dev_server: bool = False) -> sqlite3.Connection
+
+   Get a read-only database connection.
+
+
+.. py:function:: _get_read_only_user_db_connection() -> sqlite3.Connection
+
+   Get a read-only user database connection.
+
+
+.. py:function:: query_all_work_units(dev_server=False) -> pandas.DataFrame
+
+   List all work units in the database as a Pandas DataFrame.
+
+
+.. py:function:: query_work_units_by_user(user: str, dev_server=False) -> pandas.DataFrame
+
+   List all work units for a specific user as a Pandas DataFrame.
+
+
+.. py:function:: query_work_units_by_status(status: str, dev_server=False) -> pandas.DataFrame
+
+   List all work units with a specific status as a Pandas DataFrame.
+
+
+.. py:function:: query_registered_work_units(status: Optional[str] = None, dev_server: bool = False) -> pandas.DataFrame
+
+   List all work units for the registered users with an optional status filter.
+
+   :param status: The status to filter work units (e.g., 'running', 'completed').
+   :type status: Optional[str]
+   :param dev_server: Whether to query for the development server or production server.
+   :type dev_server: bool
+
+   :returns: DataFrame containing the work units for the user.
+   :rtype: pd.DataFrame
+
+
+.. py:function:: query_subscribed_users() -> list[str]
+
+   Get a list of all users subscribed to the work unit database.
+
+   :returns: List of usernames subscribed to the work unit database.
+   :rtype: list[str]
+
+
+.. py:function:: check_user_subscription(user: str) -> bool
+
+   Check if a user is subscribed to the work unit database.
+
+   :param user: The username to check.
+   :type user: str
+
+   :returns: True if the user is subscribed, False otherwise.
+   :rtype: bool
+
+

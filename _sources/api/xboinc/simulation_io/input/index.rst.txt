@@ -1,0 +1,115 @@
+xboinc.simulation_io.input
+==========================
+
+.. py:module:: xboinc.simulation_io.input
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.input._previous_line_cache
+   xboinc.simulation_io.input._xboinc_context
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.input.XbInput
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.input._build_line_metadata
+   xboinc.simulation_io.input._check_config
+   xboinc.simulation_io.input._check_compatible_elements
+   xboinc.simulation_io.input._shrink
+
+
+Module Contents
+---------------
+
+.. py:data:: _previous_line_cache
+
+.. py:data:: _xboinc_context
+
+.. py:class:: XbInput(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: num_turns
+
+
+   .. py:attribute:: num_elements
+
+
+   .. py:attribute:: ele_start
+
+
+   .. py:attribute:: ele_stop
+
+
+   .. py:attribute:: checkpoint_every
+
+
+   .. py:attribute:: _parity_check
+
+
+   .. py:attribute:: xb_state
+
+
+   .. py:attribute:: line_metadata
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbInput from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbInput
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbInput to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: line
+
+
+   .. py:property:: particles
+
+
+.. py:function:: _build_line_metadata(line, _buffer=None, store_element_names=True)
+
+.. py:function:: _check_config(line)
+
+.. py:function:: _check_compatible_elements(line)
+
+.. py:function:: _shrink(buffer)
+

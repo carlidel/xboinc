@@ -1,0 +1,31 @@
+xboinc.server.tools
+===================
+
+.. py:module:: xboinc.server.tools
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.server.tools.timestamp
+   xboinc.server.tools.log_debug
+   xboinc.server.tools.log_info
+   xboinc.server.tools.log_error
+   xboinc.server.tools.untar
+
+
+Module Contents
+---------------
+
+.. py:function:: timestamp(ms=False, in_filename=True)
+
+.. py:function:: log_debug(message, cmd=None, is_server=False)
+
+.. py:function:: log_info(message, cmd=None, is_server=False)
+
+.. py:function:: log_error(message, e=None, cmd=None, is_server=False)
+
+.. py:function:: untar(filename, cmd=None, is_server=False)
+

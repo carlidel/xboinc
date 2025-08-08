@@ -1,0 +1,68 @@
+xboinc.simulation_io.output
+===========================
+
+.. py:module:: xboinc.simulation_io.output
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.output.XbState
+
+
+Module Contents
+---------------
+
+.. py:class:: XbState(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: _i_turn
+
+
+   .. py:attribute:: _xsize
+
+
+   .. py:attribute:: _particles
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbState from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbState
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbState to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: particles
+
+
+   .. py:property:: i_turn
+
+

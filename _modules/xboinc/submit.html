@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.submit &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../xboinc.html">xboinc</a></li>
+      <li class="breadcrumb-item active">xboinc.submit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.submit</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Job submission management for the Xboinc BOINC server.</span>
+
+<span class="sd">This module provides the JobManager class for managing and submitting particle tracking</span>
+<span class="sd">jobs to the Xboinc BOINC server. It handles job preparation, validation, packaging,</span>
+<span class="sd">and submission with proper time estimation and resource management.</span>
+
+<span class="sd">The module includes:</span>
+<span class="sd">- Job time estimation based on benchmark data</span>
+<span class="sd">- Job validation for time bounds</span>
+<span class="sd">- Batch submission capabilities</span>
+<span class="sd">- Support for both development and production servers</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xobjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">xaux</span><span class="w"> </span><span class="kn">import</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">eos_accessible</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xaux.fs.temp</span><span class="w"> </span><span class="kn">import</span> <span class="n">_tempdir</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">timestamp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_io</span><span class="w"> </span><span class="kn">import</span> <span class="n">XbInput</span><span class="p">,</span> <span class="n">app_version</span><span class="p">,</span> <span class="n">assert_versions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_directory</span><span class="p">,</span> <span class="n">get_domain</span>
+
+<div class="viewcode-block" id="BENCHMARK_DATA">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.BENCHMARK_DATA">[docs]</a>
+<span class="n">BENCHMARK_DATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;mean_scaling_factor&quot;</span><span class="p">:</span> <span class="mf">2.7625854392188003e-09</span><span class="p">,</span>  <span class="c1"># second per turn per particle per element</span>
+    <span class="s2">&quot;std_scaling_factor&quot;</span><span class="p">:</span> <span class="mf">2.567704406008288e-10</span><span class="p">,</span>
+    <span class="s2">&quot;final_scaling_factor&quot;</span><span class="p">:</span> <span class="mf">3.019355879819629e-09</span><span class="p">,</span>  <span class="c1"># mean + std</span>
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;Evaluated on a 12th Gen Intel i7-12700&quot;</span><span class="p">,</span>
+<span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="LOWER_TIME_BOUND">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.LOWER_TIME_BOUND">[docs]</a>
+<span class="n">LOWER_TIME_BOUND</span> <span class="o">=</span> <span class="mi">90</span>  <span class="c1"># seconds, minimum time for a job to be considered valid</span></div>
+
+<div class="viewcode-block" id="UPPER_TIME_BOUND">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.UPPER_TIME_BOUND">[docs]</a>
+<span class="n">UPPER_TIME_BOUND</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># seconds, maximum time, 3 days</span></div>
+
+
+
+<div class="viewcode-block" id="_get_num_elements_from_line">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc._get_num_elements_from_line">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_num_elements_from_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract element count statistics from a tracking line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    line : xtrack.Line or None</span>
+<span class="sd">        The tracking line containing elements to analyze.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict, int</span>
+<span class="sd">        Dictionary mapping element class names to their counts in the line and</span>
+<span class="sd">        the total number of elements.</span>
+<span class="sd">        Returns empty dict and zero if line is None.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; line = xtrack.Line.from_dict(line_dict)</span>
+<span class="sd">    &gt;&gt;&gt; elements = _get_num_elements_from_line(line)</span>
+<span class="sd">    &gt;&gt;&gt; print(elements)</span>
+<span class="sd">    {&#39;Drift&#39;: 100, &#39;Quadrupole&#39;: 50, &#39;Bend&#39;: 25}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="mi">0</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">ee</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">ee</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">elements</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">elements</span><span class="p">)),</span> <span class="n">elements</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="JobManager">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">JobManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to manage jobs for submission to the Xboinc server.</span>
+
+<span class="sd">    This class provides a convenient interface for adding multiple particle tracking</span>
+<span class="sd">    jobs and submitting them as a batch to the BOINC server. It handles job validation,</span>
+<span class="sd">    time estimation, file preparation, and submission.</span>
+
+<span class="sd">    The JobManager ensures that:</span>
+<span class="sd">    - Job execution times fall within acceptable bounds</span>
+<span class="sd">    - Job names are unique within a study</span>
+<span class="sd">    - All necessary files are properly packaged and submitted</span>
+<span class="sd">    - Proper cleanup is performed after submission</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dev_server : bool</span>
+<span class="sd">        Whether jobs are submitted to the development server.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Basic usage with a single line for all jobs:</span>
+
+<span class="sd">    &gt;&gt;&gt; line = xtrack.Line.from_dict(line_dict)</span>
+<span class="sd">    &gt;&gt;&gt; manager = JobManager(&quot;user123&quot;, &quot;my_study&quot;, line=line, dev_server=True)</span>
+<span class="sd">    &gt;&gt;&gt; manager.add(job_name=&quot;job1&quot;, num_turns=1000, particles=particles1)</span>
+<span class="sd">    &gt;&gt;&gt; manager.add(job_name=&quot;job2&quot;, num_turns=2000, particles=particles2)</span>
+<span class="sd">    &gt;&gt;&gt; manager.submit()</span>
+
+<span class="sd">    Usage with different lines per job:</span>
+
+<span class="sd">    &gt;&gt;&gt; manager = JobManager(&quot;user123&quot;, &quot;my_study&quot;, dev_server=True)</span>
+<span class="sd">    &gt;&gt;&gt; manager.add(job_name=&quot;job1&quot;, num_turns=1000, particles=particles1, line=line1)</span>
+<span class="sd">    &gt;&gt;&gt; manager.add(job_name=&quot;job2&quot;, num_turns=2000, particles=particles2, line=line2)</span>
+<span class="sd">    &gt;&gt;&gt; manager.submit()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new JobManager instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The username for BOINC submission. The user must be a member of the</span>
+<span class="sd">            CERN xboinc-submitters egroup and have proper permissions set.</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            The name of the study. This will be included in job metadata and</span>
+<span class="sd">            used for organizing submissions. Cannot contain &#39;__&#39; (double underscore).</span>
+<span class="sd">        line : xtrack.Line, optional</span>
+<span class="sd">            The tracking line to be used for all jobs. If provided here, it will</span>
+<span class="sd">            be preprocessed once and reused for all jobs, improving performance.</span>
+<span class="sd">            If None, must be provided for each job individually in add().</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to submit to the development server. Defaults to False.</span>
+<span class="sd">            Currently, only the dev server is operational.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional keyword arguments for future extensibility.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If study_name contains &#39;__&#39; (double underscore).</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If dev_server is False (regular server not yet operational).</span>
+<span class="sd">        AssertionError</span>
+<span class="sd">            If EOS is required but not accessible.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The JobManager creates a temporary directory for file preparation and</span>
+<span class="sd">        validates that the user has access to the required storage systems.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">assert_versions</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dev_server</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Regular server not yet operational. &quot;</span> <span class="o">+</span> <span class="s2">&quot;Please use dev_server=True.&quot;</span>
+            <span class="p">)</span>
+<div class="viewcode-block" id="JobManager.dev_server">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.dev_server">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dev_server</span> <span class="o">=</span> <span class="n">dev_server</span></div>
+
+        <span class="k">if</span> <span class="s2">&quot;__&quot;</span> <span class="ow">in</span> <span class="n">study_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The character sequence &#39;__&#39; is not allowed in &#39;study_name&#39;!&quot;</span>
+            <span class="p">)</span>
+<div class="viewcode-block" id="JobManager._user">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._user">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user</span> <span class="o">=</span> <span class="n">user</span></div>
+
+<div class="viewcode-block" id="JobManager._domain">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._domain">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">get_domain</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></div>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">==</span> <span class="s2">&quot;eos&quot;</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">eos_accessible</span>
+            <span class="p">),</span> <span class="s2">&quot;EOS is not accessible! Please check your connection.&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dev_server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_target</span> <span class="o">=</span> <span class="n">get_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;input_dev&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_target</span> <span class="o">=</span> <span class="n">get_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;input&quot;</span>
+<div class="viewcode-block" id="JobManager._study_name">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._study_name">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span> <span class="o">=</span> <span class="n">study_name</span></div>
+
+<div class="viewcode-block" id="JobManager._line">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._line">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="o">=</span> <span class="n">line</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_elements</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_elements</span> <span class="o">=</span> <span class="n">_get_num_elements_from_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<div class="viewcode-block" id="JobManager._submit_file">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._submit_file">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_submit_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">timestamp</span><span class="p">()</span><span class="si">}</span><span class="s2">.tar.gz&quot;</span></div>
+
+<div class="viewcode-block" id="JobManager._json_files">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._json_files">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="JobManager._bin_files">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._bin_files">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bin_files</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="JobManager._tempdir">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._tempdir">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">_tempdir</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="JobManager._submitted">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._submitted">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_submitted</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="JobManager._unique_job_names">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._unique_job_names">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unique_job_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="JobManager._assert_not_submitted">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager._assert_not_submitted">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assert_not_submitted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensure that jobs have not already been submitted.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If jobs have already been submitted from this JobManager instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submitted</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Jobs already submitted! Make a new JobManager object to continue.&quot;</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="JobManager.add">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.add">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">job_name</span><span class="p">,</span>
+        <span class="n">num_turns</span><span class="p">,</span>
+        <span class="n">ele_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">ele_stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">particles</span><span class="p">,</span>
+        <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">checkpoint_every</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a single job to the JobManager instance.</span>
+
+<span class="sd">        This method creates the necessary input files (binary and JSON metadata)</span>
+<span class="sd">        for a single tracking job. The job is validated for execution time bounds</span>
+<span class="sd">        and prepared for batch submission.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        job_name : str</span>
+<span class="sd">            Unique name for this job within the study. Cannot contain &#39;__&#39;</span>
+<span class="sd">            (double underscore). If a duplicate name is provided, it will be</span>
+<span class="sd">            automatically renamed with a numeric suffix.</span>
+<span class="sd">        num_turns : int</span>
+<span class="sd">            The number of tracking turns for this job. Must be positive.</span>
+<span class="sd">        ele_start : int, optional</span>
+<span class="sd">            The starting element index for tracking. Default is 0 (first element).</span>
+<span class="sd">            If provided different from 0 with particles set at a certain starting</span>
+<span class="sd">            position, raises a ValueError.</span>
+<span class="sd">        ele_stop : int, optional</span>
+<span class="sd">            The stopping element index for tracking. Default is -1 (last element).</span>
+<span class="sd">        particles : xpart.Particles</span>
+<span class="sd">            The particles object containing the initial particle distribution</span>
+<span class="sd">            to be tracked.</span>
+<span class="sd">        line : xtrack.Line, optional</span>
+<span class="sd">            The tracking line for this specific job. If None, uses the line</span>
+<span class="sd">            provided during JobManager initialization. Providing a line per</span>
+<span class="sd">            job is slower due to repeated preprocessing.</span>
+<span class="sd">        checkpoint_every : int, optional</span>
+<span class="sd">            Checkpoint interval in turns. Default is -1 (no checkpointing).</span>
+<span class="sd">            If positive, simulation state will be saved every N turns.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional job metadata to be included in the job JSON file.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If job_name contains &#39;__&#39;, if no line is available, or if the</span>
+<span class="sd">            estimated execution time is outside acceptable bounds.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Job execution time is estimated using benchmark data and must fall</span>
+<span class="sd">        between LOWER_TIME_BOUND (90s) and UPPER_TIME_BOUND (3 days).</span>
+
+<span class="sd">        The method creates two files per job:</span>
+<span class="sd">        - A .json file with job metadata</span>
+<span class="sd">        - A .bin file with the binary simulation input data</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; manager.add(</span>
+<span class="sd">        ...     job_name=&quot;scan_point_1&quot;,</span>
+<span class="sd">        ...     num_turns=10000,</span>
+<span class="sd">        ...     particles=my_particles,</span>
+<span class="sd">        ...     custom_param=42</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_not_submitted</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s2">&quot;__&quot;</span> <span class="ow">in</span> <span class="n">job_name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The character sequence &#39;__&#39; is not allowed in &#39;job_name&#39;!&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unique_job_names</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The job name &#39;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&#39; has already been added. &quot;</span>
+                <span class="s2">&quot;The job will be renamed to avoid conflicts.&quot;</span>
+            <span class="p">)</span>
+            <span class="c1"># check if the job name ends with a number after an underscore</span>
+            <span class="k">if</span> <span class="s2">&quot;_&quot;</span> <span class="ow">in</span> <span class="n">job_name</span><span class="p">:</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">job_name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                    <span class="n">job_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">job_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_1&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">job_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">_1&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unique_job_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+
+        <span class="c1"># Get the line from kwargs, and default to the line in JobManager</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Need to provide a line! This can be done for &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;each job separately, or at the JobManager init.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_line</span>
+            <span class="n">num_elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_elements</span>
+            <span class="n">total_elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_elements</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If a new line is given, preprocess it</span>
+            <span class="n">num_elements</span><span class="p">,</span> <span class="n">total_elements</span> <span class="o">=</span> <span class="n">_get_num_elements_from_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>  <span class="c1"># To enforce different filenames</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2">__</span><span class="si">{</span><span class="n">timestamp</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">json_file</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+        <span class="n">bin_file</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.bin&quot;</span><span class="p">)</span>
+
+        <span class="c1"># block if job expected to be too short or too long</span>
+        <span class="n">expected_time</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">num_turns</span>
+            <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">total_elements</span>
+            <span class="o">*</span> <span class="n">BENCHMARK_DATA</span><span class="p">[</span><span class="s2">&quot;final_scaling_factor&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">datetime_expected</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">expected_time</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">expected_time</span> <span class="o">&lt;</span> <span class="n">LOWER_TIME_BOUND</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected time for job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> is too short (</span><span class="si">{</span><span class="n">expected_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds, minimum is </span><span class="si">{</span><span class="n">LOWER_TIME_BOUND</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds). &quot;</span>
+                <span class="s2">&quot;Please increase the number of particles in the job or consider &quot;</span>
+                <span class="s2">&quot;running it locally instead.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">expected_time</span> <span class="o">&gt;</span> <span class="n">UPPER_TIME_BOUND</span><span class="p">:</span>
+            <span class="n">datetime_max</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">UPPER_TIME_BOUND</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected time for job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> is too long (</span><span class="si">{</span><span class="n">datetime_expected</span><span class="si">}</span><span class="s2">, maximum is </span><span class="si">{</span><span class="n">datetime_max</span><span class="o">.</span><span class="n">days</span><span class="si">}</span><span class="s2">). &quot;</span>
+                <span class="s2">&quot;Please split the job into smaller parts with fewer particles.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">json_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span>
+            <span class="s2">&quot;study_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="p">,</span>
+            <span class="s2">&quot;job_name&quot;</span><span class="p">:</span> <span class="n">job_name</span><span class="p">,</span>
+            <span class="s2">&quot;xboinc_ver&quot;</span><span class="p">:</span> <span class="n">app_version</span><span class="p">,</span>
+            <span class="s2">&quot;num_elements&quot;</span><span class="p">:</span> <span class="n">num_elements</span><span class="p">,</span>
+            <span class="s2">&quot;num_part&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="o">.</span><span class="n">state</span><span class="p">[</span><span class="n">particles</span><span class="o">.</span><span class="n">state</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]),</span>
+            <span class="s2">&quot;num_turns&quot;</span><span class="p">:</span> <span class="n">num_turns</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">with</span> <span class="n">json_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json_dict</span><span class="p">,</span> <span class="n">fid</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">xo</span><span class="o">.</span><span class="n">JEncoder</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">XbInput</span><span class="p">(</span>
+            <span class="n">num_turns</span><span class="o">=</span><span class="n">num_turns</span><span class="p">,</span>
+            <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span>
+            <span class="n">checkpoint_every</span><span class="o">=</span><span class="n">checkpoint_every</span><span class="p">,</span>
+            <span class="n">particles</span><span class="o">=</span><span class="n">particles</span><span class="p">,</span>
+            <span class="n">store_element_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">ele_start</span><span class="o">=</span><span class="n">ele_start</span><span class="p">,</span>
+            <span class="n">ele_stop</span><span class="o">=-</span><span class="n">ele_stop</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">to_binary</span><span class="p">(</span><span class="n">bin_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">json_file</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bin_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">bin_file</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Added job </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2"> for user </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2"> in study </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2"> particles and </span><span class="si">{</span><span class="n">num_turns</span><span class="si">}</span><span class="s2"> turns.&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; Expected execution time: </span><span class="si">{</span><span class="n">datetime_expected</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="JobManager.submit">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.submit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Package and submit all added jobs to the BOINC server.</span>
+
+<span class="sd">        This method creates a compressed tar archive containing all job files</span>
+<span class="sd">        and moves it to the user&#39;s submission directory where the BOINC server</span>
+<span class="sd">        will periodically check for new submissions.</span>
+
+<span class="sd">        The submission process:</span>
+<span class="sd">        1. Creates a .tar.gz archive with all job files</span>
+<span class="sd">        2. Moves the archive to the appropriate submission directory</span>
+<span class="sd">        3. Cleans up temporary files</span>
+<span class="sd">        4. Marks the JobManager as submitted</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If jobs have already been submitted or if the user domain is invalid.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        After submission, this JobManager instance cannot be used to add more</span>
+<span class="sd">        jobs. Create a new JobManager instance for additional submissions.</span>
+
+<span class="sd">        The submission directory depends on the dev_server setting:</span>
+<span class="sd">        - Development server: {user_directory}/input_dev</span>
+<span class="sd">        - Production server: {user_directory}/input</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; manager.submit()</span>
+<span class="sd">        Zipping files: 100%|██████████| 4/4 [00:00&lt;00:00, 1234.56it/s]</span>
+<span class="sd">        Submitted 2 jobs to BOINC server for user user123 in study my_study.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_not_submitted</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_file</span><span class="p">,</span> <span class="s2">&quot;w:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">thisfile</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bin_files</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Zipping files&quot;</span>
+            <span class="p">):</span>
+                <span class="n">tar</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">thisfile</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">thisfile</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;eos&quot;</span><span class="p">,</span> <span class="s2">&quot;afs&quot;</span><span class="p">]:</span>
+            <span class="n">FsPath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tempdir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_file</span><span class="p">)</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_target</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wrong domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_domain</span><span class="si">}</span><span class="s2"> for user </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_submitted</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># clean up</span>
+        <span class="k">for</span> <span class="n">thisfile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bin_files</span><span class="p">:</span>
+            <span class="n">thisfile</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="c1"># self._temp.cleanup()</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Submitted </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span><span class="p">)</span><span class="si">}</span><span class="s2"> jobs to BOINC server for user &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2"> in study </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="JobManager.__len__">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.__len__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the number of jobs added to this JobManager instance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The number of jobs that have been added but not yet submitted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="JobManager.__repr__">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.__repr__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the JobManager instance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            A concise string representation showing key attributes and status.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; manager = JobManager(&quot;user123&quot;, &quot;my_study&quot;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; repr(manager)</span>
+<span class="sd">        &#39;JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;JobManager(user=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="si">}</span><span class="s2">, study_name=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;num_jobs=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">, dev_server=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dev_server</span><span class="si">}</span><span class="s2">, submitted=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_submitted</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="JobManager.get_job_summary">
+<a class="viewcode-back" href="../../api/xboinc/submit/index.html#xboinc.JobManager.get_job_summary">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_job_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a comprehensive summary of all jobs in this JobManager instance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary containing:</span>
+<span class="sd">            - user: The submitting user</span>
+<span class="sd">            - study_name: The study name</span>
+<span class="sd">            - num_jobs: Total number of jobs</span>
+<span class="sd">            - dev_server: Whether using development server</span>
+<span class="sd">            - jobs: List of individual job summaries with name, turns, and particle count</span>
+<span class="sd">            - submitted: Whether jobs have been submitted</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; summary = manager.get_job_summary()</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Study {summary[&#39;study_name&#39;]} has {summary[&#39;num_jobs&#39;]} jobs&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; for job in summary[&#39;jobs&#39;]:</span>
+<span class="sd">        ...     print(f&quot;Job {job[&#39;job_name&#39;]}: {job[&#39;num_particles&#39;]} particles, {job[&#39;num_turns&#39;]} turns&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span>
+            <span class="s2">&quot;study_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_study_name</span><span class="p">,</span>
+            <span class="s2">&quot;num_jobs&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+            <span class="s2">&quot;dev_server&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dev_server</span><span class="p">,</span>
+            <span class="s2">&quot;jobs&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;job_name&quot;</span><span class="p">:</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;job_name&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;num_turns&quot;</span><span class="p">:</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;num_turns&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;num_particles&quot;</span><span class="p">:</span> <span class="n">job</span><span class="p">[</span><span class="s2">&quot;num_part&quot;</span><span class="p">],</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_json_files</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;submitted&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submitted</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

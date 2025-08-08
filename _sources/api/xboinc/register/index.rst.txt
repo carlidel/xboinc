@@ -1,0 +1,67 @@
+xboinc.register
+===============
+
+.. py:module:: xboinc.register
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.register.user_data_file
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.register._create_json
+   xboinc.register._give_rights
+   xboinc.register._remove_rights
+   xboinc.register.register
+   xboinc.register.deregister
+
+
+Module Contents
+---------------
+
+.. py:data:: user_data_file
+
+.. py:function:: _create_json(user, directory, remove=False)
+
+.. py:function:: _give_rights(directory, acl='rlwikd')
+
+.. py:function:: _remove_rights(directory)
+
+.. py:function:: register(user, directory)
+
+   Register a user to the BOINC server and dev server, by declaring
+   the username and user boinc directory, and giving access rights
+   to the BOINC admin process. This is not instantaneous, as the
+   BOINC server periodically parses new users.
+
+   :param user: Name of the user to register.
+   :type user: string
+   :param directory: Dedicated folder that the BOINC server can reach (i.e. on CERN
+                     AFS or EOS), which will hold the new submissions and results.
+                     Should not be accessed manually by the user to avoid syncing
+                     issues.
+   :type directory: pathlib.Path
+
+   :rtype: None.
+
+
+.. py:function:: deregister(user)
+
+   Remove a user from the BOINC server and dev server.  This is
+   not instantaneous, as the BOINC server periodically parses
+   the users to remove.
+
+   :param user: Name of the user to deregister.
+   :type user: string
+
+   :rtype: None.
+
+

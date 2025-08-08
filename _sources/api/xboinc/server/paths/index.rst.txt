@@ -1,0 +1,37 @@
+xboinc.server.paths
+===================
+
+.. py:module:: xboinc.server.paths
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.server.paths.afsusr
+   xboinc.server.paths.eosusr
+   xboinc.server.paths.eosdir
+   xboinc.server.paths.dropdir
+   xboinc.server.paths.infowudir
+   xboinc.server.paths._test_afs
+   xboinc.server.paths._test_eos
+
+
+Module Contents
+---------------
+
+.. py:data:: afsusr
+
+.. py:data:: eosusr
+
+.. py:data:: eosdir
+
+.. py:data:: dropdir
+
+.. py:data:: infowudir
+
+.. py:data:: _test_afs
+
+.. py:data:: _test_eos
+

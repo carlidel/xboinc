@@ -1,0 +1,65 @@
+xboinc.simulation_io.default_tracker
+====================================
+
+.. py:module:: xboinc.simulation_io.default_tracker
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.default_tracker.ONLY_XTRACK_ELEMENTS
+   xboinc.simulation_io.default_tracker.NO_SYNRAD_ELEMENTS
+   xboinc.simulation_io.default_tracker.DEFAULT_XF_ELEMENTS
+   xboinc.simulation_io.default_tracker.DEFAULT_XCOLL_ELEMENTS
+   xboinc.simulation_io.default_tracker.NON_TRACKING_ELEMENTS
+   xboinc.simulation_io.default_tracker.default_element_classes
+   xboinc.simulation_io.default_tracker.ElementRefData
+   xboinc.simulation_io.default_tracker._default_tracker_cache
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.default_tracker.get_default_tracker
+   xboinc.simulation_io.default_tracker.get_default_config
+   xboinc.simulation_io.default_tracker.get_default_tracker_kernel
+
+
+Module Contents
+---------------
+
+.. py:data:: ONLY_XTRACK_ELEMENTS
+
+.. py:data:: NO_SYNRAD_ELEMENTS
+
+.. py:data:: DEFAULT_XF_ELEMENTS
+
+.. py:data:: DEFAULT_XCOLL_ELEMENTS
+
+.. py:data:: NON_TRACKING_ELEMENTS
+
+.. py:data:: default_element_classes
+
+.. py:data:: ElementRefData
+
+.. py:data:: _default_tracker_cache
+
+.. py:function:: get_default_tracker()
+
+   Returns the default tracker used by Xboinc.
+
+
+.. py:function:: get_default_config()
+
+   Returns the default config used by Xboinc.
+
+
+.. py:function:: get_default_tracker_kernel()
+
+   Returns the default tracker kernel used by Xboinc.
+
+

@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.server.tools &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../xboinc.html">xboinc</a></li>
+          <li class="breadcrumb-item"><a href="../server.html">xboinc.server</a></li>
+      <li class="breadcrumb-item active">xboinc.server.tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.server.tools</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+<div class="viewcode-block" id="timestamp">
+<a class="viewcode-back" href="../../../api/xboinc/server/tools/index.html#xboinc.server.timestamp">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">in_filename</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span> <span class="k">if</span> <span class="n">ms</span> <span class="k">else</span> <span class="o">-</span><span class="mi">7</span>
+    <span class="k">if</span> <span class="n">in_filename</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">_%H-%M-%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="n">ms</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="n">ms</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="log_debug">
+<a class="viewcode-back" href="../../../api/xboinc/server/tools/index.html#xboinc.server.log_debug">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">log_debug</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_server</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">lg</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;DEBUG </span><span class="si">%s%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">in_filename</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="log_info">
+<a class="viewcode-back" href="../../../api/xboinc/server/tools/index.html#xboinc.server.log_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">log_info</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_server</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">lg</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;INFO  </span><span class="si">%s%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">in_filename</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="log_error">
+<a class="viewcode-back" href="../../../api/xboinc/server/tools/index.html#xboinc.server.log_error">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">log_error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_server</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2">:&quot;</span>
+        <span class="n">lg</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;ERROR </span><span class="si">%s%s</span><span class="s2">  </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">timestamp</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">in_filename</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="n">cmd</span><span class="p">,</span>
+            <span class="n">message</span><span class="p">,</span>
+            <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="untar">
+<a class="viewcode-back" href="../../../api/xboinc/server/tools/index.html#xboinc.server.untar">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">untar</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;untar&quot;</span> <span class="k">if</span> <span class="n">cmd</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">cmd</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">thisdir</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">thisdir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">thisdir</span><span class="p">)</span>
+        <span class="n">filename</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Extracted </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="n">is_server</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed extracting </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">is_server</span><span class="o">=</span><span class="n">is_server</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

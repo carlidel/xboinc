@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.simulation_io.default_tracker &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../xboinc.html">xboinc</a></li>
+      <li class="breadcrumb-item active">xboinc.simulation_io.default_tracker</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.simulation_io.default_tracker</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># IMPORTANT</span>
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Only make changes to this file just before a minor version bump (need a </span>
+<span class="c1"># separate commit though) to avoid having multiple xboinc versions with </span>
+<span class="c1"># out-of-sync executables.</span>
+<span class="c1"># ==============================================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">xtrack</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xfields</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xcoll</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xc</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">xtrack.beam_elements</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xtrack.monitors</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xtrack.random</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xtrack.multisetter</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiSetter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">assert_versions</span>
+
+<div class="viewcode-block" id="ONLY_XTRACK_ELEMENTS">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.ONLY_XTRACK_ELEMENTS">[docs]</a>
+<span class="n">ONLY_XTRACK_ELEMENTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Drift</span><span class="p">,</span>
+    <span class="n">Multipole</span><span class="p">,</span>
+    <span class="n">Bend</span><span class="p">,</span>
+    <span class="n">RBend</span><span class="p">,</span>
+    <span class="n">Quadrupole</span><span class="p">,</span>
+    <span class="n">Sextupole</span><span class="p">,</span>
+    <span class="n">Octupole</span><span class="p">,</span>
+    <span class="n">Magnet</span><span class="p">,</span>
+    <span class="n">SecondOrderTaylorMap</span><span class="p">,</span>
+    <span class="n">Marker</span><span class="p">,</span>
+    <span class="n">ReferenceEnergyIncrease</span><span class="p">,</span>
+    <span class="n">Cavity</span><span class="p">,</span>
+    <span class="n">Elens</span><span class="p">,</span>
+    <span class="n">Wire</span><span class="p">,</span>
+    <span class="n">Solenoid</span><span class="p">,</span>
+    <span class="n">RFMultipole</span><span class="p">,</span>
+    <span class="n">DipoleEdge</span><span class="p">,</span>
+    <span class="n">MultipoleEdge</span><span class="p">,</span>
+    <span class="n">SimpleThinBend</span><span class="p">,</span>
+    <span class="n">SimpleThinQuadrupole</span><span class="p">,</span>
+    <span class="n">LineSegmentMap</span><span class="p">,</span>
+    <span class="n">FirstOrderTaylorMap</span><span class="p">,</span>
+    <span class="n">NonLinearLens</span><span class="p">,</span>
+    <span class="c1"># Slices</span>
+    <span class="n">DriftSlice</span><span class="p">,</span>
+    <span class="n">DriftSliceBend</span><span class="p">,</span>
+    <span class="n">DriftSliceRBend</span><span class="p">,</span>
+    <span class="n">DriftSliceOctupole</span><span class="p">,</span>
+    <span class="n">DriftSliceQuadrupole</span><span class="p">,</span>
+    <span class="n">DriftSliceSextupole</span><span class="p">,</span>
+    <span class="n">ThickSliceBend</span><span class="p">,</span>
+    <span class="n">ThickSliceRBend</span><span class="p">,</span>
+    <span class="n">ThickSliceOctupole</span><span class="p">,</span>
+    <span class="n">ThickSliceQuadrupole</span><span class="p">,</span>
+    <span class="n">ThickSliceSextupole</span><span class="p">,</span>
+    <span class="n">ThickSliceSolenoid</span><span class="p">,</span>
+    <span class="n">ThinSliceBend</span><span class="p">,</span>
+    <span class="n">ThinSliceRBend</span><span class="p">,</span>
+    <span class="n">ThinSliceBendEntry</span><span class="p">,</span>
+    <span class="n">ThinSliceBendExit</span><span class="p">,</span>
+    <span class="n">ThinSliceRBendEntry</span><span class="p">,</span>
+    <span class="n">ThinSliceRBendExit</span><span class="p">,</span>
+    <span class="n">ThinSliceQuadrupoleEntry</span><span class="p">,</span>
+    <span class="n">ThinSliceQuadrupoleExit</span><span class="p">,</span>
+    <span class="n">ThinSliceSextupoleEntry</span><span class="p">,</span>
+    <span class="n">ThinSliceSextupoleExit</span><span class="p">,</span>
+    <span class="n">ThinSliceOctupoleEntry</span><span class="p">,</span>
+    <span class="n">ThinSliceOctupoleExit</span><span class="p">,</span>
+    <span class="n">ThinSliceOctupole</span><span class="p">,</span>
+    <span class="n">ThinSliceQuadrupole</span><span class="p">,</span>
+    <span class="n">ThinSliceSextupole</span><span class="p">,</span>
+    <span class="c1"># Transformations</span>
+    <span class="n">XYShift</span><span class="p">,</span>
+    <span class="n">ZetaShift</span><span class="p">,</span>
+    <span class="n">XRotation</span><span class="p">,</span>
+    <span class="n">SRotation</span><span class="p">,</span>
+    <span class="n">YRotation</span><span class="p">,</span>
+    <span class="c1"># Apertures</span>
+    <span class="n">LimitEllipse</span><span class="p">,</span>
+    <span class="n">LimitRectEllipse</span><span class="p">,</span>
+    <span class="n">LimitRect</span><span class="p">,</span>
+    <span class="n">LimitRacetrack</span><span class="p">,</span>
+    <span class="n">LimitPolygon</span><span class="p">,</span>
+    <span class="n">LongitudinalLimitRect</span><span class="p">,</span>
+    <span class="c1"># Monitors</span>
+    <span class="n">BeamPositionMonitor</span><span class="p">,</span>
+    <span class="n">BeamSizeMonitor</span><span class="p">,</span>
+    <span class="n">BeamProfileMonitor</span><span class="p">,</span>
+    <span class="n">LastTurnsMonitor</span><span class="p">,</span>
+    <span class="n">ParticlesMonitor</span><span class="p">,</span>
+<span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NO_SYNRAD_ELEMENTS">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.NO_SYNRAD_ELEMENTS">[docs]</a>
+<span class="n">NO_SYNRAD_ELEMENTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Exciter</span><span class="p">,</span>
+<span class="p">]</span></div>
+
+
+<span class="c1"># Xfields elements</span>
+<div class="viewcode-block" id="DEFAULT_XF_ELEMENTS">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.DEFAULT_XF_ELEMENTS">[docs]</a>
+<span class="n">DEFAULT_XF_ELEMENTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">xf</span><span class="o">.</span><span class="n">BeamBeamBiGaussian2D</span><span class="p">,</span>
+    <span class="n">xf</span><span class="o">.</span><span class="n">BeamBeamBiGaussian3D</span><span class="p">,</span>
+    <span class="n">xf</span><span class="o">.</span><span class="n">SpaceChargeBiGaussian</span><span class="p">,</span>
+<span class="p">]</span></div>
+
+
+<span class="c1"># Xcoll elements</span>
+<div class="viewcode-block" id="DEFAULT_XCOLL_ELEMENTS">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.DEFAULT_XCOLL_ELEMENTS">[docs]</a>
+<span class="n">DEFAULT_XCOLL_ELEMENTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># ZetaShift,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">BlackAbsorber</span><span class="p">,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">EverestBlock</span><span class="p">,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">EverestCollimator</span><span class="p">,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">EverestCrystal</span><span class="p">,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">BlowUp</span><span class="p">,</span>
+    <span class="n">xc</span><span class="o">.</span><span class="n">EmittanceMonitor</span><span class="p">,</span>
+<span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="NON_TRACKING_ELEMENTS">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.NON_TRACKING_ELEMENTS">[docs]</a>
+<span class="n">NON_TRACKING_ELEMENTS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">RandomUniform</span><span class="p">,</span>
+    <span class="n">RandomExponential</span><span class="p">,</span>
+    <span class="n">RandomNormal</span><span class="p">,</span>
+    <span class="n">RandomRutherford</span><span class="p">,</span>
+    <span class="n">MultiSetter</span><span class="p">,</span>
+<span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="default_element_classes">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker.default_element_classes">[docs]</a>
+<span class="n">default_element_classes</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ONLY_XTRACK_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">NO_SYNRAD_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">DEFAULT_XF_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">DEFAULT_XCOLL_ELEMENTS</span>
+<span class="p">)</span></div>
+
+
+<span class="c1"># The class ElementRefData is dynamically generated inside the tracker. We</span>
+<span class="c1"># extract it here and use it to create the line metadata inside XbInput</span>
+<div class="viewcode-block" id="ElementRefData">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/index.html#xboinc.simulation_io.default_tracker.ElementRefData">[docs]</a>
+<span class="n">ElementRefData</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">_element_ref_data_class_from_element_classes</span><span class="p">(</span>
+    <span class="n">ONLY_XTRACK_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">NO_SYNRAD_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">DEFAULT_XF_ELEMENTS</span>
+    <span class="o">+</span> <span class="n">DEFAULT_XCOLL_ELEMENTS</span><span class="p">,</span>
+<span class="p">)</span></div>
+
+<span class="k">if</span> <span class="p">{</span><span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ElementRefData</span><span class="o">.</span><span class="n">_fields</span><span class="p">}</span> <span class="o">!=</span> <span class="p">{</span><span class="s1">&#39;elements&#39;</span><span class="p">,</span> <span class="s1">&#39;names&#39;</span><span class="p">}:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The definition of `ElementRefData` has changed inside Xtrack! &quot;</span>
+                     <span class="o">+</span> <span class="s2">&quot;This renders Xboinc incompatible. Please ask a dev to update Xboinc.&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="_default_tracker_cache">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker._default_tracker_cache">[docs]</a>
+<span class="n">_default_tracker_cache</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+
+<div class="viewcode-block" id="get_default_tracker">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/index.html#xboinc.simulation_io.default_tracker.get_default_tracker">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_default_tracker</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the default tracker used by Xboinc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">assert_versions</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;tracker&#39;</span> <span class="ow">in</span> <span class="n">_default_tracker_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span>
+
+    <span class="n">line</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">elements</span><span class="o">=</span><span class="p">[])</span>
+
+    <span class="c1"># We build the tracker on an empty line, but without compiling.</span>
+    <span class="n">line</span><span class="o">.</span><span class="n">build_tracker</span><span class="p">(</span><span class="nb">compile</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_prebuilt_kernels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="c1"># Now we overwrite the TrackerData with our ElementRefData class, based on all elements</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">tracker</span><span class="o">.</span><span class="n">_tracker_data_cache</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+    <span class="n">tracker</span><span class="o">.</span><span class="n">_element_ref_data</span> <span class="o">=</span> <span class="n">tracker</span><span class="o">.</span><span class="n">build_ref_data</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">_buffer</span><span class="p">,</span> <span class="n">ElementRefData</span><span class="p">)</span>
+
+    <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">tracker</span>
+    <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">tracker</span></div>
+
+
+
+<div class="viewcode-block" id="get_default_config">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/index.html#xboinc.simulation_io.default_tracker.get_default_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_default_config</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the default config used by Xboinc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">assert_versions</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;config&#39;</span> <span class="ow">in</span> <span class="n">_default_tracker_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span>
+
+    <span class="n">default_config_hash</span> <span class="o">=</span> <span class="n">get_default_tracker</span><span class="p">()</span><span class="o">.</span><span class="n">_hashable_config</span><span class="p">()</span>
+    <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_config_hash</span>
+    <span class="k">return</span> <span class="n">default_config_hash</span></div>
+
+
+
+<div class="viewcode-block" id="get_default_tracker_kernel">
+<a class="viewcode-back" href="../../../api/xboinc/simulation_io/index.html#xboinc.simulation_io.default_tracker.get_default_tracker_kernel">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_default_tracker_kernel</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the default tracker kernel used by Xboinc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">assert_versions</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;kernel&#39;</span> <span class="ow">in</span> <span class="n">_default_tracker_cache</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;kernel&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Now we trigger compilation</span>
+    <span class="n">get_default_tracker</span><span class="p">()</span><span class="o">.</span><span class="n">get_track_kernel_and_data_for_present_config</span><span class="p">()</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">get_default_tracker</span><span class="p">()</span><span class="o">.</span><span class="n">track_kernel</span><span class="p">[</span><span class="n">get_default_config</span><span class="p">()]</span>
+    <span class="n">_default_tracker_cache</span><span class="p">[</span><span class="s1">&#39;kernel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel</span>
+
+    <span class="k">return</span> <span class="n">kernel</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+xboinc.server
+=============
+
+.. py:module:: xboinc.server
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/xboinc/server/paths/index
+   /api/xboinc/server/tools/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.server.server_account
+   xboinc.server.afsusr
+   xboinc.server.eosusr
+   xboinc.server.eosdir
+   xboinc.server.dropdir
+   xboinc.server.infowudir
+   xboinc.server._test_afs
+   xboinc.server._test_eos
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.server.timestamp
+   xboinc.server.log_debug
+   xboinc.server.log_info
+   xboinc.server.log_error
+   xboinc.server.untar
+
+
+Package Contents
+----------------
+
+.. py:data:: server_account
+   :value: 'sixtadm'
+
+
+.. py:function:: timestamp(ms=False, in_filename=True)
+
+.. py:function:: log_debug(message, cmd=None, is_server=False)
+
+.. py:function:: log_info(message, cmd=None, is_server=False)
+
+.. py:function:: log_error(message, e=None, cmd=None, is_server=False)
+
+.. py:function:: untar(filename, cmd=None, is_server=False)
+
+.. py:data:: afsusr
+
+.. py:data:: eosusr
+
+.. py:data:: eosdir
+
+.. py:data:: dropdir
+
+.. py:data:: infowudir
+
+.. py:data:: _test_afs
+
+.. py:data:: _test_eos
+

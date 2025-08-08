@@ -1,0 +1,59 @@
+xboinc.simulation_io.version
+============================
+
+.. py:module:: xboinc.simulation_io.version
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.version.app_version
+   xboinc.simulation_io.version.app_version_int
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.version.XbVersion
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.version.assert_versions
+   xboinc.simulation_io.version._version_to_int
+   xboinc.simulation_io.version._int_to_version
+
+
+Module Contents
+---------------
+
+.. py:function:: assert_versions()
+
+.. py:function:: _version_to_int(version)
+
+.. py:function:: _int_to_version(verint)
+
+.. py:data:: app_version
+   :value: ''
+
+
+.. py:data:: app_version_int
+
+.. py:class:: XbVersion(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: xboinc_version
+
+
+   .. py:method:: assert_version(raise_error=True, filename=None)
+
+

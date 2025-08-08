@@ -1,0 +1,305 @@
+xboinc.submit
+=============
+
+.. py:module:: xboinc.submit
+
+.. autoapi-nested-parse::
+
+   Job submission management for the Xboinc BOINC server.
+
+   This module provides the JobManager class for managing and submitting particle tracking
+   jobs to the Xboinc BOINC server. It handles job preparation, validation, packaging,
+   and submission with proper time estimation and resource management.
+
+   The module includes:
+   - Job time estimation based on benchmark data
+   - Job validation for time bounds
+   - Batch submission capabilities
+   - Support for both development and production servers
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.submit.BENCHMARK_DATA
+   xboinc.submit.LOWER_TIME_BOUND
+   xboinc.submit.UPPER_TIME_BOUND
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.submit.JobManager
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.submit._get_num_elements_from_line
+
+
+Module Contents
+---------------
+
+.. py:data:: BENCHMARK_DATA
+
+.. py:data:: LOWER_TIME_BOUND
+   :value: 90
+
+
+.. py:data:: UPPER_TIME_BOUND
+   :value: 259200
+
+
+.. py:function:: _get_num_elements_from_line(line)
+
+   Extract element count statistics from a tracking line.
+
+   :param line: The tracking line containing elements to analyze.
+   :type line: xtrack.Line or None
+
+   :returns: Dictionary mapping element class names to their counts in the line and
+             the total number of elements.
+             Returns empty dict and zero if line is None.
+   :rtype: dict, int
+
+   .. rubric:: Examples
+
+   >>> line = xtrack.Line.from_dict(line_dict)
+   >>> elements = _get_num_elements_from_line(line)
+   >>> print(elements)
+   {'Drift': 100, 'Quadrupole': 50, 'Bend': 25}
+
+
+.. py:class:: JobManager(user, study_name, line=None, dev_server=False, **kwargs)
+
+   A class to manage jobs for submission to the Xboinc server.
+
+   This class provides a convenient interface for adding multiple particle tracking
+   jobs and submitting them as a batch to the BOINC server. It handles job validation,
+   time estimation, file preparation, and submission.
+
+   The JobManager ensures that:
+   - Job execution times fall within acceptable bounds
+   - Job names are unique within a study
+   - All necessary files are properly packaged and submitted
+   - Proper cleanup is performed after submission
+
+   .. attribute:: dev_server
+
+      Whether jobs are submitted to the development server.
+
+      :type: bool
+
+   .. rubric:: Examples
+
+   Basic usage with a single line for all jobs:
+
+   >>> line = xtrack.Line.from_dict(line_dict)
+   >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
+   >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
+   >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
+   >>> manager.submit()
+
+   Usage with different lines per job:
+
+   >>> manager = JobManager("user123", "my_study", dev_server=True)
+   >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
+   >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
+   >>> manager.submit()
+
+
+   .. py:attribute:: dev_server
+      :value: False
+
+
+
+   .. py:attribute:: _user
+
+
+   .. py:attribute:: _domain
+
+
+   .. py:attribute:: _study_name
+
+
+   .. py:attribute:: _line
+      :value: None
+
+
+
+   .. py:attribute:: _submit_file
+      :value: 'Uninferable__Uninferable__Uninferable.tar.gz'
+
+
+
+   .. py:attribute:: _json_files
+      :value: []
+
+
+
+   .. py:attribute:: _bin_files
+      :value: []
+
+
+
+   .. py:attribute:: _tempdir
+
+
+   .. py:attribute:: _submitted
+      :value: False
+
+
+
+   .. py:attribute:: _unique_job_names
+
+
+   .. py:method:: _assert_not_submitted()
+
+      Ensure that jobs have not already been submitted.
+
+      :raises ValueError: If jobs have already been submitted from this JobManager instance.
+
+
+
+   .. py:method:: add(*, job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, **kwargs)
+
+      Add a single job to the JobManager instance.
+
+      This method creates the necessary input files (binary and JSON metadata)
+      for a single tracking job. The job is validated for execution time bounds
+      and prepared for batch submission.
+
+      :param job_name: Unique name for this job within the study. Cannot contain '__'
+                       (double underscore). If a duplicate name is provided, it will be
+                       automatically renamed with a numeric suffix.
+      :type job_name: str
+      :param num_turns: The number of tracking turns for this job. Must be positive.
+      :type num_turns: int
+      :param ele_start: The starting element index for tracking. Default is 0 (first element).
+                        If provided different from 0 with particles set at a certain starting
+                        position, raises a ValueError.
+      :type ele_start: int, optional
+      :param ele_stop: The stopping element index for tracking. Default is -1 (last element).
+      :type ele_stop: int, optional
+      :param particles: The particles object containing the initial particle distribution
+                        to be tracked.
+      :type particles: xpart.Particles
+      :param line: The tracking line for this specific job. If None, uses the line
+                   provided during JobManager initialization. Providing a line per
+                   job is slower due to repeated preprocessing.
+      :type line: xtrack.Line, optional
+      :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
+                               If positive, simulation state will be saved every N turns.
+      :type checkpoint_every: int, optional
+      :param \*\*kwargs: Additional job metadata to be included in the job JSON file.
+
+      :raises ValueError: If job_name contains '__', if no line is available, or if the
+          estimated execution time is outside acceptable bounds.
+
+      .. rubric:: Notes
+
+      Job execution time is estimated using benchmark data and must fall
+      between LOWER_TIME_BOUND (90s) and UPPER_TIME_BOUND (3 days).
+
+      The method creates two files per job:
+      - A .json file with job metadata
+      - A .bin file with the binary simulation input data
+
+      .. rubric:: Examples
+
+      >>> manager.add(
+      ...     job_name="scan_point_1",
+      ...     num_turns=10000,
+      ...     particles=my_particles,
+      ...     custom_param=42
+      ... )
+
+
+
+   .. py:method:: submit()
+
+      Package and submit all added jobs to the BOINC server.
+
+      This method creates a compressed tar archive containing all job files
+      and moves it to the user's submission directory where the BOINC server
+      will periodically check for new submissions.
+
+      The submission process:
+      1. Creates a .tar.gz archive with all job files
+      2. Moves the archive to the appropriate submission directory
+      3. Cleans up temporary files
+      4. Marks the JobManager as submitted
+
+      :raises ValueError: If jobs have already been submitted or if the user domain is invalid.
+
+      .. rubric:: Notes
+
+      After submission, this JobManager instance cannot be used to add more
+      jobs. Create a new JobManager instance for additional submissions.
+
+      The submission directory depends on the dev_server setting:
+      - Development server: {user_directory}/input_dev
+      - Production server: {user_directory}/input
+
+      .. rubric:: Examples
+
+      >>> manager.submit()
+      Zipping files: 100%|██████████| 4/4 [00:00<00:00, 1234.56it/s]
+      Submitted 2 jobs to BOINC server for user user123 in study my_study.
+
+
+
+   .. py:method:: __len__()
+
+      Return the number of jobs added to this JobManager instance.
+
+      :returns: The number of jobs that have been added but not yet submitted.
+      :rtype: int
+
+
+
+   .. py:method:: __repr__()
+
+      Return a string representation of the JobManager instance.
+
+      :returns: A concise string representation showing key attributes and status.
+      :rtype: str
+
+      .. rubric:: Examples
+
+      >>> manager = JobManager("user123", "my_study", dev_server=True)
+      >>> repr(manager)
+      'JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
+
+
+
+   .. py:method:: get_job_summary()
+
+      Return a comprehensive summary of all jobs in this JobManager instance.
+
+      :returns: A dictionary containing:
+                - user: The submitting user
+                - study_name: The study name
+                - num_jobs: Total number of jobs
+                - dev_server: Whether using development server
+                - jobs: List of individual job summaries with name, turns, and particle count
+                - submitted: Whether jobs have been submitted
+      :rtype: dict
+
+      .. rubric:: Examples
+
+      >>> summary = manager.get_job_summary()
+      >>> print(f"Study {summary['study_name']} has {summary['num_jobs']} jobs")
+      >>> for job in summary['jobs']:
+      ...     print(f"Job {job['job_name']}: {job['num_particles']} particles, {job['num_turns']} turns")
+
+
+

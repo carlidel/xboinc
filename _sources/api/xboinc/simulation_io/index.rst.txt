@@ -1,0 +1,205 @@
+xboinc.simulation_io
+====================
+
+.. py:module:: xboinc.simulation_io
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/xboinc/simulation_io/default_tracker/index
+   /api/xboinc/simulation_io/input/index
+   /api/xboinc/simulation_io/output/index
+   /api/xboinc/simulation_io/version/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.ElementRefData
+   xboinc.simulation_io.app_version
+   xboinc.simulation_io.app_version_int
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.XbInput
+   xboinc.simulation_io.XbState
+   xboinc.simulation_io.XbVersion
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.simulation_io.get_default_config
+   xboinc.simulation_io.get_default_tracker
+   xboinc.simulation_io.get_default_tracker_kernel
+   xboinc.simulation_io.assert_versions
+
+
+Package Contents
+----------------
+
+.. py:data:: ElementRefData
+
+.. py:function:: get_default_config()
+
+   Returns the default config used by Xboinc.
+
+
+.. py:function:: get_default_tracker()
+
+   Returns the default tracker used by Xboinc.
+
+
+.. py:function:: get_default_tracker_kernel()
+
+   Returns the default tracker kernel used by Xboinc.
+
+
+.. py:class:: XbInput(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: num_turns
+
+
+   .. py:attribute:: num_elements
+
+
+   .. py:attribute:: ele_start
+
+
+   .. py:attribute:: ele_stop
+
+
+   .. py:attribute:: checkpoint_every
+
+
+   .. py:attribute:: _parity_check
+
+
+   .. py:attribute:: xb_state
+
+
+   .. py:attribute:: line_metadata
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbInput from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbInput
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbInput to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: line
+
+
+   .. py:property:: particles
+
+
+.. py:class:: XbState(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: _i_turn
+
+
+   .. py:attribute:: _xsize
+
+
+   .. py:attribute:: _particles
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbState from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbState
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbState to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: particles
+
+
+   .. py:property:: i_turn
+
+
+.. py:class:: XbVersion(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: xboinc_version
+
+
+   .. py:method:: assert_version(raise_error=True, filename=None)
+
+
+.. py:data:: app_version
+   :value: ''
+
+
+.. py:data:: app_version_int
+
+.. py:function:: assert_versions()
+

@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.executable.generate &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../xboinc.html">xboinc</a></li>
+      <li class="breadcrumb-item active">xboinc.executable.generate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.executable.generate</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">xobjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xtrack</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..general</span><span class="w"> </span><span class="kn">import</span> <span class="n">_pkg_root</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..simulation_io</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">XbInput</span><span class="p">,</span>
+    <span class="n">XbState</span><span class="p">,</span>
+    <span class="n">XbVersion</span><span class="p">,</span>
+    <span class="n">app_version</span><span class="p">,</span>
+    <span class="n">assert_versions</span><span class="p">,</span>
+    <span class="n">get_default_tracker_kernel</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># ===============================================================================================</span>
+<span class="c1"># IMPORTANT</span>
+<span class="c1"># ===============================================================================================</span>
+<span class="c1"># Only make changes to this file just before a minor version bump (need a separate commit though)</span>
+<span class="c1"># to avoid having multiple xboinc versions with out-of-sync executables.</span>
+<span class="c1"># ===============================================================================================</span>
+
+<div class="viewcode-block" id="insert_in_all_files">
+<a class="viewcode-back" href="../../../api/xboinc/executable/generate/index.html#xboinc.executable.generate.insert_in_all_files">[docs]</a>
+<span class="n">insert_in_all_files</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">#include &lt;stdio.h&gt;</span>
+<span class="s2">#ifndef NULL</span>
+<span class="s2">    #define NULL 0</span>
+<span class="s2">#endif</span>
+<span class="s2">&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="_sources">
+<a class="viewcode-back" href="../../../api/xboinc/executable/generate/index.html#xboinc.executable.generate._sources">[docs]</a>
+<span class="n">_sources</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="n">f</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;main.cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;CMakeLists.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;xtrack.c&quot;</span><span class="p">,</span> <span class="s2">&quot;xtrack.h&quot;</span><span class="p">,</span> <span class="s2">&quot;version.h&quot;</span><span class="p">]</span>
+<span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="generate_executable_source">
+<a class="viewcode-back" href="../../../api/xboinc/index.html#xboinc.executable.generate.generate_executable_source">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_executable_source</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate all source files needed to compile the Xboinc executable.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    overwrite : bool, optional</span>
+<span class="sd">        Whether or not to overwrite existing source files.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">_context</span> <span class="ow">is</span> <span class="kc">None</span>
+    <span class="n">assert_versions</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xb_input.h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="c1"># The XbInput source API should not be static, as it has to be exposed to main.</span>
+        <span class="c1"># TODO: Do we still want to inline this? If yes, we need to adapt xo.specialize_source</span>
+        <span class="c1">#       to pass the replacement of /*gpufun*/ as an option</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">xo</span><span class="o">.</span><span class="n">typeutils</span><span class="o">.</span><span class="n">default_conf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">conf</span><span class="p">[</span><span class="s2">&quot;gpufun&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">xb_input_sources</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">insert_in_all_files</span><span class="p">,</span>
+            <span class="n">xo</span><span class="o">.</span><span class="n">specialize_source</span><span class="p">(</span>
+                <span class="n">XbVersion</span><span class="o">.</span><span class="n">_gen_c_api</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">specialize_for</span><span class="o">=</span><span class="s2">&quot;cpu_serial&quot;</span>
+            <span class="p">),</span>
+            <span class="n">xo</span><span class="o">.</span><span class="n">specialize_source</span><span class="p">(</span>
+                <span class="n">XbState</span><span class="o">.</span><span class="n">_gen_c_api</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">specialize_for</span><span class="o">=</span><span class="s2">&quot;cpu_serial&quot;</span>
+            <span class="p">),</span>
+            <span class="n">xo</span><span class="o">.</span><span class="n">specialize_source</span><span class="p">(</span>
+                <span class="n">XbInput</span><span class="o">.</span><span class="n">_gen_c_api</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">specialize_for</span><span class="o">=</span><span class="s2">&quot;cpu_serial&quot;</span>
+            <span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">xb_input_h</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">xb_input_sources</span><span class="p">)</span>
+        <span class="k">with</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xb_input.h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xb_input_h</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xtrack_tracker.h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">track_kernel</span> <span class="o">=</span> <span class="n">get_default_tracker_kernel</span><span class="p">()</span>
+        <span class="n">xtrack_tracker_h</span> <span class="o">=</span> <span class="n">insert_in_all_files</span> <span class="o">+</span> <span class="n">track_kernel</span><span class="o">.</span><span class="n">specialized_source</span>
+        <span class="k">with</span> <span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xtrack_tracker.h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">fid</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">xtrack_tracker_h</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">_sources</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">_pkg_root</span> <span class="o">/</span> <span class="s2">&quot;executable&quot;</span> <span class="o">/</span> <span class="n">file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span></div>
+
+
+
+<span class="c1"># BOINC executable naming conventions:</span>
+<span class="c1"># windows_intelx86            Microsoft Windows (98 or later) running on an Intel x86-compatible CPU   (32bit)</span>
+<span class="c1"># windows_x86_64              Microsoft Windows running on an AMD x86_64 or Intel EM64T CPU</span>
+<span class="c1"># i686-pc-linux-gnu           Linux running on an Intel x86-compatible CPU    (32bit)</span>
+<span class="c1"># x86_64-pc-linux-gnu         Linux running on an AMD x86_64 or Intel EM64T CPU</span>
+<span class="c1"># powerpc-apple-darwin        Mac OS X 10.3 or later running on Motorola PowerPC</span>
+<span class="c1"># i686-apple-darwin           Mac OS 10.4 or later running on Intel   (32bit)</span>
+<span class="c1"># x86_64-apple-darwin         Intel 64-bit Mac OS 10.5 or later</span>
+<span class="c1"># arm64-apple-darwin          Mac OS on M1 or M2</span>
+<span class="c1"># sparc-sun-solaris2.7        Solaris 2.7 running on a SPARC-compatible CPU</span>
+<span class="c1"># sparc-sun-solaris           Solaris 2.8 or later running on a SPARC-compatible CPU</span>
+<span class="c1"># sparc64-sun-solaris         Solaris 2.8 or later running on a SPARC 64-bit CPU</span>
+<span class="c1"># powerpc64-ps3-linux-gnu     Sony Playstation 3 running Linux</span>
+<span class="c1"># arm-android-linux-gnu       Android running on ARM</span>
+<span class="c1"># aarch64-android-linux-gnu   Android running on aarch64</span>
+<span class="c1"># aarch64-unknown-linux-gnu   Linux running aarch64</span>
+<span class="c1"># x86_64-pc-freebsd__sse2     Free BSD running on 64 bit X86</span>
+
+
+<div class="viewcode-block" id="generate_executable">
+<a class="viewcode-back" href="../../../api/xboinc/index.html#xboinc.executable.generate.generate_executable">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_executable</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span> <span class="n">keep_source</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vcpkg_root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_triplet</span><span class="o">=</span><span class="s2">&quot;x64-linux&quot;</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the Xboinc executable.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keep_source : bool, optional</span>
+<span class="sd">        Whether or not to keep the source files. Defaults to False.</span>
+<span class="sd">    clean : bool, optional</span>
+<span class="sd">        Whether or not to clean the make directory. Defaults to True.</span>
+<span class="sd">    vcpkg_root : pathlib.Path, optional</span>
+<span class="sd">        The path to the local VCPKG installation. If none, an executable</span>
+<span class="sd">        without the BOINC API is generated. Defaults to None.</span>
+<span class="sd">    target_triplet : string, optional</span>
+<span class="sd">        The target architecture to compile to. Currently x64-linux and</span>
+<span class="sd">        x64-mingw-static (i.e. Windows 64-bit) are supported.</span>
+<span class="sd">        Defaults to x64-linux.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">assert_versions</span><span class="p">()</span>
+
+    <span class="c1"># Check vcpkg path</span>
+    <span class="k">if</span> <span class="n">vcpkg_root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vcpkg_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">vcpkg_root</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">vcpkg_root</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">vcpkg_root</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VCPKG path </span><span class="si">{</span><span class="n">vcpkg_root</span><span class="si">}</span><span class="s2"> does not exist!&quot;</span><span class="p">)</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xb_input.h&quot;</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xtrack_tracker.h&quot;</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="n">tracker</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">_sources</span><span class="p">])</span>
+    <span class="p">):</span>
+        <span class="n">generate_executable_source</span><span class="p">()</span>
+
+    <span class="c1"># Locate xtrack</span>
+    <span class="n">xtrack_dir</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">_pkg_root</span>
+
+    <span class="c1"># Create executable name</span>
+    <span class="n">app_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_version</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># Currently, we only support the x64-linux and x64-mingw-static triplets</span>
+    <span class="c1"># corresponding, respectively, to x86_64-pc-linux-gnu and windows_x86_64</span>
+    <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-linux&quot;</span><span class="p">:</span>
+        <span class="n">app_tag</span> <span class="o">+=</span> <span class="s2">&quot;-x86_64-pc-linux-gnu&quot;</span>
+    <span class="k">elif</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-mingw-static&quot;</span><span class="p">:</span>
+        <span class="n">app_tag</span> <span class="o">+=</span> <span class="s2">&quot;-windows_x86_64&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Target triplet </span><span class="si">{</span><span class="n">target_triplet</span><span class="si">}</span><span class="s2"> not supported. &quot;</span>
+            <span class="s2">&quot;Currently only x64-linux and x64-mingw-static are supported.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Compile!</span>
+    <span class="c1"># 1. create a directory for the build</span>
+    <span class="n">build_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;build&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">build_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">build_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># 2. set the environment variables for cmake</span>
+    <span class="n">env_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">**</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span>
+        <span class="s2">&quot;XTRACK_PYTHON_DIR&quot;</span><span class="p">:</span> <span class="n">xtrack_dir</span><span class="o">.</span><span class="n">as_posix</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="n">cmake_args</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="sa">f</span><span class="s2">&quot;-DXTRACK_PYTHON_DIR=</span><span class="si">{</span><span class="n">xtrack_dir</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-DCMAKE_BUILD_TYPE=Release&quot;</span>
+    <span class="p">]</span>
+
+    <span class="c1"># add vcpkg root if provided</span>
+    <span class="k">if</span> <span class="n">vcpkg_root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">env_dict</span><span class="p">[</span><span class="s2">&quot;VCPKG_ROOT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vcpkg_root</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+        <span class="n">env_dict</span><span class="p">[</span><span class="s2">&quot;VCPKG_TARGET_TRIPLET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_triplet</span>
+        <span class="n">cmake_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-DVCPKG_ROOT=</span><span class="si">{</span><span class="n">vcpkg_root</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">cmake_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-DVCPKG_TARGET_TRIPLET=</span><span class="si">{</span><span class="n">target_triplet</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">cmake_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;-DCMAKE_TOOLCHAIN_FILE=</span><span class="si">{</span><span class="n">vcpkg_root</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">/scripts/buildsystems/vcpkg.cmake&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">cmake_command</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;cmake&quot;</span> <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">!=</span> <span class="s2">&quot;x64-mingw-static&quot;</span> <span class="k">else</span> <span class="s2">&quot;mingw64-cmake&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">cmake_args</span><span class="p">)</span>
+
+    <span class="c1"># 3. run cmake to configure the build</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running command: </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmake_command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="n">cmake_command</span><span class="p">,</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
+            <span class="n">env</span><span class="o">=</span><span class="n">env_dict</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuration failed. Stderr:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="c1"># 4. run make to build the executable</span>
+    <span class="n">make_cmd</span> <span class="o">=</span> <span class="s2">&quot;make&quot;</span> <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">!=</span> <span class="s2">&quot;x64-mingw-static&quot;</span> <span class="k">else</span> <span class="s2">&quot;mingw64-make&quot;</span>
+    <span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;xboinc_test&quot;</span> <span class="k">if</span> <span class="n">vcpkg_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;xboinc&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running command: </span><span class="si">{</span><span class="n">make_cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">make_cmd</span><span class="p">,</span> <span class="n">app_name</span><span class="p">],</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
+            <span class="n">env</span><span class="o">=</span><span class="n">env_dict</span><span class="p">,</span>
+            <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compilation failed. Stderr:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="c1"># 5. rename the executable</span>
+    <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-mingw-static&quot;</span><span class="p">:</span>
+        <span class="c1"># For MinGW, we need to rename the executable to have a .exe extension</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">build_dir</span> <span class="o">/</span> <span class="p">(</span><span class="n">app_name</span> <span class="o">+</span> <span class="s2">&quot;.exe&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">.exe&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">build_dir</span> <span class="o">/</span> <span class="n">app_name</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 6. clean up</span>
+    <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>
+        <span class="c1"># remove the build directory</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">build_dir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Could not remove build directory </span><span class="si">{</span><span class="n">build_dir</span><span class="si">}</span><span class="s2">. Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">keep_source</span><span class="p">:</span>
+        <span class="c1"># remove the source files</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="n">tracker</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">_sources</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

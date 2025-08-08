@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.register &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../xboinc.html">xboinc</a></li>
+      <li class="breadcrumb-item active">xboinc.register</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.register</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">xaux</span><span class="w"> </span><span class="kn">import</span> <span class="n">AfsPath</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">,</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">LocalPath</span><span class="p">,</span> <span class="n">eos_accessible</span><span class="p">,</span> <span class="n">is_egroup_member</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.general</span><span class="w"> </span><span class="kn">import</span> <span class="n">_pkg_root</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">dropdir</span><span class="p">,</span> <span class="n">server_account</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_user_data</span><span class="p">,</span> <span class="n">remove_user</span><span class="p">,</span> <span class="n">update_user_data</span>
+
+<div class="viewcode-block" id="user_data_file">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc.user_data_file">[docs]</a>
+<span class="n">user_data_file</span> <span class="o">=</span> <span class="n">_pkg_root</span> <span class="o">/</span> <span class="s2">&quot;user_data.json&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="_create_json">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc._create_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_json</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">register</span> <span class="o">=</span> <span class="s2">&quot;deregister&quot;</span> <span class="k">if</span> <span class="n">remove</span> <span class="k">else</span> <span class="s2">&quot;register&quot;</span>
+    <span class="n">user_file</span> <span class="o">=</span> <span class="n">FsPath</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">register</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2">.json&quot;</span>
+    <span class="k">if</span> <span class="n">remove</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">):</span>
+            <span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;eos&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">AfsPath</span><span class="p">):</span>
+            <span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;afs&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> not on EOS nor AFS! &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;The xboinc server will not be able to reach it.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;directory&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="n">domain</span><span class="p">}</span>
+    <span class="k">with</span> <span class="n">user_file</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_file</span><span class="p">,</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="_give_rights">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc._give_rights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_give_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;rlwikd&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Ask CERN IT for explanation...&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">LocalPath</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Local directories are not supported for BOINC server registration.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">AfsPath</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> not found or not a directory (or no permissions)!&quot;</span>
+            <span class="p">)</span>
+        <span class="n">directory</span><span class="o">.</span><span class="n">acl</span> <span class="o">=</span> <span class="p">{</span><span class="n">server_account</span><span class="p">:</span> <span class="n">acl</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> is an invalid FsPath type!&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="_remove_rights">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc._remove_rights">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_remove_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Ask CERN IT for explanation...&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">LocalPath</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Local directories are not supported for BOINC server registration.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">AfsPath</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> not found or not a directory (or no permissions)!&quot;</span>
+            <span class="p">)</span>
+        <span class="n">directory</span><span class="o">.</span><span class="n">acl</span> <span class="o">=</span> <span class="p">{</span><span class="n">server_account</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> is an invalid FsPath type!&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="register">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc.register">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Register a user to the BOINC server and dev server, by declaring</span>
+<span class="sd">    the username and user boinc directory, and giving access rights</span>
+<span class="sd">    to the BOINC admin process. This is not instantaneous, as the</span>
+<span class="sd">    BOINC server periodically parses new users.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    user : string</span>
+<span class="sd">        Name of the user to register.</span>
+<span class="sd">    directory : pathlib.Path</span>
+<span class="sd">        Dedicated folder that the BOINC server can reach (i.e. on CERN</span>
+<span class="sd">        AFS or EOS), which will hold the new submissions and results.</span>
+<span class="sd">        Should not be accessed manually by the user to avoid syncing</span>
+<span class="sd">        issues.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">eos_accessible</span>
+    <span class="k">try</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_egroup_member</span><span class="p">(</span><span class="s2">&quot;xboinc-submitters&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;You are not a member of the xboinc-submitters egroup! &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;Please add yourself to this egroup to register users.&quot;</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Eos command not available, skipping egroup check.</span><span class="se">\n</span><span class="s2">&quot;</span>
+             <span class="s2">&quot;Make sure you are a member of the xboinc-submitters egroup.&quot;</span><span class="p">)</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Directory </span><span class="si">{</span><span class="n">directory</span><span class="si">}</span><span class="s2"> not found or not a directory (or no permissions)!&quot;</span>
+        <span class="p">)</span>
+    <span class="n">user_file</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">_create_json</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+    <span class="c1"># This is a small hack to avoid losing sixtadm ACLs during testing</span>
+    <span class="n">acl</span> <span class="o">=</span> <span class="s2">&quot;rlwikda&quot;</span> <span class="k">if</span> <span class="n">user</span> <span class="o">==</span> <span class="n">server_account</span> <span class="k">else</span> <span class="s2">&quot;rlwikd&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_give_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">e</span>
+    <span class="n">input_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input&quot;</span>
+    <span class="n">input_dev_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input_dev&quot;</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
+    <span class="n">output_dev_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;output_dev&quot;</span>
+    <span class="n">input_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_dev_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">output_dev_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+        <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+        <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+        <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;de</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed existing deregistration file on server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dev_de</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed existing deregistration file on dev server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Replaced existing registration file on server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dev_</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Replaced existing registration file on dev server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">FsPath</span><span class="p">(</span><span class="n">user_file</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dev_</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">FsPath</span><span class="p">(</span><span class="n">user_file</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">dropdir</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;Failed to copy register file to server dropdir.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Do you have permissions?</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;If not, add yourself to the CERN xboinc-submitters egroup.&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+    <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+    <span class="n">update_user_data</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="deregister">
+<a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc.deregister">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">deregister</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove a user from the BOINC server and dev server.  This is</span>
+<span class="sd">    not instantaneous, as the BOINC server periodically parses</span>
+<span class="sd">    the users to remove.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    user : string</span>
+<span class="sd">        Name of the user to deregister.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">assert</span> <span class="n">eos_accessible</span>
+    <span class="n">user_file</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_create_json</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">remove</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">get_user_data</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;User </span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s2"> not found in user_data.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;directory&quot;</span><span class="p">])</span>
+        <span class="c1"># This is a quick check to avoid losing sixtadm ACLs during testing</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="n">server_account</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">input_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input&quot;</span>
+                <span class="n">input_dev_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input_dev&quot;</span>
+                <span class="n">output_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
+                <span class="n">output_dev_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;output_dev&quot;</span>
+                <span class="n">_remove_rights</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
+                <span class="n">_remove_rights</span><span class="p">(</span><span class="n">input_dev_dir</span><span class="p">)</span>
+                <span class="n">_remove_rights</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+                <span class="n">_remove_rights</span><span class="p">(</span><span class="n">output_dev_dir</span><span class="p">)</span>
+                <span class="n">_remove_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Warning: could not remove ACL on </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;directory&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for server &quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;account </span><span class="si">{</span><span class="n">server_account</span><span class="si">}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">Please do this manually.&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># show the error message</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">2</span><span class="p">:]))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed existing registration file on server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dev_</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed existing registration file on dev server dropdir.&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">FsPath</span><span class="p">(</span><span class="n">user_file</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;dev_</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">FsPath</span><span class="p">(</span><span class="n">user_file</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">dropdir</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;Failed to copy deregister file to server dropdir.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Please inform an xboinc admin to deregister manually.&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+    <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+    <span class="n">remove_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

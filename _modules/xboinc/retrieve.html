@@ -1,0 +1,698 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xboinc.retrieve &mdash; Xboinc v0.4.1</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=c87aa342"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Xboinc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">1. Xboinc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html#how-to-use-xboinc">2. How to use Xboinc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#install-xboinc">2.1. Install Xboinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#subscribe-to-the-xboinc-submitter-e-group">2.2. Subscribe to the Xboinc submitter e-group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#allocate-a-folder-and-register-your-username-under-the-xboinc-server">2.3. Allocate a folder and register your username under the Xboinc server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-afs">2.3.1. Folder in AFS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#folder-in-eos">2.3.2. Folder in EOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#submit-a-job">2.4. Submit a job</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#retrieve-the-results">2.5. Retrieve the results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#check-your-subscription-and-jobs-status">2.6. Check your subscription and jobs status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">3. API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/xboinc/index.html">3.1. xboinc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#submodules">3.1.1. Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/df_wu/index.html">3.1.1.1. xboinc.df_wu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/executable/index.html">3.1.1.2. xboinc.executable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/general/index.html">3.1.1.3. xboinc.general</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/register/index.html">3.1.1.4. xboinc.register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/retrieve/index.html">3.1.1.5. xboinc.retrieve</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/server/index.html">3.1.1.6. xboinc.server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/simulation_io/index.html">3.1.1.7. xboinc.simulation_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/submit/index.html">3.1.1.8. xboinc.submit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/user/index.html">3.1.1.9. xboinc.user</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#attributes">3.1.2. Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#classes">3.1.3. Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#functions">3.1.4. Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/xboinc/index.html#package-contents">3.1.5. Package Contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.check_user_subscription"><code class="docutils literal notranslate"><span class="pre">check_user_subscription()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.query_registered_work_units"><code class="docutils literal notranslate"><span class="pre">query_registered_work_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable"><code class="docutils literal notranslate"><span class="pre">generate_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.generate_executable_source"><code class="docutils literal notranslate"><span class="pre">generate_executable_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__version__"><code class="docutils literal notranslate"><span class="pre">__version__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.__xsuite__versions__"><code class="docutils literal notranslate"><span class="pre">__xsuite__versions__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Xboinc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../xboinc.html">xboinc</a></li>
+      <li class="breadcrumb-item active">xboinc.retrieve</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for xboinc.retrieve</h1><div class="highlight"><pre>
+<span></span><span class="c1"># copyright ############################### #</span>
+<span class="c1"># This file is part of the Xboinc Package.  #</span>
+<span class="c1"># Copyright (c) CERN, 2025.                 #</span>
+<span class="c1"># ######################################### #</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.auto</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">xaux</span><span class="w"> </span><span class="kn">import</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">eos_accessible</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.df_wu</span><span class="w"> </span><span class="kn">import</span> <span class="n">query_work_units_by_user</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.server.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">untar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_io</span><span class="w"> </span><span class="kn">import</span> <span class="n">XbState</span><span class="p">,</span> <span class="n">assert_versions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_directory</span><span class="p">,</span> <span class="n">get_domain</span>
+
+
+<div class="viewcode-block" id="ResultRetriever">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ResultRetriever</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to retrieve and manage results from Xboinc simulations.</span>
+
+<span class="sd">    This class provides functionality to retrieve, index, and manage simulation</span>
+<span class="sd">    results from BOINC work units. It can untar result files, create indexes,</span>
+<span class="sd">    and provide various views and statistics about completed jobs.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _user : str</span>
+<span class="sd">        The user that submitted the BOINC jobs</span>
+<span class="sd">    _domain : str</span>
+<span class="sd">        The domain where results are stored (e.g., &#39;eos&#39;)</span>
+<span class="sd">    _directory : FsPath</span>
+<span class="sd">        Path to the directory containing results</span>
+<span class="sd">    _dev_server : bool</span>
+<span class="sd">        Whether using development server</span>
+<span class="sd">    _df : pd.DataFrame</span>
+<span class="sd">        Indexed DataFrame of all available results</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">    &gt;&gt;&gt; studies = retriever.get_study_list()</span>
+<span class="sd">    &gt;&gt;&gt; for job_name, particles in retriever.iterate_results(&#39;my_study&#39;):</span>
+<span class="sd">    ...     # Process particles data</span>
+<span class="sd">    ...     pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ResultRetriever._untar_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._untar_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_untar_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Untar all compressed result files in the given path.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : FsPath</span>
+<span class="sd">            Directory path containing .tar.gz files to extract</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            If True, suppress progress bar output (default: False)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tar_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.tar.gz&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tar_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">tar_file</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+                <span class="n">tar_list</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Untarring results&quot;</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="n">silent</span>
+            <span class="p">):</span>
+                <span class="n">untar</span><span class="p">(</span><span class="n">tar_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever._index_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._index_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_index_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Index all result files in the given path and create a DataFrame.</span>
+
+<span class="sd">        Scans for .bin files in subdirectories and extracts metadata from</span>
+<span class="sd">        filenames to create a structured index of available results.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : FsPath</span>
+<span class="sd">            Directory path to scan for result files</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            If True, suppress progress bar output (default: False)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            DataFrame with columns: user, study_name, job_name, wu_name, bin_file</span>
+<span class="sd">            Each row represents one available result file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;study_name&quot;</span><span class="p">,</span> <span class="s2">&quot;job_name&quot;</span><span class="p">,</span> <span class="s2">&quot;wu_name&quot;</span><span class="p">,</span> <span class="s2">&quot;bin_file&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># iterate all folders in the path</span>
+        <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*/&quot;</span><span class="p">)),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Indexing results in folders&quot;</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="n">silent</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">folder</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="c1"># iterate all result bin files in the folder</span>
+            <span class="k">for</span> <span class="n">bin_file</span> <span class="ow">in</span> <span class="n">folder</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.bin&quot;</span><span class="p">):</span>
+                <span class="c1"># extract user, study_name, and job_name from the bin file name</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="n">bin_file</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">study_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">job_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">wu_name</span> <span class="o">=</span> <span class="n">bin_file</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.bin&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="c1"># append to the DataFrame</span>
+                <span class="n">new_row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([{</span>
+                    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+                    <span class="s2">&quot;study_name&quot;</span><span class="p">:</span> <span class="n">study_name</span><span class="p">,</span>
+                    <span class="s2">&quot;job_name&quot;</span><span class="p">:</span> <span class="n">job_name</span><span class="p">,</span>
+                    <span class="s2">&quot;wu_name&quot;</span><span class="p">:</span> <span class="n">wu_name</span><span class="p">,</span>
+                    <span class="s2">&quot;bin_file&quot;</span><span class="p">:</span> <span class="n">bin_file</span><span class="p">,</span>
+                <span class="p">}])</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">new_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the ResultRetriever for a specific user.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The user that submitted to BOINC. User should be member of the </span>
+<span class="sd">            CERN xboinc-submitters egroup with proper permissions.</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to retrieve from the development server (default: False)</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            Whether to suppress output messages and progress bars (default: False)</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        NotImplementedError</span>
+<span class="sd">            If dev_server=False (regular server not yet operational)</span>
+<span class="sd">        ConnectionError</span>
+<span class="sd">            If EOS is not accessible when domain is &#39;eos&#39;</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True, silent=True)</span>
+<span class="sd">        &gt;&gt;&gt; overview = retriever.get_overview()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dev_server</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Regular server not yet operational. &quot;</span> <span class="o">+</span> <span class="s2">&quot;Please use dev_server=True.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">assert_versions</span><span class="p">()</span>
+<div class="viewcode-block" id="ResultRetriever._user">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._user">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user</span> <span class="o">=</span> <span class="n">user</span></div>
+
+<div class="viewcode-block" id="ResultRetriever._domain">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._domain">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">get_domain</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></div>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">==</span> <span class="s2">&quot;eos&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">eos_accessible</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ConnectionError</span><span class="p">(</span>
+                    <span class="s2">&quot;EOS is not accessible! Please check your connection.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">dev_server</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="o">=</span> <span class="n">get_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;output_dev&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="o">=</span> <span class="n">get_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
+
+<div class="viewcode-block" id="ResultRetriever._dev_server">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._dev_server">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dev_server</span> <span class="o">=</span> <span class="n">dev_server</span></div>
+
+<div class="viewcode-block" id="ResultRetriever._to_delete">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._to_delete">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_to_delete</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_untar_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+<div class="viewcode-block" id="ResultRetriever._df">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._df">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever.get_overview">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_overview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a comprehensive overview of all available results.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            DataFrame containing all indexed results with columns:</span>
+<span class="sd">            user, study_name, job_name, wu_name, bin_file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever.get_study_list">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_study_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_study_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a list of all unique study names in the available results.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            Sorted list of unique study names found in the results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever.get_study_status">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_study_status">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_study_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get detailed status information for a specific study.</span>
+
+<span class="sd">        Compares local results with server work units to provide comprehensive</span>
+<span class="sd">        status information including completion rates and missing jobs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            Name of the study to check status for</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            If True, print detailed job lists (default: False)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple of (list, set)</span>
+<span class="sd">            - list: Job names available in results</span>
+<span class="sd">            - set: Job names missing from results but present on server</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If study_name is not found in results or server work units</span>
+
+<span class="sd">        Warnings</span>
+<span class="sd">        --------</span>
+<span class="sd">        UserWarning</span>
+<span class="sd">            If there are mismatches between local results and server status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Is the study name valid?</span>
+        <span class="k">if</span> <span class="n">study_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Study name </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2"> not found in results.&quot;</span><span class="p">)</span>
+        <span class="c1"># Get server dataframe</span>
+        <span class="n">server_df</span> <span class="o">=</span> <span class="n">query_work_units_by_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dev_server</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">study_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">server_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Study name </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2"> not found in server work units.&quot;</span><span class="p">)</span>
+        <span class="n">result_job_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">study_name</span><span class="p">][</span>
+            <span class="s2">&quot;job_name&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">result_job_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">remote_job_names</span> <span class="o">=</span> <span class="n">server_df</span><span class="p">[</span><span class="n">server_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">study_name</span><span class="p">][</span>
+            <span class="s2">&quot;job_name&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">remote_job_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">completed_remote_job_names</span> <span class="o">=</span> <span class="n">server_df</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">server_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">study_name</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="n">server_df</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;completed&quot;</span><span class="p">)</span>
+        <span class="p">][</span><span class="s2">&quot;job_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">completed_remote_job_names</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="c1"># Check 1: result_job_names should be equal to completed_remote_job_names</span>
+        <span class="k">if</span> <span class="n">result_job_names</span> <span class="o">!=</span> <span class="n">completed_remote_job_names</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Warning: The job names in the results (</span><span class="si">{</span><span class="n">result_job_names</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;do not match the completed job names on the server!&quot;</span>
+                <span class="s2">&quot;This might indicate that some results were deleted or not retrieved correctly.&quot;</span>
+                <span class="s2">&quot;Please contact the Xboinc team if you think this is an error.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># Check 2: remote_job_names should contain all job names in the results</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">job</span> <span class="ow">in</span> <span class="n">remote_job_names</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">result_job_names</span><span class="p">):</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Warning: The job names in the results (</span><span class="si">{</span><span class="n">result_job_names</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;are not all present in the remote server job names (</span><span class="si">{</span><span class="n">remote_job_names</span><span class="si">}</span><span class="s2">). &quot;</span>
+                <span class="s2">&quot;This might indicate that some jobs were not submitted correctly or were deleted.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">diff_jobs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">remote_job_names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">result_job_names</span><span class="p">)</span>
+        <span class="n">err_jobs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">result_job_names</span><span class="p">)</span> <span class="o">-</span> <span class="n">diff_jobs</span>
+        <span class="c1"># Print statistics</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Study: </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total jobs in results: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result_job_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total jobs on server: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">remote_job_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Percentage of jobs completed: </span><span class="si">{</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">completed_remote_job_names</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">result_job_names</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results available by job name:&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="n">result_job_names</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">diff_jobs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results not available by job name:&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="n">diff_jobs</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">err_jobs</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;WARNING: The following jobs do not match the remote server job names:&quot;</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">job_name</span> <span class="ow">in</span> <span class="n">err_jobs</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result_job_names</span><span class="p">,</span> <span class="n">diff_jobs</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever.iterate_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.iterate_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">iterate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over all results for a specific study.</span>
+
+<span class="sd">        Yields tuples of job names and their corresponding particle data</span>
+<span class="sd">        for all completed jobs in the specified study.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            Name of the study to iterate over</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        tuple of (str, xpart.Particles)</span>
+<span class="sd">            Job name and corresponding particles object for each result</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If study_name is not found in available results</span>
+
+<span class="sd">        Warnings</span>
+<span class="sd">        --------</span>
+<span class="sd">        UserWarning</span>
+<span class="sd">            If a binary file is incompatible with current Xboinc version</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; for job_name, particles in retriever.iterate_results(&#39;my_study&#39;):</span>
+<span class="sd">        ...     print(f&quot;Processing job: {job_name}&quot;)</span>
+<span class="sd">        ...     print(f&quot;Number of particles: {len(particles.x)}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">study_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Study name </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2"> not found in results.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">study_name</span><span class="p">]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">job_name</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">job_name</span>
+            <span class="n">bin_file</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">bin_file</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">XbState</span><span class="o">.</span><span class="n">from_binary</span><span class="p">(</span><span class="n">bin_file</span><span class="p">,</span> <span class="n">raise_version_error</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Warning: The binary file </span><span class="si">{</span><span class="n">bin_file</span><span class="si">}</span><span class="s2"> is not compatible with the current Xboinc version. &quot;</span>
+                    <span class="s2">&quot;Skipping this result.&quot;</span><span class="p">,</span>
+                    <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">yield</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">particles</span></div>
+
+
+<div class="viewcode-block" id="ResultRetriever.clean">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.clean">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clean up results for a specific study.</span>
+
+<span class="sd">        Removes all binary result files, empty directories, and clears</span>
+<span class="sd">        the study from the internal DataFrame index.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            Name of the study to clean up</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If study_name is not found in available results</span>
+
+<span class="sd">        Warning</span>
+<span class="sd">        -------</span>
+<span class="sd">        This operation is irreversible. All result files for the study</span>
+<span class="sd">        will be permanently deleted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">study_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Study name </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2"> not found in results.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">study_name</span><span class="p">]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">bin_file</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">bin_file</span>
+            <span class="k">if</span> <span class="n">bin_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">bin_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+        <span class="c1"># Remove empty directories</span>
+        <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*/&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()):</span>
+                <span class="n">folder</span><span class="o">.</span><span class="n">rmdir</span><span class="p">()</span>
+        <span class="c1"># Clear the DataFrame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">study_name</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cleaned up results for study </span><span class="si">{</span><span class="n">study_name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span></div>
+
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResultRetriever.iterate">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.iterate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">iterate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class method to directly iterate over results for a user and study.</span>
+
+<span class="sd">        Convenient method that creates a ResultRetriever instance and immediately</span>
+<span class="sd">        starts iterating over results without requiring explicit instantiation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The user that submitted the BOINC jobs</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            Name of the study to iterate over</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to use development server (default: False)</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            Whether to suppress output messages (default: True)</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        tuple of (str, xpart.Particles)</span>
+<span class="sd">            Job name and corresponding particles object for each result</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; for job_name, particles in ResultRetriever.iterate(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True):</span>
+<span class="sd">        ...     # Process particles data</span>
+<span class="sd">        ...     pass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">iterate_results</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span></div>
+
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResultRetriever.overview">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.overview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">overview</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class method to get an overview of results for a specific user.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The user that submitted the BOINC jobs</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to use development server (default: False)</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            Whether to suppress output messages (default: True)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd.DataFrame</span>
+<span class="sd">            DataFrame with overview of all available results</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; overview_df = ResultRetriever.overview(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; print(overview_df.groupby(&#39;study_name&#39;).size())</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">get_overview</span><span class="p">()</span></div>
+
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResultRetriever.status">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.status">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class method to get status of results for a specific user and study.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The user that submitted the BOINC jobs</span>
+<span class="sd">        study_name : str</span>
+<span class="sd">            Name of the study to check status for</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to use development server (default: False)</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            Whether to suppress output messages (default: True)</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            If True, print detailed job lists (default: False)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple of (list, set)</span>
+<span class="sd">            - list: Job names available in results</span>
+<span class="sd">            - set: Job names missing from results but present on server</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; available, missing = ResultRetriever.status(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; print(f&quot;Available jobs: {len(available)}, Missing jobs: {len(missing)}&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">get_study_status</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span></div>
+
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ResultRetriever.study_list">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.study_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">study_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class method to get a list of all studies for a specific user.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        user : str</span>
+<span class="sd">            The user that submitted the BOINC jobs</span>
+<span class="sd">        dev_server : bool, optional</span>
+<span class="sd">            Whether to use development server (default: False)</span>
+<span class="sd">        silent : bool, optional</span>
+<span class="sd">            Whether to suppress output messages (default: True)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of str</span>
+<span class="sd">            Sorted list of unique study names found in the results</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; studies = ResultRetriever.study_list(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; print(studies)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="n">get_study_list</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Frederik F. Van der Veken, Carlo E. Montanari, Davide Di Croce, Giovanni Iadorala.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

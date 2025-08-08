@@ -1,0 +1,93 @@
+xboinc.user
+===========
+
+.. py:module:: xboinc.user
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.user.user_data_file
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.user.list_registered_users
+   xboinc.user.update_user_data
+   xboinc.user.get_user_data
+   xboinc.user.get_directory
+   xboinc.user.get_domain
+   xboinc.user.remove_user
+
+
+Module Contents
+---------------
+
+.. py:data:: user_data_file
+
+.. py:function:: list_registered_users()
+
+   Lists the registered users in this xboinc installation.
+
+
+.. py:function:: update_user_data(user, data)
+
+   Update the user data in this xboinc installation.
+
+   :param user: Name of the user.
+   :type user: string
+   :param data: User metadata.
+   :type data: dict
+
+   :rtype: None.
+
+
+.. py:function:: get_user_data(user)
+
+   Retrieve the user data in this xboinc installation.
+
+   :param user: Name of the user.
+   :type user: string
+
+   :returns: **data** -- User metadata.
+   :rtype: dict
+
+
+.. py:function:: get_directory(user)
+
+   Retrieve the user directory in this xboinc installation.
+
+   :param user: Name of the user.
+   :type user: string
+
+   :returns: **directory** -- User metadata.
+   :rtype: xaux.FsPath
+
+
+.. py:function:: get_domain(user)
+
+   Retrieve the user domain (AFS or EOS) in this xboinc
+   installation.
+
+   :param user: Name of the user.
+   :type user: string
+
+   :returns: **domain** -- User domain.
+   :rtype: string
+
+
+.. py:function:: remove_user(user)
+
+   Delete a user from this xboinc installation.
+
+   :param user: Name of the user.
+   :type user: string
+
+   :rtype: None
+
+

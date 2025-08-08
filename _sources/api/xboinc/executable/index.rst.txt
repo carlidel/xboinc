@@ -1,0 +1,56 @@
+xboinc.executable
+=================
+
+.. py:module:: xboinc.executable
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/xboinc/executable/generate/index
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.executable.generate_executable
+   xboinc.executable.generate_executable_source
+
+
+Package Contents
+----------------
+
+.. py:function:: generate_executable(*, keep_source=False, clean=True, vcpkg_root=None, target_triplet='x64-linux')
+
+   Generate the Xboinc executable.
+
+   :param keep_source: Whether or not to keep the source files. Defaults to False.
+   :type keep_source: bool, optional
+   :param clean: Whether or not to clean the make directory. Defaults to True.
+   :type clean: bool, optional
+   :param vcpkg_root: The path to the local VCPKG installation. If none, an executable
+                      without the BOINC API is generated. Defaults to None.
+   :type vcpkg_root: pathlib.Path, optional
+   :param target_triplet: The target architecture to compile to. Currently x64-linux and
+                          x64-mingw-static (i.e. Windows 64-bit) are supported.
+                          Defaults to x64-linux.
+   :type target_triplet: string, optional
+
+   :rtype: None
+
+
+.. py:function:: generate_executable_source(*, overwrite=False, _context=None)
+
+   Generate all source files needed to compile the Xboinc executable.
+
+   :param overwrite: Whether or not to overwrite existing source files.
+   :type overwrite: bool, optional
+
+   :rtype: None
+
+

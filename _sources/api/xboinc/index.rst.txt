@@ -1,0 +1,801 @@
+xboinc
+======
+
+.. py:module:: xboinc
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/xboinc/df_wu/index
+   /api/xboinc/executable/index
+   /api/xboinc/general/index
+   /api/xboinc/register/index
+   /api/xboinc/retrieve/index
+   /api/xboinc/server/index
+   /api/xboinc/simulation_io/index
+   /api/xboinc/submit/index
+   /api/xboinc/user/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   xboinc.__version__
+   xboinc.__xsuite__versions__
+   xboinc._pkg_root
+   xboinc.app_version
+   xboinc.app_version_int
+   xboinc._skip_xsuite_version_check
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   xboinc.ResultRetriever
+   xboinc.XbInput
+   xboinc.XbState
+   xboinc.JobManager
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   xboinc.check_user_subscription
+   xboinc.query_registered_work_units
+   xboinc.generate_executable
+   xboinc.generate_executable_source
+   xboinc.deregister
+   xboinc.register
+   xboinc.assert_versions
+
+
+Package Contents
+----------------
+
+.. py:function:: check_user_subscription(user: str) -> bool
+
+   Check if a user is subscribed to the work unit database.
+
+   :param user: The username to check.
+   :type user: str
+
+   :returns: True if the user is subscribed, False otherwise.
+   :rtype: bool
+
+
+.. py:function:: query_registered_work_units(status: Optional[str] = None, dev_server: bool = False) -> pandas.DataFrame
+
+   List all work units for the registered users with an optional status filter.
+
+   :param status: The status to filter work units (e.g., 'running', 'completed').
+   :type status: Optional[str]
+   :param dev_server: Whether to query for the development server or production server.
+   :type dev_server: bool
+
+   :returns: DataFrame containing the work units for the user.
+   :rtype: pd.DataFrame
+
+
+.. py:function:: generate_executable(*, keep_source=False, clean=True, vcpkg_root=None, target_triplet='x64-linux')
+
+   Generate the Xboinc executable.
+
+   :param keep_source: Whether or not to keep the source files. Defaults to False.
+   :type keep_source: bool, optional
+   :param clean: Whether or not to clean the make directory. Defaults to True.
+   :type clean: bool, optional
+   :param vcpkg_root: The path to the local VCPKG installation. If none, an executable
+                      without the BOINC API is generated. Defaults to None.
+   :type vcpkg_root: pathlib.Path, optional
+   :param target_triplet: The target architecture to compile to. Currently x64-linux and
+                          x64-mingw-static (i.e. Windows 64-bit) are supported.
+                          Defaults to x64-linux.
+   :type target_triplet: string, optional
+
+   :rtype: None
+
+
+.. py:function:: generate_executable_source(*, overwrite=False, _context=None)
+
+   Generate all source files needed to compile the Xboinc executable.
+
+   :param overwrite: Whether or not to overwrite existing source files.
+   :type overwrite: bool, optional
+
+   :rtype: None
+
+
+.. py:data:: __version__
+   :value: '0.4.1'
+
+
+.. py:data:: __xsuite__versions__
+
+.. py:data:: _pkg_root
+
+.. py:function:: deregister(user)
+
+   Remove a user from the BOINC server and dev server.  This is
+   not instantaneous, as the BOINC server periodically parses
+   the users to remove.
+
+   :param user: Name of the user to deregister.
+   :type user: string
+
+   :rtype: None.
+
+
+.. py:function:: register(user, directory)
+
+   Register a user to the BOINC server and dev server, by declaring
+   the username and user boinc directory, and giving access rights
+   to the BOINC admin process. This is not instantaneous, as the
+   BOINC server periodically parses new users.
+
+   :param user: Name of the user to register.
+   :type user: string
+   :param directory: Dedicated folder that the BOINC server can reach (i.e. on CERN
+                     AFS or EOS), which will hold the new submissions and results.
+                     Should not be accessed manually by the user to avoid syncing
+                     issues.
+   :type directory: pathlib.Path
+
+   :rtype: None.
+
+
+.. py:class:: ResultRetriever(user, dev_server=False, silent=False)
+
+   Class to retrieve and manage results from Xboinc simulations.
+
+   This class provides functionality to retrieve, index, and manage simulation
+   results from BOINC work units. It can untar result files, create indexes,
+   and provide various views and statistics about completed jobs.
+
+   .. attribute:: _user
+
+      The user that submitted the BOINC jobs
+
+      :type: str
+
+   .. attribute:: _domain
+
+      The domain where results are stored (e.g., 'eos')
+
+      :type: str
+
+   .. attribute:: _directory
+
+      Path to the directory containing results
+
+      :type: FsPath
+
+   .. attribute:: _dev_server
+
+      Whether using development server
+
+      :type: bool
+
+   .. attribute:: _df
+
+      Indexed DataFrame of all available results
+
+      :type: pd.DataFrame
+
+   .. rubric:: Examples
+
+   >>> retriever = ResultRetriever('myuser', dev_server=True)
+   >>> studies = retriever.get_study_list()
+   >>> for job_name, particles in retriever.iterate_results('my_study'):
+   ...     # Process particles data
+   ...     pass
+
+
+   .. py:method:: _untar_results(path: xaux.FsPath, silent: bool = False)
+
+      Untar all compressed result files in the given path.
+
+      :param path: Directory path containing .tar.gz files to extract
+      :type path: FsPath
+      :param silent: If True, suppress progress bar output (default: False)
+      :type silent: bool, optional
+
+
+
+   .. py:method:: _index_results(path: xaux.FsPath, silent: bool = False) -> pandas.DataFrame
+
+      Index all result files in the given path and create a DataFrame.
+
+      Scans for .bin files in subdirectories and extracts metadata from
+      filenames to create a structured index of available results.
+
+      :param path: Directory path to scan for result files
+      :type path: FsPath
+      :param silent: If True, suppress progress bar output (default: False)
+      :type silent: bool, optional
+
+      :returns: DataFrame with columns: user, study_name, job_name, wu_name, bin_file
+                Each row represents one available result file
+      :rtype: pd.DataFrame
+
+
+
+   .. py:attribute:: _user
+
+
+   .. py:attribute:: _domain
+
+
+   .. py:attribute:: _dev_server
+      :value: False
+
+
+
+   .. py:attribute:: _to_delete
+      :value: []
+
+
+
+   .. py:attribute:: _df
+
+
+   .. py:method:: get_overview()
+
+      Get a comprehensive overview of all available results.
+
+      :returns: DataFrame containing all indexed results with columns:
+                user, study_name, job_name, wu_name, bin_file
+      :rtype: pd.DataFrame
+
+
+
+   .. py:method:: get_study_list()
+
+      Get a list of all unique study names in the available results.
+
+      :returns: Sorted list of unique study names found in the results
+      :rtype: list of str
+
+
+
+   .. py:method:: get_study_status(study_name, verbose=False)
+
+      Get detailed status information for a specific study.
+
+      Compares local results with server work units to provide comprehensive
+      status information including completion rates and missing jobs.
+
+      :param study_name: Name of the study to check status for
+      :type study_name: str
+      :param verbose: If True, print detailed job lists (default: False)
+      :type verbose: bool, optional
+
+      :returns:
+
+                - list: Job names available in results
+                - set: Job names missing from results but present on server
+      :rtype: tuple of (list, set)
+
+      :raises ValueError: If study_name is not found in results or server work units
+
+      .. warning::
+
+         UserWarning
+             If there are mismatches between local results and server status
+
+
+
+   .. py:method:: iterate_results(study_name)
+
+      Iterate over all results for a specific study.
+
+      Yields tuples of job names and their corresponding particle data
+      for all completed jobs in the specified study.
+
+      :param study_name: Name of the study to iterate over
+      :type study_name: str
+
+      :Yields: *tuple of (str, xpart.Particles)* -- Job name and corresponding particles object for each result
+
+      :raises ValueError: If study_name is not found in available results
+
+      .. warning::
+
+         UserWarning
+             If a binary file is incompatible with current Xboinc version
+
+      .. rubric:: Examples
+
+      >>> retriever = ResultRetriever('myuser', dev_server=True)
+      >>> for job_name, particles in retriever.iterate_results('my_study'):
+      ...     print(f"Processing job: {job_name}")
+      ...     print(f"Number of particles: {len(particles.x)}")
+
+
+
+   .. py:method:: clean(study_name)
+
+      Clean up results for a specific study.
+
+      Removes all binary result files, empty directories, and clears
+      the study from the internal DataFrame index.
+
+      :param study_name: Name of the study to clean up
+      :type study_name: str
+
+      :raises ValueError: If study_name is not found in available results
+
+      .. warning::
+
+         This operation is irreversible. All result files for the study
+         will be permanently deleted.
+
+
+
+   .. py:method:: iterate(user, study_name, dev_server=False, silent=False)
+      :classmethod:
+
+
+      Class method to directly iterate over results for a user and study.
+
+      Convenient method that creates a ResultRetriever instance and immediately
+      starts iterating over results without requiring explicit instantiation.
+
+      :param user: The user that submitted the BOINC jobs
+      :type user: str
+      :param study_name: Name of the study to iterate over
+      :type study_name: str
+      :param dev_server: Whether to use development server (default: False)
+      :type dev_server: bool, optional
+      :param silent: Whether to suppress output messages (default: True)
+      :type silent: bool, optional
+
+      :Yields: *tuple of (str, xpart.Particles)* -- Job name and corresponding particles object for each result
+
+      .. rubric:: Examples
+
+      >>> for job_name, particles in ResultRetriever.iterate('myuser', 'my_study', dev_server=True):
+      ...     # Process particles data
+      ...     pass
+
+
+
+   .. py:method:: overview(user, dev_server=False, silent=False)
+      :classmethod:
+
+
+      Class method to get an overview of results for a specific user.
+
+      :param user: The user that submitted the BOINC jobs
+      :type user: str
+      :param dev_server: Whether to use development server (default: False)
+      :type dev_server: bool, optional
+      :param silent: Whether to suppress output messages (default: True)
+      :type silent: bool, optional
+
+      :returns: DataFrame with overview of all available results
+      :rtype: pd.DataFrame
+
+      .. rubric:: Examples
+
+      >>> overview_df = ResultRetriever.overview('myuser', dev_server=True)
+      >>> print(overview_df.groupby('study_name').size())
+
+
+
+   .. py:method:: status(user, study_name, dev_server=False, silent=False, verbose=False)
+      :classmethod:
+
+
+      Class method to get status of results for a specific user and study.
+
+      :param user: The user that submitted the BOINC jobs
+      :type user: str
+      :param study_name: Name of the study to check status for
+      :type study_name: str
+      :param dev_server: Whether to use development server (default: False)
+      :type dev_server: bool, optional
+      :param silent: Whether to suppress output messages (default: True)
+      :type silent: bool, optional
+      :param verbose: If True, print detailed job lists (default: False)
+      :type verbose: bool, optional
+
+      :returns:
+
+                - list: Job names available in results
+                - set: Job names missing from results but present on server
+      :rtype: tuple of (list, set)
+
+      .. rubric:: Examples
+
+      >>> available, missing = ResultRetriever.status('myuser', 'my_study', dev_server=True)
+      >>> print(f"Available jobs: {len(available)}, Missing jobs: {len(missing)}")
+
+
+
+   .. py:method:: study_list(user, dev_server=False, silent=False)
+      :classmethod:
+
+
+      Class method to get a list of all studies for a specific user.
+
+      :param user: The user that submitted the BOINC jobs
+      :type user: str
+      :param dev_server: Whether to use development server (default: False)
+      :type dev_server: bool, optional
+      :param silent: Whether to suppress output messages (default: True)
+      :type silent: bool, optional
+
+      :returns: Sorted list of unique study names found in the results
+      :rtype: list of str
+
+      .. rubric:: Examples
+
+      >>> studies = ResultRetriever.study_list('myuser', dev_server=True)
+      >>> print(studies)
+
+
+
+.. py:class:: XbInput(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: num_turns
+
+
+   .. py:attribute:: num_elements
+
+
+   .. py:attribute:: ele_start
+
+
+   .. py:attribute:: ele_stop
+
+
+   .. py:attribute:: checkpoint_every
+
+
+   .. py:attribute:: _parity_check
+
+
+   .. py:attribute:: xb_state
+
+
+   .. py:attribute:: line_metadata
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbInput from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbInput
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbInput to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: line
+
+
+   .. py:property:: particles
+
+
+.. py:class:: XbState(**kwargs)
+
+   Bases: :py:obj:`xobjects.Struct`
+
+
+   .. py:attribute:: _version
+
+
+   .. py:attribute:: _i_turn
+
+
+   .. py:attribute:: _xsize
+
+
+   .. py:attribute:: _particles
+
+
+   .. py:method:: from_binary(filename, offset=0, raise_version_error=True)
+      :classmethod:
+
+
+      Create an XbState from a binary file. The file should not
+      contain anything else (otherwise the offset will be wrong).
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: XbState
+
+
+
+   .. py:method:: to_binary(filename)
+
+      Dump the XbState to a binary file.
+
+      :param filename: The binary containing the simulation state.
+      :type filename: pathlib.Path
+
+      :rtype: None.
+
+
+
+   .. py:property:: version
+
+
+   .. py:property:: particles
+
+
+   .. py:property:: i_turn
+
+
+.. py:data:: app_version
+   :value: ''
+
+
+.. py:data:: app_version_int
+
+.. py:function:: assert_versions()
+
+.. py:class:: JobManager(user, study_name, line=None, dev_server=False, **kwargs)
+
+   A class to manage jobs for submission to the Xboinc server.
+
+   This class provides a convenient interface for adding multiple particle tracking
+   jobs and submitting them as a batch to the BOINC server. It handles job validation,
+   time estimation, file preparation, and submission.
+
+   The JobManager ensures that:
+   - Job execution times fall within acceptable bounds
+   - Job names are unique within a study
+   - All necessary files are properly packaged and submitted
+   - Proper cleanup is performed after submission
+
+   .. attribute:: dev_server
+
+      Whether jobs are submitted to the development server.
+
+      :type: bool
+
+   .. rubric:: Examples
+
+   Basic usage with a single line for all jobs:
+
+   >>> line = xtrack.Line.from_dict(line_dict)
+   >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
+   >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
+   >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
+   >>> manager.submit()
+
+   Usage with different lines per job:
+
+   >>> manager = JobManager("user123", "my_study", dev_server=True)
+   >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
+   >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
+   >>> manager.submit()
+
+
+   .. py:attribute:: dev_server
+      :value: False
+
+
+
+   .. py:attribute:: _user
+
+
+   .. py:attribute:: _domain
+
+
+   .. py:attribute:: _study_name
+
+
+   .. py:attribute:: _line
+      :value: None
+
+
+
+   .. py:attribute:: _submit_file
+      :value: 'Uninferable__Uninferable__Uninferable.tar.gz'
+
+
+
+   .. py:attribute:: _json_files
+      :value: []
+
+
+
+   .. py:attribute:: _bin_files
+      :value: []
+
+
+
+   .. py:attribute:: _tempdir
+
+
+   .. py:attribute:: _submitted
+      :value: False
+
+
+
+   .. py:attribute:: _unique_job_names
+
+
+   .. py:method:: _assert_not_submitted()
+
+      Ensure that jobs have not already been submitted.
+
+      :raises ValueError: If jobs have already been submitted from this JobManager instance.
+
+
+
+   .. py:method:: add(*, job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, **kwargs)
+
+      Add a single job to the JobManager instance.
+
+      This method creates the necessary input files (binary and JSON metadata)
+      for a single tracking job. The job is validated for execution time bounds
+      and prepared for batch submission.
+
+      :param job_name: Unique name for this job within the study. Cannot contain '__'
+                       (double underscore). If a duplicate name is provided, it will be
+                       automatically renamed with a numeric suffix.
+      :type job_name: str
+      :param num_turns: The number of tracking turns for this job. Must be positive.
+      :type num_turns: int
+      :param ele_start: The starting element index for tracking. Default is 0 (first element).
+                        If provided different from 0 with particles set at a certain starting
+                        position, raises a ValueError.
+      :type ele_start: int, optional
+      :param ele_stop: The stopping element index for tracking. Default is -1 (last element).
+      :type ele_stop: int, optional
+      :param particles: The particles object containing the initial particle distribution
+                        to be tracked.
+      :type particles: xpart.Particles
+      :param line: The tracking line for this specific job. If None, uses the line
+                   provided during JobManager initialization. Providing a line per
+                   job is slower due to repeated preprocessing.
+      :type line: xtrack.Line, optional
+      :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
+                               If positive, simulation state will be saved every N turns.
+      :type checkpoint_every: int, optional
+      :param \*\*kwargs: Additional job metadata to be included in the job JSON file.
+
+      :raises ValueError: If job_name contains '__', if no line is available, or if the
+          estimated execution time is outside acceptable bounds.
+
+      .. rubric:: Notes
+
+      Job execution time is estimated using benchmark data and must fall
+      between LOWER_TIME_BOUND (90s) and UPPER_TIME_BOUND (3 days).
+
+      The method creates two files per job:
+      - A .json file with job metadata
+      - A .bin file with the binary simulation input data
+
+      .. rubric:: Examples
+
+      >>> manager.add(
+      ...     job_name="scan_point_1",
+      ...     num_turns=10000,
+      ...     particles=my_particles,
+      ...     custom_param=42
+      ... )
+
+
+
+   .. py:method:: submit()
+
+      Package and submit all added jobs to the BOINC server.
+
+      This method creates a compressed tar archive containing all job files
+      and moves it to the user's submission directory where the BOINC server
+      will periodically check for new submissions.
+
+      The submission process:
+      1. Creates a .tar.gz archive with all job files
+      2. Moves the archive to the appropriate submission directory
+      3. Cleans up temporary files
+      4. Marks the JobManager as submitted
+
+      :raises ValueError: If jobs have already been submitted or if the user domain is invalid.
+
+      .. rubric:: Notes
+
+      After submission, this JobManager instance cannot be used to add more
+      jobs. Create a new JobManager instance for additional submissions.
+
+      The submission directory depends on the dev_server setting:
+      - Development server: {user_directory}/input_dev
+      - Production server: {user_directory}/input
+
+      .. rubric:: Examples
+
+      >>> manager.submit()
+      Zipping files: 100%|██████████| 4/4 [00:00<00:00, 1234.56it/s]
+      Submitted 2 jobs to BOINC server for user user123 in study my_study.
+
+
+
+   .. py:method:: __len__()
+
+      Return the number of jobs added to this JobManager instance.
+
+      :returns: The number of jobs that have been added but not yet submitted.
+      :rtype: int
+
+
+
+   .. py:method:: __repr__()
+
+      Return a string representation of the JobManager instance.
+
+      :returns: A concise string representation showing key attributes and status.
+      :rtype: str
+
+      .. rubric:: Examples
+
+      >>> manager = JobManager("user123", "my_study", dev_server=True)
+      >>> repr(manager)
+      'JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
+
+
+
+   .. py:method:: get_job_summary()
+
+      Return a comprehensive summary of all jobs in this JobManager instance.
+
+      :returns: A dictionary containing:
+                - user: The submitting user
+                - study_name: The study name
+                - num_jobs: Total number of jobs
+                - dev_server: Whether using development server
+                - jobs: List of individual job summaries with name, turns, and particle count
+                - submitted: Whether jobs have been submitted
+      :rtype: dict
+
+      .. rubric:: Examples
+
+      >>> summary = manager.get_job_summary()
+      >>> print(f"Study {summary['study_name']} has {summary['num_jobs']} jobs")
+      >>> for job in summary['jobs']:
+      ...     print(f"Job {job['job_name']}: {job['num_particles']} particles, {job['num_turns']} turns")
+
+
+
+.. py:data:: _skip_xsuite_version_check
+   :value: False
+
+
