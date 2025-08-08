@@ -100,11 +100,18 @@ def create_test_particles(at_element: Optional[str] = None) -> Tuple[xt.Line, xt
         The tracking line and initial particle distribution.
     """
     line = xt.Line.from_json(TestConfig.LINE_FILE)
+    monitor = xt.ParticlesMonitor(
+        start_at_turn=0,
+        stop_at_turn=TestConfig.NUM_TURNS,
+        particle_id_range=(0, 10),
+    )
+    line.append("my_monitor", monitor)
+
     line.build_tracker()
-    
+
     x_norm = np.linspace(-15, 15, TestConfig.NUM_PARTICLES)
     delta = np.linspace(-1.0e-5, 1.0e-5, TestConfig.NUM_PARTICLES)
-    
+
     particles = line.build_particles(
         x_norm=x_norm,
         delta=delta,
@@ -112,7 +119,7 @@ def create_test_particles(at_element: Optional[str] = None) -> Tuple[xt.Line, xt
         nemitt_y=3.5e-6,
         at_element=at_element,
     )
-    
+
     return line, particles
 
 
@@ -202,6 +209,25 @@ def assert_particles_equal(particles1: xt.Particles, particles2: xt.Particles, c
         assert np.array_equal(values1, values2), f"{context}: {attr} values are not equal"
 
 
+def assert_monitors_equal(monitor1: xt.ParticlesMonitor, monitor2: xt.ParticlesMonitor, context: str) -> None:
+    """
+    Assert that two particle monitor objects are equivalent.
+
+    Parameters
+    ----------
+    monitor1, monitor2 : xt.ParticlesMonitor
+        The particle monitor objects to compare.
+    context : str
+        Description of the comparison context for error messages.
+    """
+    attributes = ["particle_id", "state", "at_turn", "x", "y", "zeta", "px", "py", "delta"]
+
+    for attr in attributes:
+        values1 = getattr(monitor1, attr)
+        values2 = getattr(monitor2, attr)
+        assert np.array_equal(values1, values2), f"{context}: {attr} values are not equal"
+
+
 def test_generate_input(skip_version_check):
     """Test input file generation and round-trip consistency."""
     line, particles = create_test_particles()
@@ -274,7 +300,7 @@ def test_source_generation(skip_version_check):
     ],
     ids=["w/o BOINC api", "with BOINC api"],
 )
-def test_compilation(vcpkg_root, skip_version_check):
+def test_compilation(vcpkg_root):
     """Test compilation of the xboinc executable."""
     keep_source = vcpkg_root is None
     xb.generate_executable(keep_source=keep_source, vcpkg_root=vcpkg_root)
@@ -463,7 +489,12 @@ def test_consistency_with_xtrack(skip_version_check):
                 xb_state_boinc.particles,
                 f"xboinc vs xtrack (at_element={at_element})"
             )
-    
+            assert_monitors_equal(
+                line.element_dict["my_monitor"],
+                xb_state_boinc.monitors.element_dict["my_monitor"],
+                f"xboinc vs xtrack (at_element={at_element})"
+            )
+
     # Test different stop elements
     stop_elements = ["ip2", 3500]
     
@@ -501,5 +532,10 @@ def test_consistency_with_xtrack(skip_version_check):
             assert_particles_equal(
                 particles_reference,
                 xb_state.particles,
+                f"{exec_name} vs xtrack (ele_stop={ele_stop})"
+            )
+            assert_monitors_equal(
+                line.element_dict["my_monitor"],
+                xb_state.monitors.element_dict["my_monitor"],
                 f"{exec_name} vs xtrack (ele_stop={ele_stop})"
             )
