@@ -6,139 +6,32 @@
 # ==============================================================================
 # IMPORTANT
 # ==============================================================================
-# Only make changes to this file just before a minor version bump (need a 
-# separate commit though) to avoid having multiple xboinc versions with 
+# Only make changes to this file just before a minor version bump (need a
+# separate commit though) to avoid having multiple xboinc versions with
 # out-of-sync executables.
 # ==============================================================================
 
 import xtrack as xt
-import xfields as xf
-import xcoll as xc
-
-from xtrack.beam_elements import *
-from xtrack.monitors import *
-from xtrack.random import *
-from xtrack.multisetter import MultiSetter
+from xsuite.kernel_definitions import (
+    DEFAULT_XCOLL_ELEMENTS,
+    DEFAULT_XF_ELEMENTS,
+    NO_SYNRAD_ELEMENTS,
+    ONLY_XTRACK_ELEMENTS,
+)
 
 from .version import assert_versions
 
-ONLY_XTRACK_ELEMENTS = [
-    Drift,
-    Multipole,
-    Bend,
-    RBend,
-    Quadrupole,
-    Sextupole,
-    Octupole,
-    Magnet,
-    SecondOrderTaylorMap,
-    Marker,
-    ReferenceEnergyIncrease,
-    Cavity,
-    Elens,
-    Wire,
-    Solenoid,
-    RFMultipole,
-    DipoleEdge,
-    MultipoleEdge,
-    SimpleThinBend,
-    SimpleThinQuadrupole,
-    LineSegmentMap,
-    FirstOrderTaylorMap,
-    NonLinearLens,
-    # Slices
-    DriftSlice,
-    DriftSliceBend,
-    DriftSliceRBend,
-    DriftSliceOctupole,
-    DriftSliceQuadrupole,
-    DriftSliceSextupole,
-    ThickSliceBend,
-    ThickSliceRBend,
-    ThickSliceOctupole,
-    ThickSliceQuadrupole,
-    ThickSliceSextupole,
-    ThickSliceSolenoid,
-    ThinSliceBend,
-    ThinSliceRBend,
-    ThinSliceBendEntry,
-    ThinSliceBendExit,
-    ThinSliceRBendEntry,
-    ThinSliceRBendExit,
-    ThinSliceQuadrupoleEntry,
-    ThinSliceQuadrupoleExit,
-    ThinSliceSextupoleEntry,
-    ThinSliceSextupoleExit,
-    ThinSliceOctupoleEntry,
-    ThinSliceOctupoleExit,
-    ThinSliceOctupole,
-    ThinSliceQuadrupole,
-    ThinSliceSextupole,
-    # Transformations
-    XYShift,
-    ZetaShift,
-    XRotation,
-    SRotation,
-    YRotation,
-    # Apertures
-    LimitEllipse,
-    LimitRectEllipse,
-    LimitRect,
-    LimitRacetrack,
-    LimitPolygon,
-    LongitudinalLimitRect,
-    # Monitors
-    BeamPositionMonitor,
-    BeamSizeMonitor,
-    BeamProfileMonitor,
-    LastTurnsMonitor,
-    ParticlesMonitor,
-]
-
-NO_SYNRAD_ELEMENTS = [
-    Exciter,
-]
-
-# Xfields elements
-DEFAULT_XF_ELEMENTS = [
-    xf.BeamBeamBiGaussian2D,
-    xf.BeamBeamBiGaussian3D,
-    xf.SpaceChargeBiGaussian,
-]
-
-# Xcoll elements
-DEFAULT_XCOLL_ELEMENTS = [
-    # ZetaShift,
-    xc.BlackAbsorber,
-    xc.EverestBlock,
-    xc.EverestCollimator,
-    xc.EverestCrystal,
-    xc.BlowUp,
-    xc.EmittanceMonitor,
-]
-
-NON_TRACKING_ELEMENTS = [
-    RandomUniform,
-    RandomExponential,
-    RandomNormal,
-    RandomRutherford,
-    MultiSetter,
-]
-
-default_element_classes = (
+default_element_classes = list(set(
     ONLY_XTRACK_ELEMENTS
     + NO_SYNRAD_ELEMENTS
     + DEFAULT_XF_ELEMENTS
     + DEFAULT_XCOLL_ELEMENTS
-)
+))
 
 # The class ElementRefData is dynamically generated inside the tracker. We
 # extract it here and use it to create the line metadata inside XbInput
 ElementRefData = xt.tracker._element_ref_data_class_from_element_classes(
-    ONLY_XTRACK_ELEMENTS
-    + NO_SYNRAD_ELEMENTS
-    + DEFAULT_XF_ELEMENTS
-    + DEFAULT_XCOLL_ELEMENTS,
+    default_element_classes,
 )
 if {f.name for f in ElementRefData._fields} != {'elements', 'names'}:
     raise RuntimeError("The definition of `ElementRefData` has changed inside Xtrack! "
