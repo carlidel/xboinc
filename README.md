@@ -74,6 +74,10 @@ import xboinc as xb
 # prepare the line
 line = xt.Line.from_json("path/to/your/line.json")
 
+# Add monitors in the line if needed
+monitor = xt.ParticlesMonitor(...)
+line.append("my_monitor", monitor)
+
 # create a job manager
 job_manager = xb.JobManager(
     user="mycernshortname",
@@ -105,6 +109,8 @@ job_manager.submit()
 
 Note that the jobs will be executed on a single CPU core from a volunteer computer, we therefore recommend balancing the workload across multiple jobs to optimize the usage of available resources. Xboinc will offer a time estimate for each job, which can help you to decide how many particles to track in each job. Note also that we are currently enforcing a lower time limit of 90 seconds for each job, as it becomes not practical to use the BOINC platform for jobs that take less time than that.
 
+Moreover, to avoid excessive bandwidth/disk usage, we currently limit the size of a single job to 1 GB. Consider this when allocating large monitors in the line, as this has a direct impact on the resulting footprint of the input and output files transmitted.
+
 ## Retrieve the results
 
 When the jobs are completed, the Xboinc server will store the results in your allocated folder in compressed tar files. You can decompress and explore them by using the `ResultRetriever` class from the `xboinc` package. The simplest way to do that is:
@@ -112,8 +118,13 @@ When the jobs are completed, the Xboinc server will store the results in your al
 ```python
 import xboinc as xb
 
-for job_name, result_particles in xb.ResultRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
-    print(f"Job {job_name} completed with particles: {result_particles.to_dict()}")
+for job_name, result_particles, line_of_monitors in xb.ResultRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
+    print(f"Job {job_name} completed!")
+    # Tracked particles are available directly
+    print(result_particles.at_turn)
+    # Monitors are stored in a separate line with only monitors inside
+    # You can access them by their given name as you would in your original line!
+    print(line_of_monitors.element_dict["my_monitor"].x) 
 
 ```
 
