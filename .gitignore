@@ -71,8 +71,16 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
+# Sphinx build artifacts
 docs/_build/
+docs/build/
+docs/generated/
+docs/source/_autosummary/
+docs/source/api/
+
+# AutoAPI output
+docs/source/api/*
+!docs/source/api/.gitkeep  # keep dir empty in repo
 
 # PyBuilder
 target/
