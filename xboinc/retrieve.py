@@ -299,8 +299,11 @@ class ResultRetriever:
 
         Yields
         ------
-        tuple of (str, xpart.Particles)
-            Job name and corresponding particles object for each result
+        tuple of (str, xtrack.Particles, xtrack.Line)
+            - Job name
+            - Corresponding particles object
+            - A Line containing the monitors that were contained in the Line
+              with the resulting data
 
         Raises
         ------
@@ -315,9 +318,10 @@ class ResultRetriever:
         Examples
         --------
         >>> retriever = ResultRetriever('myuser', dev_server=True)
-        >>> for job_name, particles in retriever.iterate_results('my_study'):
+        >>> for job_name, particles, monitors in retriever.iterate_results('my_study'):
         ...     print(f"Processing job: {job_name}")
         ...     print(f"Number of particles: {len(particles.x)}")
+        ...     print(f"Number of monitors: {len(monitors.element_dict)}")
         """
         if study_name not in self._df["study_name"].unique():
             raise ValueError(f"Study name {study_name} not found in results.")
@@ -332,7 +336,7 @@ class ResultRetriever:
                     UserWarning,
                 )
                 continue
-            yield job_name, result.particles
+            yield job_name, result.particles, result.monitors
 
     def clean(self, study_name):
         """
@@ -391,8 +395,8 @@ class ResultRetriever:
 
         Yields
         ------
-        tuple of (str, xpart.Particles)
-            Job name and corresponding particles object for each result
+        tuple of (str, xtrack.Particles)
+ track.Line)           Job name and corresponding particles object for each result
 
         Examples
         --------

@@ -83,6 +83,8 @@ static void    XB_fprintf(int8_t verbose_level, FILE *stream, char *format, ...)
 static FILE*   XB_fopen(char *filename, const char *mode);
 static FILE*   XB_fopen_allow_null(char *filename, const char *mode);
 static int8_t* XB_file_to_buffer(FILE *fid, int8_t *buf_in);
+static void    XB_line_to_monitors(XbInput &xb_input, XbState &xb_state);
+static void    XB_monitors_to_line(XbInput &xb_input, XbState &xb_state);
 static int     XB_do_checkpoint(XbInput xb_input, XbState xb_state);
 
 
@@ -154,6 +156,7 @@ int main(int argc, char **argv){
     FILE* checkpoint_state = XB_fopen_allow_null(XB_CHECKPOINT_FILE, "rb");
     if (checkpoint_state){
         XB_file_to_buffer(checkpoint_state, (int8_t*) xb_state);
+        XB_monitors_to_line(xb_input, xb_state);
         current_turn = XbState_get__i_turn(xb_state);
         XB_fprintf(1, stdout, "Loaded checkpoint, continuing from turn %d.\n", (int) current_turn);
     } else {
@@ -248,6 +251,7 @@ int main(int argc, char **argv){
         boinc_time_to_checkpoint() ||
 #endif
         (checkpoint_every > 0 && current_turn % checkpoint_every == 0) ){
+            XB_line_to_monitors(xb_input, xb_state);
             retval = XB_do_checkpoint(xb_input, xb_state);
             if (retval) {
                 XB_fprintf(0, stderr, "Checkpointing failed!\n");
@@ -268,7 +272,7 @@ int main(int argc, char **argv){
     }
     // End main loop  ===========
     // ==========================
-
+    XB_line_to_monitors(xb_input, xb_state);
     XB_fprintf(1, stdout, "Finished tracking\n");
 
     // Write output
@@ -373,6 +377,73 @@ static int8_t* XB_file_to_buffer(FILE *fid, int8_t *buf_in){
         return NULL;
     }
     return (buf);
+}
+
+
+static void XB_line_to_monitors(XbInput &xb_input, XbState &xb_state) {
+    XB_fprintf(1, stdout, "Moving monitors data from line to output.\n");
+    int64_t num_monitors = XbInput_get_num_monitors(xb_input);
+    if (num_monitors == 0) {
+        XB_fprintf(1, stdout, "No monitors in the line.\n");
+        return;
+    }
+    
+    ElementRefData elem_ref_data = XbInput_getp_line_metadata(xb_input);
+    ElementRefData monitors_metadata = XbState_getp__monitors_metadata(xb_state);
+
+    for (int64_t i = 0; i < num_monitors; i++) {
+        int64_t idx = XbInput_get_idx_monitors(xb_input, i);
+        int64_t size = XbInput_get_size_monitors(xb_input, i);
+
+        XB_fprintf(1, stdout, "Monitor %ld size: %ld, idx: %ld\n", i, size, idx);
+
+        if (idx < 0 || idx >= XbInput_get_num_elements(xb_input)) {
+            XB_fprintf(0, stderr, "Monitor index %ld out of bounds.\n", idx);
+            continue;
+        }
+        void* monitor_from = MyElementRefData_member_elements(elem_ref_data, idx);
+        void* monitor_to = MyElementRefData_member_elements(monitors_metadata, i);
+        if (!monitor_from || !monitor_to) {
+            XB_fprintf(0, stderr, "Monitor pointer invalid for index %ld.\n", idx);
+            continue;
+        }
+
+        memcpy(monitor_to, monitor_from, size * sizeof(int8_t));
+    }
+}
+
+
+static void XB_monitors_to_line(XbInput &xb_input, XbState &xb_state) {
+    XB_fprintf(1, stdout, "Moving monitors data from checkpoint to line.\n");
+    int64_t num_monitors = XbInput_get_num_monitors(xb_input);
+    if (num_monitors == 0) {
+        XB_fprintf(1, stdout, "No monitors in the line.\n");
+        return;
+    }
+
+    ElementRefData elem_ref_data = XbInput_getp_line_metadata(xb_input);
+    ElementRefData monitors_metadata = XbState_getp__monitors_metadata(xb_state);
+
+    for (int64_t i = 0; i < num_monitors; i++) {
+        int64_t idx = XbInput_get_idx_monitors(xb_input, i);
+        int64_t size = XbInput_get_size_monitors(xb_input, i);
+        
+        XB_fprintf(1, stdout, "Monitor %ld size: %ld, idx: %ld\n", i, size, idx);
+        
+        if (idx < 0 || idx >= XbInput_get_num_elements(xb_input))
+        {
+            XB_fprintf(0, stderr, "Monitor index %ld out of bounds.\n", idx);
+            continue;
+        }
+        void* monitor_from = MyElementRefData_member_elements(monitors_metadata, i);
+        void* monitor_to = MyElementRefData_member_elements(elem_ref_data, idx);
+        if (!monitor_from || !monitor_to) {
+            XB_fprintf(0, stderr, "Monitor pointer invalid for index %ld.\n", idx);
+            continue;
+        }
+
+        memcpy(monitor_to, monitor_from, size * sizeof(int8_t));
+    }
 }
 
 

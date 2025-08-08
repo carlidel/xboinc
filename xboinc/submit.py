@@ -44,6 +44,9 @@ BENCHMARK_DATA = {
 LOWER_TIME_BOUND = 90  # seconds, minimum time for a job to be considered valid
 UPPER_TIME_BOUND = 3 * 24 * 60 * 60  # seconds, maximum time, 3 days
 
+# For now, let's set a size limit of 1GB for job inputs, set constant in bytes
+XB_INPUT_SIZE_LIMIT = 1 * 1024 * 1024 * 1024  # 1GB
+
 
 def _get_num_elements_from_line(line):
     """
@@ -350,6 +353,14 @@ class JobManager:
             ele_start=ele_start,
             ele_stop=-ele_stop,
         )
+
+        # check the size of data
+        if data._buffer.capacity > XB_INPUT_SIZE_LIMIT:
+            raise ValueError(
+                f"Input data size of {data._buffer.capacity} bytes exceeds limit of {XB_INPUT_SIZE_LIMIT} bytes. "
+                "Please reduce the size of the job by revising the number of particles or the extent of the monitors included."
+            )
+
         data.to_binary(bin_file)
         self._json_files += [json_file]
         self._bin_files += [bin_file]

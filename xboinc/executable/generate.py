@@ -4,7 +4,6 @@
 # ######################################### #
 
 import os
-import platform
 import shutil
 import subprocess
 from pathlib import Path
@@ -148,7 +147,7 @@ def generate_executable(
     if (
         not config.exists()
         or not tracker.exists()
-        or not all([s.exists() for s in _sources])
+        or not all(s.exists() for s in _sources)
     ):
         generate_executable_source()
 
@@ -182,7 +181,7 @@ def generate_executable(
     }
     cmake_args = [
         f"-DXTRACK_PYTHON_DIR={xtrack_dir.as_posix()}",
-        "-DCMAKE_BUILD_TYPE=Release"
+        "-DCMAKE_BUILD_TYPE=Release",
     ]
 
     # add vcpkg root if provided
@@ -195,7 +194,10 @@ def generate_executable(
             f"-DCMAKE_TOOLCHAIN_FILE={vcpkg_root.as_posix()}/scripts/buildsystems/vcpkg.cmake"
         )
 
-    cmake_command = (["cmake" if target_triplet != "x64-mingw-static" else "mingw64-cmake", ".."] + cmake_args)
+    cmake_command = [
+        "cmake" if target_triplet != "x64-mingw-static" else "mingw64-cmake",
+        "..",
+    ] + cmake_args
 
     # 3. run cmake to configure the build
     try:
@@ -232,7 +234,9 @@ def generate_executable(
     # 5. rename the executable
     if target_triplet == "x64-mingw-static":
         # For MinGW, we need to rename the executable to have a .exe extension
-        Path(build_dir / (app_name + ".exe")).rename(build_dir.parent / f"{app_name}_{app_tag}.exe")
+        Path(build_dir / (app_name + ".exe")).rename(
+            build_dir.parent / f"{app_name}_{app_tag}.exe"
+        )
     else:
         Path(build_dir / app_name).rename(build_dir.parent / f"{app_name}_{app_tag}")
 
