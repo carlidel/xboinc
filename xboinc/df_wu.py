@@ -17,11 +17,18 @@ from .user import list_registered_users
 
 wu_db = infowudir / "wu_status.db"
 wu_db_dev = infowudir / "wu_status_dev.db"
+user_db = infowudir / "users.db"
 
 
 def _get_read_only_wu_db_connection(dev_server: bool = False) -> sqlite3.Connection:
     """Get a read-only database connection."""
     conn = sqlite3.connect(f"file:{wu_db_dev if dev_server else wu_db}?mode=ro", uri=True)
+    return conn
+
+
+def _get_read_only_user_db_connection() -> sqlite3.Connection:
+    """Get a read-only user database connection."""
+    conn = sqlite3.connect(f"file:{user_db}?mode=ro", uri=True)
     return conn
 
 
@@ -64,7 +71,7 @@ def query_registered_work_units(
     Parameters
     ----------
     status : Optional[str]
-        The status to filter work units (e.g., 'pending', 'running', 'completed').
+        The status to filter work units (e.g., 'running', 'completed').
     dev_server : bool
         Whether to query for the development server or production server.
 
@@ -73,6 +80,7 @@ def query_registered_work_units(
     pd.DataFrame
         DataFrame containing the work units for the user.
     """
+    all_df = None
     for i, user in enumerate(list_registered_users()):
         if status:
             df = query_work_units_by_status(status, dev_server)
@@ -84,3 +92,36 @@ def query_registered_work_units(
         else:
             all_df = pd.concat([all_df, df], ignore_index=True)
     return all_df
+
+
+def query_subscribed_users() -> list[str]:
+    """
+    Get a list of all users subscribed to the work unit database.
+
+    Returns
+    -------
+    list[str]
+        List of usernames subscribed to the work unit database.
+    """
+    with _get_read_only_user_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT user FROM users")
+        users = [row[0] for row in cursor.fetchall()]
+    return users
+
+
+def check_user_subscription(user: str) -> bool:
+    """
+    Check if a user is subscribed to the work unit database.
+
+    Parameters
+    ----------
+    user : str
+        The username to check.
+
+    Returns
+    -------
+    bool
+        True if the user is subscribed, False otherwise.
+    """
+    return user in query_subscribed_users()

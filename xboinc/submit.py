@@ -56,9 +56,10 @@ def _get_num_elements_from_line(line):
 
     Returns
     -------
-    dict
-        Dictionary mapping element class names to their counts in the line.
-        Returns empty dict if line is None.
+    dict, int
+        Dictionary mapping element class names to their counts in the line and
+        the total number of elements.
+        Returns empty dict and zero if line is None.
 
     Examples
     --------
@@ -68,11 +69,11 @@ def _get_num_elements_from_line(line):
     {'Drift': 100, 'Quadrupole': 50, 'Bend': 25}
     """
     if line is None:
-        return {}
+        return {}, 0
     elements = np.unique(
         [ee.__class__.__name__ for ee in line.elements], return_counts=True
     )
-    return dict(zip(*elements))
+    return dict(zip(*elements)), elements[1].sum()
 
 
 class JobManager:
@@ -171,7 +172,7 @@ class JobManager:
             self._target = get_directory(user) / "input"
         self._study_name = study_name
         self._line = line
-        self._num_elements = _get_num_elements_from_line(line)
+        self._num_elements, self._total_elements = _get_num_elements_from_line(line)
         self._submit_file = f"{self._user}__{self._study_name}__{timestamp()}.tar.gz"
         self._json_files = []
         self._bin_files = []
@@ -220,6 +221,12 @@ class JobManager:
             automatically renamed with a numeric suffix.
         num_turns : int
             The number of tracking turns for this job. Must be positive.
+        ele_start : int, optional
+            The starting element index for tracking. Default is 0 (first element).
+            If provided different from 0 with particles set at a certain starting
+            position, raises a ValueError.
+        ele_stop : int, optional
+            The stopping element index for tracking. Default is -1 (last element).
         particles : xpart.Particles
             The particles object containing the initial particle distribution
             to be tracked.
@@ -290,9 +297,10 @@ class JobManager:
                 )
             line = self._line
             num_elements = self._num_elements
+            total_elements = self._total_elements
         else:
             # If a new line is given, preprocess it
-            num_elements = _get_num_elements_from_line(line)
+            num_elements, total_elements = _get_num_elements_from_line(line)
 
         sleep(0.001)  # To enforce different filenames
         filename = f"{self._user}__{timestamp(ms=True)}"
@@ -303,7 +311,7 @@ class JobManager:
         expected_time = (
             num_turns
             * len(particles.x)
-            * num_elements
+            * total_elements
             * BENCHMARK_DATA["final_scaling_factor"]
         )
         datetime_expected = datetime.timedelta(seconds=expected_time)
@@ -311,7 +319,7 @@ class JobManager:
         if expected_time < LOWER_TIME_BOUND:
             raise ValueError(
                 f"Expected time for job {job_name} is too short ({expected_time:.2f} seconds, minimum is {LOWER_TIME_BOUND:.2f} seconds). "
-                "Please increase the number of particles in the job or consider"
+                "Please increase the number of particles in the job or consider "
                 "running it locally instead."
             )
         if expected_time > UPPER_TIME_BOUND:
@@ -339,8 +347,8 @@ class JobManager:
             checkpoint_every=checkpoint_every,
             particles=particles,
             store_element_names=False,
-            ele_start=0,
-            ele_stop=-1,
+            ele_start=ele_start,
+            ele_stop=-ele_stop,
         )
         data.to_binary(bin_file)
         self._json_files += [json_file]
