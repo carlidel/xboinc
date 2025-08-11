@@ -3,6 +3,7 @@
 # Copyright (c) CERN, 2025.                 #
 # ######################################### #
 
+from .df_wu import check_user_subscription, query_registered_work_units
 from .executable import generate_executable, generate_executable_source
 from .general import __version__, __xsuite__versions__, _pkg_root
 from .register import deregister, register
