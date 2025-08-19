@@ -39,7 +39,7 @@ def _create_json(user, directory, remove=False):
 
 def _give_rights(directory, acl="rlwikd"):
     if isinstance(directory, EosPath):
-        raise NotImplementedError("Ask CERN IT for explanation...")
+        raise NotImplementedError("Direct ACL manipulation on EOS is not supported. If you need to set read/write permissions, please use the web interface of your CERNbox account.")
     elif isinstance(directory, LocalPath):
         raise NotImplementedError(
             "Local directories are not supported for BOINC server registration."
@@ -58,7 +58,7 @@ def _give_rights(directory, acl="rlwikd"):
 
 def _remove_rights(directory):
     if isinstance(directory, EosPath):
-        raise NotImplementedError("Ask CERN IT for explanation...")
+        raise NotImplementedError("Direct ACL manipulation on EOS is not supported. If you need to set read/write permissions, please use the web interface of your CERNbox account.")
     elif isinstance(directory, LocalPath):
         raise NotImplementedError(
             "Local directories are not supported for BOINC server registration."
@@ -75,7 +75,7 @@ def _remove_rights(directory):
         )
 
 
-def register(user, directory):
+def register(user, directory, permissions_given=False):
     """
     Register a user to the BOINC server and dev server, by declaring
     the username and user boinc directory, and giving access rights
@@ -91,6 +91,11 @@ def register(user, directory):
         AFS or EOS), which will hold the new submissions and results.
         Should not be accessed manually by the user to avoid syncing
         issues.
+    permissions_given : bool
+        Set it to True to certify that the service account sixtadm has already
+        the necessary r/w permissions on the specified directory. Do that for EOS
+        paths after giving the appropriate read/write permissions on CERNbox
+        to the target folder!
 
     Returns
     -------
@@ -115,11 +120,12 @@ def register(user, directory):
     user_file, data = _create_json(user, directory)
     # This is a small hack to avoid losing sixtadm ACLs during testing
     acl = "rlwikda" if user == server_account else "rlwikd"
-    try:
-        _give_rights(directory, acl=acl)
-    except Exception as e:
-        user_file.unlink()
-        raise e
+    if not permissions_given:
+        try:
+            _give_rights(directory, acl=acl)
+        except Exception as e:
+            user_file.unlink()
+            raise e
     input_dir = directory / "input"
     input_dev_dir = directory / "input_dev"
     output_dir = directory / "output"
@@ -128,14 +134,15 @@ def register(user, directory):
     input_dev_dir.mkdir(parents=True, exist_ok=True)
     output_dir.mkdir(parents=True, exist_ok=True)
     output_dev_dir.mkdir(parents=True, exist_ok=True)
-    try:
-        _give_rights(input_dir, acl=acl)
-        _give_rights(input_dev_dir, acl=acl)
-        _give_rights(output_dir, acl=acl)
-        _give_rights(output_dev_dir, acl=acl)
-    except Exception as e:
-        user_file.unlink()
-        raise e
+    if not permissions_given:
+        try:
+            _give_rights(input_dir, acl=acl)
+            _give_rights(input_dev_dir, acl=acl)
+            _give_rights(output_dir, acl=acl)
+            _give_rights(output_dev_dir, acl=acl)
+        except Exception as e:
+            user_file.unlink()
+            raise e
     if (ff := FsPath(dropdir / f"de{user_file.name}")).exists():
         ff.unlink()
         print("Removed existing deregistration file on server dropdir.")
@@ -198,7 +205,7 @@ def deregister(user):
                 _remove_rights(output_dir)
                 _remove_rights(output_dev_dir)
                 _remove_rights(directory)
-            except (RuntimeError, ValueError, OSError) as e:
+            except (RuntimeError, ValueError, OSError, NotImplementedError) as e:
                 print(
                     f"Warning: could not remove ACL on {data['directory']} for server "
                     + f"account {server_account}!\nPlease do this manually."
