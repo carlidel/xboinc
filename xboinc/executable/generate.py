@@ -7,6 +7,8 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
+import time
 from pathlib import Path
 
 import xobjects as xo
@@ -112,7 +114,7 @@ def generate_executable_source(*, overwrite=False, _context=None):
 
 
 def generate_executable(
-    *, keep_source=False, clean=True, vcpkg_root=None, target_triplet="x64-linux"
+    *, keep_source=False, clean=True, vcpkg_root=None, target_triplet=None
 ):
     """
     Generate the Xboinc executable.
@@ -127,10 +129,17 @@ def generate_executable(
         The path to the local VCPKG installation. If none, an executable
         without the BOINC API is generated. Defaults to None.
     target_triplet : string, optional
-        The target architecture to compile to. Currently x64-linux and
-        x64-mingw-static (i.e. Windows 64-bit) are supported.
-        Defaults to x64-linux.
-
+        The target architecture to compile to. If none, host architecture
+        will be used. Note that only a subset of host architectures are
+        supported.
+        Supported target triplets:
+        - x64-linux - 64-bit Linux
+        - x86-linux - 32-bit Linux
+        - x64-mingw-static - 64-bit Windows
+        - x86-mingw-static - 32-bit Windows
+        Supported host triplets:
+        - x64-linux
+        
     Returns
     -------
     None
@@ -159,15 +168,40 @@ def generate_executable(
     app_tag = f"{app_version}"
     # Currently, we only support the x64-linux and x64-mingw-static triplets
     # corresponding, respectively, to x86_64-pc-linux-gnu and windows_x86_64
+    if target_triplet is None:
+        # detect if we are on macOS
+        if sys.platform == "darwin":
+            # target_triplet = (
+            #     "x86_64-osx" if platform.machine() == "x86_64" else "arm64-osx"
+            # )
+            raise NotImplementedError("macOS still requires testing before support can be added.")
+        elif sys.platform.startswith("linux"):
+            target_triplet = (
+                "x64-linux" if platform.machine() == "x86_64" else "x86-linux"
+            )
+        else:
+            raise NotImplementedError(
+                "Host architecture seems to not be supported! "
+                "Please specify manually a target triplet. "
+                "If execution still fails, consider running "
+                "generate_executable_source() and document the necessary steps "
+                "for building the executable."
+            )
+
     if target_triplet == "x64-linux":
         app_tag += "-x86_64-pc-linux-gnu"
+    elif target_triplet == "x86-linux":
+        app_tag += "-i686-pc-linux-gnu"
     elif target_triplet == "x64-mingw-static":
         app_tag += "-windows_x86_64"
+    elif target_triplet == "x86-mingw-static":
+        app_tag += "-windows_intelx86"
+    # elif target_triplet == "x86_64-osx":
+    #     app_tag += "-x86_64-apple-darwin"
+    # elif target_triplet == "arm64-osx":
+    #     app_tag += "-arm64-apple-darwin"
     else:
-        raise NotImplementedError(
-            f"Target triplet {target_triplet} not supported. "
-            "Currently only x64-linux and x64-mingw-static are supported."
-        )
+        raise NotImplementedError(f"Target triplet {target_triplet} not supported. ")
 
     # Compile!
     # 1. create a directory for the build
@@ -182,7 +216,7 @@ def generate_executable(
     }
     cmake_args = [
         f"-DXTRACK_PYTHON_DIR={xtrack_dir.as_posix()}",
-        "-DCMAKE_BUILD_TYPE=Release"
+        "-DCMAKE_BUILD_TYPE=Release",
     ]
 
     # add vcpkg root if provided
@@ -195,7 +229,14 @@ def generate_executable(
             f"-DCMAKE_TOOLCHAIN_FILE={vcpkg_root.as_posix()}/scripts/buildsystems/vcpkg.cmake"
         )
 
-    cmake_command = (["cmake" if target_triplet != "x64-mingw-static" else "mingw64-cmake", ".."] + cmake_args)
+    cmake_command = {
+        "x64-linux": ["cmake", ".."] + cmake_args,
+        "x64-mingw-static": ["mingw64-cmake", ".."] + cmake_args,
+        "x86-linux": ["cmake", ".."] + cmake_args,
+        "x86-mingw-static": ["mingw32-cmake", ".."] + cmake_args,
+        "x86_64-osx": ["cmake", ".."] + cmake_args,
+        "arm64-osx": ["cmake", ".."] + cmake_args,
+    }[target_triplet]
 
     # 3. run cmake to configure the build
     try:
@@ -206,13 +247,22 @@ def generate_executable(
             env=env_dict,
             check=True,
         )
+        time.sleep(2)
     except subprocess.CalledProcessError as e:
         print(e.stdout.decode("UTF-8").strip())
         stderr = e.stderr.decode("UTF-8").strip()
         raise RuntimeError(f"Configuration failed. Stderr:\n {stderr}") from e
 
     # 4. run make to build the executable
-    make_cmd = "make" if target_triplet != "x64-mingw-static" else "mingw64-make"
+    make_cmd = {
+        "x64-linux": "make",
+        "x64-mingw-static": "mingw64-make",
+        "x86-linux": "make",
+        "x86-mingw-static": "mingw32-make",
+        "x86_64-osx": "make",
+        "arm64-osx": "make",
+    }[target_triplet]
+
     app_name = "xboinc_test" if vcpkg_root is None else "xboinc"
     try:
         print(f"Running command: {make_cmd} {app_name}")
@@ -230,9 +280,11 @@ def generate_executable(
         raise RuntimeError(f"Compilation failed. Stderr:\n {stderr}") from e
 
     # 5. rename the executable
-    if target_triplet == "x64-mingw-static":
+    if target_triplet in ("x64-mingw-static", "x86-mingw-static"):
         # For MinGW, we need to rename the executable to have a .exe extension
-        Path(build_dir / (app_name + ".exe")).rename(build_dir.parent / f"{app_name}_{app_tag}.exe")
+        Path(build_dir / (app_name + ".exe")).rename(
+            build_dir.parent / f"{app_name}_{app_tag}.exe"
+        )
     else:
         Path(build_dir / app_name).rename(build_dir.parent / f"{app_name}_{app_tag}")
 
