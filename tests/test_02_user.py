@@ -26,7 +26,7 @@ class TestConfig:
     TEST_EOS = Path(f"/eos/home-{TEST_ACCOUNT[0]}/{TEST_ACCOUNT}/test_xboinc")
 
     # Required directory structure for registered users
-    REQUIRED_DIRECTORIES = ['input', 'output', 'input_dev', 'output_dev']
+    REQUIRED_DIRECTORIES = ["input", "output", "input_dev", "output_dev"]
 
     # Expected file prefixes for server communication
     REGISTER_PREFIX = "register"
@@ -34,51 +34,66 @@ class TestConfig:
     DEV_REGISTER_PREFIX = "dev_register"
     DEV_DEREGISTER_PREFIX = "dev_deregister"
 
+    @classmethod
+    def paths_available(cls) -> bool:
+        """
+        Check if the required paths for testing are available.
+
+        Returns
+        -------
+        bool
+            True if all required paths exist, False otherwise.
+        """
+        return cls.TEST_AFS.exists() or cls.TEST_EOS.exists()
+
 
 def get_server_file_paths(account: str) -> Dict[str, Path]:
     """
     Generate paths for all server communication files.
-    
+
     Parameters
     ----------
     account : str
         The server account name.
-        
+
     Returns
     -------
     dict[str, Path]
         Dictionary mapping file types to their paths.
     """
     return {
-        'register': dropdir / f"{TestConfig.REGISTER_PREFIX}_{account}.json",
-        'deregister': dropdir / f"{TestConfig.DEREGISTER_PREFIX}_{account}.json",
-        'dev_register': dropdir / f"{TestConfig.DEV_REGISTER_PREFIX}_{account}.json",
-        'dev_deregister': dropdir / f"{TestConfig.DEV_DEREGISTER_PREFIX}_{account}.json",
+        "register": dropdir / f"{TestConfig.REGISTER_PREFIX}_{account}.json",
+        "deregister": dropdir / f"{TestConfig.DEREGISTER_PREFIX}_{account}.json",
+        "dev_register": dropdir / f"{TestConfig.DEV_REGISTER_PREFIX}_{account}.json",
+        "dev_deregister": dropdir
+        / f"{TestConfig.DEV_DEREGISTER_PREFIX}_{account}.json",
     }
 
 
 def load_json_file(file_path: Path) -> Dict[str, Any]:
     """
     Load and return JSON data from a file.
-    
+
     Parameters
     ----------
     file_path : Path
         Path to the JSON file.
-        
+
     Returns
     -------
     dict
         The loaded JSON data.
     """
-    with file_path.open('r', encoding='utf-8') as fid:
+    with file_path.open("r", encoding="utf-8") as fid:
         return json.load(fid)
 
 
-def assert_user_data(account: str, expected_directory: Path, expected_domain: str) -> None:
+def assert_user_data(
+    account: str, expected_directory: Path, expected_domain: str
+) -> None:
     """
     Assert that user data matches expected values.
-    
+
     Parameters
     ----------
     account : str
@@ -91,17 +106,17 @@ def assert_user_data(account: str, expected_directory: Path, expected_domain: st
     # Check directory access functions
     assert get_directory(account) == expected_directory
     assert get_domain(account) == expected_domain
-    
+
     # Check user data dictionary
     user_data = get_user_data(account)
-    assert user_data['directory'] == Path(expected_directory).as_posix()
-    assert user_data['domain'] == expected_domain
+    assert user_data["directory"] == Path(expected_directory).as_posix()
+    assert user_data["domain"] == expected_domain
 
 
 def assert_directory_structure(base_directory: Path) -> None:
     """
     Assert that all required directories exist under the base directory.
-    
+
     Parameters
     ----------
     base_directory : Path
@@ -112,11 +127,16 @@ def assert_directory_structure(base_directory: Path) -> None:
         assert directory.exists(), f"Directory {directory} does not exist"
 
 
-def assert_registration_files(file_paths: Dict[str, Path], account: str, 
-                            directory: Path, domain: str, should_exist: bool = True) -> None:
+def assert_registration_files(
+    file_paths: Dict[str, Path],
+    account: str,
+    directory: Path,
+    domain: str,
+    should_exist: bool = True,
+) -> None:
     """
     Assert the state and content of registration files.
-    
+
     Parameters
     ----------
     file_paths : dict
@@ -130,16 +150,18 @@ def assert_registration_files(file_paths: Dict[str, Path], account: str,
     should_exist : bool
         Whether the registration files should exist.
     """
-    register_files = ['register', 'dev_register']
-    deregister_files = ['deregister', 'dev_deregister']
-    
+    register_files = ["register", "dev_register"]
+    deregister_files = ["deregister", "dev_deregister"]
+
     files_in_dropdir = set(os.listdir(dropdir))
     for file_key in register_files:
         file_path = file_paths[file_key]
         file_name = file_path.name
         if should_exist:
-            #print(f"Checking registration file {file_path}")
-            assert file_name in files_in_dropdir, f"Registration file {file_path} should exist"
+            # print(f"Checking registration file {file_path}")
+            assert (
+                file_name in files_in_dropdir
+            ), f"Registration file {file_path} should exist"
             # NOTE: For some reason EOS files can be messy, so we can't check files
             # immediately after registration... for this reason, we skip this check
             # time.sleep(10)
@@ -148,17 +170,22 @@ def assert_registration_files(file_paths: Dict[str, Path], account: str,
             # assert file_data['directory'] == directory.as_posix()
             # assert file_data['domain'] == domain
         else:
-            assert file_name not in files_in_dropdir, f"Registration file {file_path} should not exist"
+            assert (
+                file_name not in files_in_dropdir
+            ), f"Registration file {file_path} should not exist"
 
     for file_key in deregister_files:
         file_path = file_paths[file_key]
         file_name = file_path.name
-        assert file_name not in files_in_dropdir, f"Deregistration file {file_path} should not exist"
+        assert (
+            file_name not in files_in_dropdir
+        ), f"Deregistration file {file_path} should not exist"
+
 
 def assert_deregistration_files(file_paths: Dict[str, Path], dropdir: Path) -> None:
     """
     Assert the state and content of deregistration files using os.listdir.
-    
+
     Parameters
     ----------
     file_paths : dict
@@ -167,18 +194,22 @@ def assert_deregistration_files(file_paths: Dict[str, Path], dropdir: Path) -> N
         The drop directory to check for files.
     """
     files_in_dropdir = set(os.listdir(dropdir))
-    #print(f"Files in dropdir: {files_in_dropdir}")
+    # print(f"Files in dropdir: {files_in_dropdir}")
     # Registration files should not exist
-    register_files = ['register', 'dev_register']
+    register_files = ["register", "dev_register"]
     for file_key in register_files:
         file_name = file_paths[file_key].name
-        assert file_name not in files_in_dropdir, f"Registration file {file_name} should not exist after deregistration"
+        assert (
+            file_name not in files_in_dropdir
+        ), f"Registration file {file_name} should not exist after deregistration"
 
     # Deregistration files should exist
-    deregister_files = ['deregister', 'dev_deregister']
+    deregister_files = ["deregister", "dev_deregister"]
     for file_key in deregister_files:
         file_name = file_paths[file_key].name
-        assert file_name in files_in_dropdir, f"Deregistration file {file_name} should exist"
+        assert (
+            file_name in files_in_dropdir
+        ), f"Deregistration file {file_name} should exist"
         # file_data = load_json_file(file_paths[file_key])
         # assert file_data['user'] == TestConfig.TEST_ACCOUNT
 
@@ -188,17 +219,21 @@ def server_files():
     """Fixture to provide server file paths and cleanup after tests."""
     file_paths = get_server_file_paths(TestConfig.TEST_ACCOUNT)
     yield file_paths
-    
+
     # Cleanup all server files after test
     for file_path in file_paths.values():
         if file_path.exists():
             file_path.unlink()
 
 
+@pytest.mark.skipif(
+    not TestConfig.paths_available(),
+    reason="Required paths are not available - Set testuser accordingly",
+)
 def test_register(server_files):
     """
     Test user registration with AFS storage backend.
-    
+
     Verifies that:
     - User directory structure is created correctly
     - User data is stored and retrievable
@@ -206,16 +241,16 @@ def test_register(server_files):
     - EOS registration raises NotImplementedError
     """
     # Test successful AFS registration
-    #print(f"Registering user {TestConfig.TEST_ACCOUNT} with AFS storage")
+    # print(f"Registering user {TestConfig.TEST_ACCOUNT} with AFS storage")
     xb.register(TestConfig.TEST_ACCOUNT, TestConfig.TEST_AFS)
-   
+
     # Verify registration files
     assert_registration_files(
         server_files, TestConfig.TEST_ACCOUNT, dropdir, "afs", should_exist=True
     )
 
     # Verify user data and directory structure
-    assert_user_data(TestConfig.TEST_ACCOUNT, TestConfig.TEST_AFS, 'afs')
+    assert_user_data(TestConfig.TEST_ACCOUNT, TestConfig.TEST_AFS, "afs")
     assert_directory_structure(TestConfig.TEST_AFS)
 
     # Test that EOS registration is not yet implemented
@@ -223,10 +258,14 @@ def test_register(server_files):
         xb.register(TestConfig.TEST_ACCOUNT, TestConfig.TEST_EOS)
 
 
+@pytest.mark.skipif(
+    not TestConfig.paths_available(),
+    reason="Required paths are not available - Set testuser accordingly",
+)
 def test_deregister(server_files):
     """
     Test user deregistration functionality.
-    
+
     Verifies that:
     - User data is removed from the system
     - User data retrieval raises appropriate errors
@@ -235,17 +274,21 @@ def test_deregister(server_files):
     """
     # Register the user first
     xb.register(TestConfig.TEST_ACCOUNT, TestConfig.TEST_AFS)
-    #print(os.listdir(dropdir))
+    # print(os.listdir(dropdir))
     # Perform deregistration
     xb.deregister(TestConfig.TEST_ACCOUNT)
-    #print(os.listdir(dropdir))
+    # print(os.listdir(dropdir))
 
     # Verify user data is removed
     user_dict = load_json_file(user_data_file)
-    assert TestConfig.TEST_ACCOUNT not in user_dict.keys(), "User should be removed from user data"
+    assert (
+        TestConfig.TEST_ACCOUNT not in user_dict.keys()
+    ), "User should be removed from user data"
 
     # Verify that accessing user data raises an error
-    with pytest.raises(ValueError, match=f"User {TestConfig.TEST_ACCOUNT} not registered!"):
+    with pytest.raises(
+        ValueError, match=f"User {TestConfig.TEST_ACCOUNT} not registered!"
+    ):
         get_user_data(TestConfig.TEST_ACCOUNT)
 
     # Verify deregistration files

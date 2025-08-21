@@ -43,6 +43,7 @@ BENCHMARK_DATA = {
 
 LOWER_TIME_BOUND = 90  # seconds, minimum time for a job to be considered valid
 UPPER_TIME_BOUND = 3 * 24 * 60 * 60  # seconds, maximum time, 3 days
+SWEET_SPOT_TIME = 8 * 60 * 60 # seconds, default "ideal" time for a job, 8 hours
 
 
 def _get_num_elements_from_line(line):
@@ -359,6 +360,116 @@ class JobManager:
             + f" Expected execution time: {datetime_expected}."
         )
 
+    def slice_and_add(
+        self,
+        *,
+        base_job_name,
+        num_turns,
+        ele_start=0,
+        ele_stop=-1,
+        particles,
+        line=None,
+        checkpoint_every=-1,
+        target_execution_time=SWEET_SPOT_TIME,
+        **kwargs,
+    ):
+        """
+        Given an arbitarily large number of particles, this method slices the
+        particle distribution into smaller jobs that fit within the target
+        time limit indicated.
+
+        Parameters
+        ----------
+        base_job_name : str
+            Unique base name for this job within the study. Cannot contain '__'
+            (double underscore).
+        num_turns : int
+            The number of tracking turns for this job. Must be positive.
+        ele_start : int, optional
+            The starting element index for tracking. Default is 0 (first element).
+            If provided different from 0 with particles set at a certain starting
+            position, raises a ValueError.
+        ele_stop : int, optional
+            The stopping element index for tracking. Default is -1 (last element).
+        particles : xpart.Particles
+            The particles object containing the initial particle distribution
+            to be tracked.
+        line : xtrack.Line, optional
+            The tracking line for this specific job. If None, uses the line
+            provided during JobManager initialization. Providing a line per
+            job is slower due to repeated preprocessing.
+        checkpoint_every : int, optional
+            Checkpoint interval in turns. Default is -1 (no checkpointing).
+            If positive, simulation state will be saved every N turns.
+        target_execution_time : float, optional
+            The target execution time for this job in seconds. Default is
+            a SWEET_SPOT_TIME of 2 hours.
+        **kwargs
+            Additional job metadata to be included in the job JSON file.
+        """
+        self._assert_not_submitted()
+        if "__" in base_job_name:
+            raise ValueError(
+                "The character sequence '__' is not allowed in 'base_job_name'!"
+            )
+
+        # Get the line from kwargs, and default to the line in JobManager
+        if line is None:
+            if self._line is None:
+                raise ValueError(
+                    "Need to provide a line! This can be done for "
+                    + "each job separately, or at the JobManager init."
+                )
+            line = self._line
+            num_elements = self._num_elements
+            total_elements = self._total_elements
+        else:
+            # If a new line is given, preprocess it
+            num_elements, total_elements = _get_num_elements_from_line(line)
+
+        expected_time = (
+            num_turns
+            * len(particles.x)
+            * total_elements
+            * BENCHMARK_DATA["final_scaling_factor"]
+        )
+
+        if expected_time < LOWER_TIME_BOUND:
+            raise ValueError(
+                f"Expected time for job {base_job_name} is too short ({expected_time:.2f} seconds, minimum is {LOWER_TIME_BOUND:.2f} seconds). "
+                "Please increase the number of particles in the job or consider "
+                "running it locally instead."
+            )
+        if expected_time < target_execution_time:
+            num_jobs = 1
+        else:
+            num_jobs = max(1, int(expected_time / target_execution_time))
+
+        if num_jobs == 1:
+            print("No need to slice particles! Proceeding with adding the job.")
+
+            self.add(job_name=base_job_name, num_turns=num_turns, ele_start=ele_start, ele_stop=ele_stop, particles=particles, line=line, checkpoint_every=checkpoint_every, **kwargs)
+
+        else:
+            if len(particles.x) < num_jobs:
+                raise ValueError(
+                    f"Cannot slice {len(particles.x)} particles into {num_jobs} jobs! "
+                    "It seems that the tracking of an individual particle goes "
+                    "beyond the current time limits. Please contact Xboinc dev "
+                    "team to discuss your use case."
+                )
+            part_per_job = len(particles.x) // num_jobs
+            for i in tqdm(
+                range(num_jobs), desc=f"Slicing particles into {num_jobs} jobs."
+            ):
+                mask = np.zeros(len(particles.x), dtype=bool)
+                if i == num_jobs - 1:  # last job gets the rest
+                    mask[i * part_per_job :] = True
+                else:
+                    mask[i * part_per_job : (i + 1) * part_per_job] = True
+                sliced_particles = particles.filter(mask)
+                self.add(job_name=f"{base_job_name}_{i}", num_turns=num_turns, ele_start=ele_start, ele_stop=ele_stop, particles=sliced_particles, line=line, checkpoint_every=checkpoint_every, **kwargs)
+
     def submit(self):
         """
         Package and submit all added jobs to the BOINC server.
@@ -468,18 +579,23 @@ class JobManager:
         >>> for job in summary['jobs']:
         ...     print(f"Job {job['job_name']}: {job['num_particles']} particles, {job['num_turns']} turns")
         """
+        jobs = []
+        for f in self._json_files:
+            with open(f, "r") as infile:
+                job_data = json.load(infile)
+                jobs.append(
+                    {
+                        "job_name": job_data["job_name"],
+                        "num_turns": job_data["num_turns"],
+                        "num_particles": job_data["num_part"],
+                    }
+                )
+
         return {
             "user": self._user,
             "study_name": self._study_name,
             "num_jobs": len(self),
             "dev_server": self.dev_server,
-            "jobs": [
-                {
-                    "job_name": job["job_name"],
-                    "num_turns": job["num_turns"],
-                    "num_particles": job["num_part"],
-                }
-                for job in self._json_files
-            ],
+            "jobs": jobs,
             "submitted": self._submitted,
         }

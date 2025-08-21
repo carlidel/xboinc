@@ -58,8 +58,10 @@ After that, you can register your username with the Xboinc server by running the
 
 ```python
 import xboinc as xb
-xb.register("mycernshortname", "/eos/user/m/mycernshortname/my_xboinc_folder")
+xb.register("mycernshortname", "/eos/user/m/mycernshortname/my_xboinc_folder", permissions_given=True)
 ```
+
+Note that specifying `permissions_given=True` assumes that you have already set the appropriate permissions for the Xboinc service account on the specified EOS path. Not doing so will result in a `NotImplementedError` as we currently cannot manipulate EOS ACLs directly.
 
 ## Submit a job
 

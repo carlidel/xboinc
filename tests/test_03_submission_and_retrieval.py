@@ -49,6 +49,18 @@ class TestConfig:
         """Calculate number of jobs based on particle distribution."""
         return int(cls.NUM_PARTICLES / cls.PARTICLES_PER_JOB)
 
+    @classmethod
+    def directories_available(cls) -> bool:
+        """
+        Check if the required directories for testing are available.
+
+        Returns
+        -------
+        bool
+            True if all required directories exist, False otherwise.
+        """
+        return cls.INPUT_DIR.exists() and cls.OUTPUT_DIR.exists()
+
 
 @pytest.fixture(autouse=True)
 def version_check_skip():
@@ -268,6 +280,10 @@ def find_recent_tar(
     raise FileNotFoundError(f"No recent tar file found matching {pattern}")
 
 
+@pytest.mark.skipif(
+    not TestConfig.directories_available(),
+    reason="Required directories are not available - Set testuser accordingly",
+)
 def test_submission(monkeypatch, registered_user, clean_directories):
     """Test job submission workflow with multiple studies."""
     monkeypatch.setattr(xb.submit, "LOWER_TIME_BOUND", 0.0)
@@ -323,6 +339,10 @@ def test_submission(monkeypatch, registered_user, clean_directories):
     validate_tar_contents(recent_tar, TestConfig.num_jobs(), registered_user)
 
 
+@pytest.mark.skipif(
+    not TestConfig.directories_available(),
+    reason="Required directories are not available - Set testuser accordingly",
+)
 def test_retrieval(registered_user):
     """Test job result retrieval and validation."""
     # prepare the mock output tar files
