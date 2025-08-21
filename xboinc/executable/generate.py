@@ -204,12 +204,13 @@ def generate_executable(
             cmake_command,
             cwd=build_dir,
             env=env_dict,
-            check=True,
+            capture_output=True,
+            check=True
         )
     except subprocess.CalledProcessError as e:
-        print(e.stdout.decode("UTF-8").strip())
-        stderr = e.stderr.decode("UTF-8").strip()
-        raise RuntimeError(f"Configuration failed. Stderr:\n {stderr}") from e
+        stdout = e.stdout.decode("UTF-8").strip() if e.stdout else ''
+        stderr = e.stderr.decode("UTF-8").strip() if e.stderr else ''
+        raise RuntimeError(f"Configuration failed.\nStdOut: {stdout}\nStdErr: {stderr}") from e
 
     # 4. run make to build the executable
     make_cmd = "make" if target_triplet != "x64-mingw-static" else "mingw64-make"
@@ -220,14 +221,13 @@ def generate_executable(
             [make_cmd, app_name],
             cwd=build_dir,
             env=env_dict,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
+            capture_output=True,
+            check=True
         )
     except subprocess.CalledProcessError as e:
-        print(e.stdout.decode("UTF-8").strip())
-        stderr = e.stderr.decode("UTF-8").strip()
-        raise RuntimeError(f"Compilation failed. Stderr:\n {stderr}") from e
+        stdout = e.stdout.decode("UTF-8").strip() if e.stdout else ''
+        stderr = e.stderr.decode("UTF-8").strip() if e.stderr else ''
+        raise RuntimeError(f"Compilation failed.\nStdOut: {stdout}\nStdErr: {stderr}") from e
 
     # 5. rename the executable
     if target_triplet == "x64-mingw-static":
