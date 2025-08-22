@@ -3,10 +3,13 @@
 # Copyright (c) CERN, 2025.                 #
 ########################################### #
 
+import os
 import shutil
 import tarfile
 import time
 from pathlib import Path
+
+from xaux import FsPath
 
 import numpy as np
 import pandas as pd
@@ -21,9 +24,9 @@ import xboinc as xb
 class TestConfig:
     """Configuration constants for submission and retrieval tests."""
 
-    TEST_ACCOUNT = "testuser"
+    TEST_ACCOUNT = os.getlogin()
     # Directory paths
-    BASE_DIR = Path(f"/afs/cern.ch/user/{TEST_ACCOUNT[0]}/{TEST_ACCOUNT}/test_xboinc")
+    BASE_DIR = FsPath(f"/afs/cern.ch/user/{TEST_ACCOUNT[0]}/{TEST_ACCOUNT}/test_xboinc")
     INPUT_DIR = BASE_DIR / "input_dev"
     OUTPUT_DIR = BASE_DIR / "output_dev"
 

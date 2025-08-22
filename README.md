@@ -50,7 +50,7 @@ No more steps are needed as AFS can handle the I/O permissions for the Xboinc se
 
 **Important!!! If you are using EOS, you need to set the proper permissions for the Xboinc server to access your folder!!**
 
-You can do this by accessing the desired folder from the CERNBox web interface, right-clicking on the folder and selecting "Share", then adding the user `a:sixtadm` (n.b. this is the Xboinc service account) with the "Write" permission. It should look like this:
+You can do this by accessing the desired folder from the CERNBox web interface, right-clicking on the folder and selecting "Share", then adding the user `a:sixtadm` (n.b. this is the Xboinc service account) and invite as editor. It should look like this:
 
 ![Share folder with Xboinc service account](docs/img/share_folder_with_xboinc_service_account.png)
 

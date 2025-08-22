@@ -100,7 +100,7 @@ def assert_user_data(
 
     # Check user data dictionary
     user_data = get_user_data(account)
-    assert user_data["directory"] == Path(expected_directory).as_posix()
+    assert user_data["directory"] == FsPath(expected_directory).as_posix()
     assert user_data["domain"] == expected_domain
 
 
@@ -252,6 +252,9 @@ def test_register(server_files, user_path):
         # Test that EOS registration is not yet implemented
         with pytest.raises(NotImplementedError):
             xb.register(TestConfig.TEST_ACCOUNT, user_path[1])
+
+        # Force usage with flag
+        xb.register(TestConfig.TEST_ACCOUNT, user_path[1], permissions_given=True)
 
     else:
         # Test successful registration
