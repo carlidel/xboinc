@@ -165,7 +165,7 @@ def submit_study_jobs(
     line: xt.Line,
     x_sigma: float = 0.01,
     y_sigma: float = 0.003,
-) -> xb.JobManager:
+) -> xb.JobSubmitter:
     """
     Submit a complete study with multiple jobs.
 
@@ -182,10 +182,10 @@ def submit_study_jobs(
 
     Returns
     -------
-    xb.JobManager
+    xb.JobSubmitter
         The job manager used for submission.
     """
-    jobs = xb.JobManager(user=user, study_name=study_name, line=line, dev_server=True)
+    jobs = xb.JobSubmitter(user=user, study_name=study_name, line=line, dev_server=True)
 
     for i in range(TestConfig.num_jobs()):
         particles = create_random_particles(
@@ -299,7 +299,7 @@ def test_submission(monkeypatch, registered_user, clean_directories):
     )
 
     # Test that adding jobs after submission fails
-    jobs = xb.JobManager(
+    jobs = xb.JobSubmitter(
         registered_user, f"{TestConfig.STUDY_NAME}_temp", line=line, dev_server=True
     )
     jobs.submit()
@@ -324,7 +324,7 @@ def test_submission(monkeypatch, registered_user, clean_directories):
 
     # Test that production server raises NotImplementedError
     with pytest.raises(NotImplementedError):
-        xb.JobManager(registered_user, f"{TestConfig.STUDY_NAME}_3", line=line)
+        xb.JobSubmitter(registered_user, f"{TestConfig.STUDY_NAME}_3", line=line)
 
     # Validate submitted tar files
     tar_files = list(
@@ -358,7 +358,7 @@ def test_retrieval(registered_user):
         shutil.copy(tar_file, output_dir)
 
     # Iterate through jobs and validate results
-    for _, result_particles in xb.ResultRetriever.iterate(
+    for _, result_particles in xb.JobRetriever.iterate(
         "testuser", "example_study_fourth", dev_server=True
     ):
         assert len(result_particles.x) == 100

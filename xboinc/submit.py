@@ -6,7 +6,7 @@
 """
 Job submission management for the Xboinc BOINC server.
 
-This module provides the JobManager class for managing and submitting particle tracking
+This module provides the JobSubmitter class for managing and submitting particle tracking
 jobs to the Xboinc BOINC server. It handles job preparation, validation, packaging,
 and submission with proper time estimation and resource management.
 
@@ -77,7 +77,7 @@ def _get_num_elements_from_line(line):
     return dict(zip(*elements)), elements[1].sum()
 
 
-class JobManager:
+class JobSubmitter:
     """
     A class to manage jobs for submission to the Xboinc server.
 
@@ -85,7 +85,7 @@ class JobManager:
     jobs and submitting them as a batch to the BOINC server. It handles job validation,
     time estimation, file preparation, and submission.
 
-    The JobManager ensures that:
+    The JobSubmitter ensures that:
     - Job execution times fall within acceptable bounds
     - Job names are unique within a study
     - All necessary files are properly packaged and submitted
@@ -101,14 +101,14 @@ class JobManager:
     Basic usage with a single line for all jobs:
 
     >>> line = xtrack.Line.from_dict(line_dict)
-    >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
+    >>> manager = JobSubmitter("user123", "my_study", line=line, dev_server=True)
     >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
     >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
     >>> manager.submit()
 
     Usage with different lines per job:
 
-    >>> manager = JobManager("user123", "my_study", dev_server=True)
+    >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
     >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
     >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
     >>> manager.submit()
@@ -116,7 +116,7 @@ class JobManager:
 
     def __init__(self, user, study_name, line=None, dev_server=False, **kwargs):
         """
-        Initialize a new JobManager instance.
+        Initialize a new JobSubmitter instance.
 
         Parameters
         ----------
@@ -147,7 +147,7 @@ class JobManager:
 
         Notes
         -----
-        The JobManager creates a temporary directory for file preparation and
+        The JobSubmitter creates a temporary directory for file preparation and
         validates that the user has access to the required storage systems.
         """
 
@@ -188,11 +188,11 @@ class JobManager:
         Raises
         ------
         ValueError
-            If jobs have already been submitted from this JobManager instance.
+            If jobs have already been submitted from this JobSubmitter instance.
         """
         if self._submitted:
             raise ValueError(
-                "Jobs already submitted! Make a new JobManager object to continue."
+                "Jobs already submitted! Make a new JobSubmitter object to continue."
             )
 
     def add(
@@ -208,7 +208,7 @@ class JobManager:
         **kwargs,
     ):
         """
-        Add a single job to the JobManager instance.
+        Add a single job to the JobSubmitter instance.
 
         This method creates the necessary input files (binary and JSON metadata)
         for a single tracking job. The job is validated for execution time bounds
@@ -233,7 +233,7 @@ class JobManager:
             to be tracked.
         line : xtrack.Line, optional
             The tracking line for this specific job. If None, uses the line
-            provided during JobManager initialization. Providing a line per
+            provided during JobSubmitter initialization. Providing a line per
             job is slower due to repeated preprocessing.
         checkpoint_every : int, optional
             Checkpoint interval in turns. Default is -1 (no checkpointing).
@@ -289,12 +289,12 @@ class JobManager:
 
         self._unique_job_names.add(job_name)
 
-        # Get the line from kwargs, and default to the line in JobManager
+        # Get the line from kwargs, and default to the line in JobSubmitter
         if line is None:
             if self._line is None:
                 raise ValueError(
                     "Need to provide a line! This can be done for "
-                    + "each job separately, or at the JobManager init."
+                    + "each job separately, or at the JobSubmitter init."
                 )
             line = self._line
             num_elements = self._num_elements
@@ -396,7 +396,7 @@ class JobManager:
             to be tracked.
         line : xtrack.Line, optional
             The tracking line for this specific job. If None, uses the line
-            provided during JobManager initialization. Providing a line per
+            provided during JobSubmitter initialization. Providing a line per
             job is slower due to repeated preprocessing.
         checkpoint_every : int, optional
             Checkpoint interval in turns. Default is -1 (no checkpointing).
@@ -413,12 +413,12 @@ class JobManager:
                 "The character sequence '__' is not allowed in 'base_job_name'!"
             )
 
-        # Get the line from kwargs, and default to the line in JobManager
+        # Get the line from kwargs, and default to the line in JobSubmitter
         if line is None:
             if self._line is None:
                 raise ValueError(
                     "Need to provide a line! This can be done for "
-                    + "each job separately, or at the JobManager init."
+                    + "each job separately, or at the JobSubmitter init."
                 )
             line = self._line
             num_elements = self._num_elements
@@ -482,7 +482,7 @@ class JobManager:
         1. Creates a .tar.gz archive with all job files
         2. Moves the archive to the appropriate submission directory
         3. Cleans up temporary files
-        4. Marks the JobManager as submitted
+        4. Marks the JobSubmitter as submitted
 
         Raises
         ------
@@ -491,8 +491,8 @@ class JobManager:
 
         Notes
         -----
-        After submission, this JobManager instance cannot be used to add more
-        jobs. Create a new JobManager instance for additional submissions.
+        After submission, this JobSubmitter instance cannot be used to add more
+        jobs. Create a new JobSubmitter instance for additional submissions.
 
         The submission directory depends on the dev_server setting:
         - Development server: {user_directory}/input_dev
@@ -528,7 +528,7 @@ class JobManager:
 
     def __len__(self):
         """
-        Return the number of jobs added to this JobManager instance.
+        Return the number of jobs added to this JobSubmitter instance.
 
         Returns
         -------
@@ -539,7 +539,7 @@ class JobManager:
 
     def __repr__(self):
         """
-        Return a string representation of the JobManager instance.
+        Return a string representation of the JobSubmitter instance.
 
         Returns
         -------
@@ -548,18 +548,18 @@ class JobManager:
 
         Examples
         --------
-        >>> manager = JobManager("user123", "my_study", dev_server=True)
+        >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
         >>> repr(manager)
-        'JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
+        'JobSubmitter(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
         """
         return (
-            f"JobManager(user={self._user}, study_name={self._study_name}, "
+            f"JobSubmitter(user={self._user}, study_name={self._study_name}, "
             + f"num_jobs={len(self)}, dev_server={self.dev_server}, submitted={self._submitted})"
         )
 
     def get_job_summary(self):
         """
-        Return a comprehensive summary of all jobs in this JobManager instance.
+        Return a comprehensive summary of all jobs in this JobSubmitter instance.
 
         Returns
         -------

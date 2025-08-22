@@ -65,7 +65,7 @@ Note that specifying `permissions_given=True` assumes that you have already set 
 
 ## Submit a job
 
-To submit a job to the LHC@home project, you can use the `JobManager` class from the `xboinc` package. With `JobManager`, you can create a study, which will contain a set of jobs to be executed. Ideally, you should create a study for a single line to track, with multiple jobs for spreading the number of particles to track. However, it is also possible to create a study with multiple lines.
+To submit a job to the LHC@home project, you can use the `JobSubmitter` class from the `xboinc` package. With `JobSubmitter`, you can create a study, which will contain a set of jobs to be executed. Ideally, you should create a study for a single line to track, with multiple jobs for spreading the number of particles to track. However, it is also possible to create a study with multiple lines.
 
 Here is an example of how to submit a job:
 
@@ -77,7 +77,7 @@ import xboinc as xb
 line = xt.Line.from_json("path/to/your/line.json")
 
 # create a job manager
-job_manager = xb.JobManager(
+job_manager = xb.JobSubmitter(
     user="mycernshortname",
     study_name="a_relevant_study_name",
     line=line,
@@ -109,12 +109,12 @@ Note that the jobs will be executed on a single CPU core from a volunteer comput
 
 ## Retrieve the results
 
-When the jobs are completed, the Xboinc server will store the results in your allocated folder in compressed tar files. You can decompress and explore them by using the `ResultRetriever` class from the `xboinc` package. The simplest way to do that is:
+When the jobs are completed, the Xboinc server will store the results in your allocated folder in compressed tar files. You can decompress and explore them by using the `JobRetriever` class from the `xboinc` package. The simplest way to do that is:
 
 ```python
 import xboinc as xb
 
-for job_name, result_particles in xb.ResultRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
+for job_name, result_particles in xb.JobRetriever.iterate("mycernshortname", "a_relevant_study_name", dev_server=True):
     print(f"Job {job_name} completed with particles: {result_particles.to_dict()}")
 
 ```
