@@ -41,7 +41,7 @@ class TestConfig:
     CHECKPOINT_TIMEOUT = 15
 
     # VCPKG configuration
-    VCPKG_ROOT = Path("/home/user/vcpkg")
+    VCPKG_ROOT = Path.cwd().parents[1] / "vcpkg"
 
     @classmethod
     def vcpkg_available(cls) -> bool:
