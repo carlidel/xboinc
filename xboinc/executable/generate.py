@@ -7,6 +7,8 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
+import time
 from pathlib import Path
 
 import xobjects as xo
@@ -111,9 +113,8 @@ def generate_executable_source(*, overwrite=False, _context=None):
 # x86_64-pc-freebsd__sse2     Free BSD running on 64 bit X86
 
 
-def generate_executable(
-    *, keep_source=False, clean=True, vcpkg_root=None, target_triplet="x64-linux"
-):
+def generate_executable(*, keep_source=False, clean=True, vcpkg_root=None,
+                        target_triplet=None):
     """
     Generate the Xboinc executable.
 
@@ -127,15 +128,54 @@ def generate_executable(
         The path to the local VCPKG installation. If none, an executable
         without the BOINC API is generated. Defaults to None.
     target_triplet : string, optional
-        The target architecture to compile to. Currently x64-linux and
-        x64-mingw-static (i.e. Windows 64-bit) are supported.
-        Defaults to x64-linux.
+        The target architecture to compile to. If none, host architecture
+        will be used. Note that only a subset of host architectures are
+        supported.
+        Supported target triplets:
+        - x64-linux - 64-bit Linux
+        - x86-linux - 32-bit Linux
+        - x64-mingw-static - 64-bit Windows
+        - x86-mingw-static - 32-bit Windows
+        Supported host triplets:
+        - x64-linux
 
     Returns
     -------
     None
     """
     assert_versions()
+
+    # Target triplets
+    triplets = {
+        "x64-linux":        {'tag': 'x86_64-pc-linux-gnu', 'make': 'make',         'cmake': 'cmake'},
+        "x86-linux":        {'tag': 'i686-pc-linux-gnu',   'make': 'make',         'cmake': 'cmake'},
+        "arm64-osx":        {'tag': 'arm64-apple-darwin',  'make': 'make',         'cmake': 'cmake'},
+        "x86_64-osx":       {'tag': 'x86_64-apple-darwin', 'make': 'make',         'cmake': 'cmake'},
+        "x64-mingw-static": {'tag': 'windows_x86_64',      'make': 'mingw64-make', 'cmake': 'mingw64-cmake'},
+        "x86-mingw-static": {'tag': 'windows_intelx86',    'make': 'mingw32-make', 'cmake': 'mingw32-cmake'},
+    }
+    if target_triplet is None:
+        # detect if we are on macOS
+        if sys.platform == "darwin":
+            target_triplet = (
+                "x86_64-osx" if platform.machine() == "x86_64" else "arm64-osx"
+            )
+        elif sys.platform.startswith("linux"):
+            target_triplet = (
+                "x64-linux" if platform.machine() == "x86_64" else "x86-linux"
+            )
+        else:
+            raise NotImplementedError(
+                "Host architecture seems to not be supported! "
+                "Please specify manually a target triplet. "
+                "If execution still fails, consider running "
+                "generate_executable_source() and document the necessary steps "
+                "for building the executable."
+            )
+    if target_triplet not in triplets:
+        raise NotImplementedError(f"Target triplet {target_triplet} not supported.")
+    if 'osx' in target_triplet:
+        raise NotImplementedError("macOS still requires testing before support can be added.")
 
     # Check vcpkg path
     if vcpkg_root is not None:
@@ -145,35 +185,22 @@ def generate_executable(
 
     config = Path.cwd() / "xb_input.h"
     tracker = Path.cwd() / "xtrack_tracker.h"
-    if (
-        not config.exists()
-        or not tracker.exists()
-        or not all([s.exists() for s in _sources])
-    ):
+    if not config.exists() or not tracker.exists() \
+    or not all([s.exists() for s in _sources]):
         generate_executable_source()
 
     # Locate xtrack
     xtrack_dir = xt._pkg_root
 
     # Create executable name
-    app_tag = f"{app_version}"
-    # Currently, we only support the x64-linux and x64-mingw-static triplets
-    # corresponding, respectively, to x86_64-pc-linux-gnu and windows_x86_64
-    if target_triplet == "x64-linux":
-        app_tag += "-x86_64-pc-linux-gnu"
-    elif target_triplet == "x64-mingw-static":
-        app_tag += "-windows_x86_64"
-    else:
-        raise NotImplementedError(
-            f"Target triplet {target_triplet} not supported. "
-            "Currently only x64-linux and x64-mingw-static are supported."
-        )
+    app_tag = f"{app_version}-{triplets[target_triplet]['tag']}"
 
     # Compile!
     # 1. create a directory for the build
     build_dir = Path.cwd() / "build"
-    if not build_dir.exists():
-        build_dir.mkdir(parents=True, exist_ok=True)
+    if build_dir.exists():
+        shutil.rmtree(build_dir)
+    build_dir.mkdir(parents=True)
 
     # 2. set the environment variables for cmake
     env_dict = {
@@ -182,7 +209,7 @@ def generate_executable(
     }
     cmake_args = [
         f"-DXTRACK_PYTHON_DIR={xtrack_dir.as_posix()}",
-        "-DCMAKE_BUILD_TYPE=Release"
+        "-DCMAKE_BUILD_TYPE=Release",
     ]
 
     # add vcpkg root if provided
@@ -195,24 +222,25 @@ def generate_executable(
             f"-DCMAKE_TOOLCHAIN_FILE={vcpkg_root.as_posix()}/scripts/buildsystems/vcpkg.cmake"
         )
 
-    cmake_command = (["cmake" if target_triplet != "x64-mingw-static" else "mingw64-cmake", ".."] + cmake_args)
-
     # 3. run cmake to configure the build
+    cmake_cmd = [triplets[target_triplet]['cmake'], "..", *cmake_args]
     try:
-        print(f"Running command: {' '.join(cmake_command)}")
+        print(f"Running command: {' '.join(cmake_cmd)}")
         cmd = subprocess.run(
-            cmake_command,
+            cmake_cmd,
             cwd=build_dir,
             env=env_dict,
-            check=True,
+            capture_output=True,
+            check=True
         )
+        time.sleep(2)
     except subprocess.CalledProcessError as e:
-        print(e.stdout.decode("UTF-8").strip())
-        stderr = e.stderr.decode("UTF-8").strip()
-        raise RuntimeError(f"Configuration failed. Stderr:\n {stderr}") from e
+        stdout = e.stdout.decode("UTF-8").strip() if e.stdout else ''
+        stderr = e.stderr.decode("UTF-8").strip() if e.stderr else ''
+        raise RuntimeError(f"Configuration failed.\nStdOut: {stdout}\nStdErr: {stderr}") from e
 
     # 4. run make to build the executable
-    make_cmd = "make" if target_triplet != "x64-mingw-static" else "mingw64-make"
+    make_cmd = triplets[target_triplet]['make']
     app_name = "xboinc_test" if vcpkg_root is None else "xboinc"
     try:
         print(f"Running command: {make_cmd} {app_name}")
@@ -220,21 +248,26 @@ def generate_executable(
             [make_cmd, app_name],
             cwd=build_dir,
             env=env_dict,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
+            capture_output=True,
+            check=True
         )
     except subprocess.CalledProcessError as e:
-        print(e.stdout.decode("UTF-8").strip())
-        stderr = e.stderr.decode("UTF-8").strip()
-        raise RuntimeError(f"Compilation failed. Stderr:\n {stderr}") from e
+        stdout = e.stdout.decode("UTF-8").strip() if e.stdout else ''
+        stderr = e.stderr.decode("UTF-8").strip() if e.stderr else ''
+        raise RuntimeError(f"Compilation failed.\nStdOut: {stdout}\nStdErr: {stderr}") from e
 
     # 5. rename the executable
-    if target_triplet == "x64-mingw-static":
-        # For MinGW, we need to rename the executable to have a .exe extension
-        Path(build_dir / (app_name + ".exe")).rename(build_dir.parent / f"{app_name}_{app_tag}.exe")
+    if 'mingw' in target_triplet:
+        exec_path = build_dir.parent / f"{app_name}_{app_tag}.exe"
     else:
-        Path(build_dir / app_name).rename(build_dir.parent / f"{app_name}_{app_tag}")
+        exec_path = build_dir.parent / f"{app_name}_{app_tag}"
+    app_name = build_dir / app_name
+    if not app_name.exists():
+        if 'mingw' in target_triplet and app_name.with_suffix(".exe").exists():
+            app_name = app_name.with_suffix(".exe")
+        else:
+            raise RuntimeError(f"Executable {app_name} not found after compilation!")
+    app_name.replace(exec_path)
 
     # 6. clean up
     if clean:

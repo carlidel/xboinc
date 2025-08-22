@@ -20,6 +20,12 @@ set(XTRACK_PYTHON_DIR "/path/to/xtrack/" CACHE PATH "XTrack Python package dir")
 # === Target developer triplet (overridable) ===
 set(VCPKG_TARGET_TRIPLET "x64-linux" CACHE STRING "VCPKG target triplet")
 
+# === Add x86 flags if triplet is x86-linux or x86-mingw-static ===
+if(VCPKG_TARGET_TRIPLET MATCHES "x86")
+    set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+endif()
+
 # === Flags and Definitions ===
 set(COMMON_COMPILE_FLAGS -Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wunused-parameter -Wno-write-strings -fno-common -O2)
 set(COMMON_DEFINITIONS XO_CONTEXT_CPU XO_CONTEXT_CPU_SERIAL)
