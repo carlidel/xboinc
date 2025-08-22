@@ -285,4 +285,3 @@ def generate_executable(*, keep_source=False, clean=True, vcpkg_root=None,
         tracker.unlink()
         for s in _sources:
             s.unlink()
-        shutil.rmtree(build_dir)
