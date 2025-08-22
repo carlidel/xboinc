@@ -198,8 +198,9 @@ def generate_executable(*, keep_source=False, clean=True, vcpkg_root=None,
     # Compile!
     # 1. create a directory for the build
     build_dir = Path.cwd() / "build"
-    if not build_dir.exists():
-        build_dir.mkdir(parents=True, exist_ok=True)
+    if build_dir.exists():
+        shutil.rmtree(build_dir)
+    build_dir.mkdir(parents=True)
 
     # 2. set the environment variables for cmake
     env_dict = {
@@ -256,10 +257,17 @@ def generate_executable(*, keep_source=False, clean=True, vcpkg_root=None,
         raise RuntimeError(f"Compilation failed.\nStdOut: {stdout}\nStdErr: {stderr}") from e
 
     # 5. rename the executable
-    exec_name = f"{app_name}_{app_tag}"
     if 'mingw' in target_triplet:
-        exec_name += ".exe"
-    Path(build_dir / app_name).rename(build_dir.parent / exec_name)
+        exec_path = build_dir.parent / f"{app_name}_{app_tag}.exe"
+    else:
+        exec_path = build_dir.parent / f"{app_name}_{app_tag}"
+    app_name = build_dir / app_name
+    if not app_name.exists():
+        if 'mingw' in target_triplet and app_name.with_suffix(".exe").exists():
+            app_name = app_name.with_suffix(".exe")
+        else:
+            raise RuntimeError(f"Executable {app_name} not found after compilation!")
+    app_name.replace(exec_path)
 
     # 6. clean up
     if clean:
@@ -277,3 +285,4 @@ def generate_executable(*, keep_source=False, clean=True, vcpkg_root=None,
         tracker.unlink()
         for s in _sources:
             s.unlink()
+        shutil.rmtree(build_dir)
