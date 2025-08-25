@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -144,9 +144,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_directory</span><span class="p">,</span> <span class="n">get_domain</span>
 
 
-<div class="viewcode-block" id="ResultRetriever">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ResultRetriever</span><span class="p">:</span>
+<div class="viewcode-block" id="JobRetriever">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">JobRetriever</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to retrieve and manage results from Xboinc simulations.</span>
 
@@ -169,19 +169,19 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">    &gt;&gt;&gt; retriever = JobRetriever(&#39;myuser&#39;, dev_server=True)</span>
 <span class="sd">    &gt;&gt;&gt; studies = retriever.get_study_list()</span>
 <span class="sd">    &gt;&gt;&gt; for job_name, particles in retriever.iterate_results(&#39;my_study&#39;):</span>
 <span class="sd">    ...     # Process particles data</span>
 <span class="sd">    ...     pass</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ResultRetriever._untar_results">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._untar_results">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._untar_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._untar_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_untar_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Untar all compressed result files in the given path.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        path : FsPath</span>
@@ -197,8 +197,8 @@
                 <span class="n">untar</span><span class="p">(</span><span class="n">tar_file</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever._index_results">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._index_results">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._index_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._index_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">_index_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">FsPath</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Index all result files in the given path and create a DataFrame.</span>
@@ -251,7 +251,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the ResultRetriever for a specific user.</span>
+<span class="sd">        Initialize the JobRetriever for a specific user.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -272,7 +272,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True, silent=True)</span>
+<span class="sd">        &gt;&gt;&gt; retriever = JobRetriever(&#39;myuser&#39;, dev_server=True, silent=True)</span>
 <span class="sd">        &gt;&gt;&gt; overview = retriever.get_overview()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -281,12 +281,12 @@
                 <span class="s2">&quot;Regular server not yet operational. &quot;</span> <span class="o">+</span> <span class="s2">&quot;Please use dev_server=True.&quot;</span>
             <span class="p">)</span>
         <span class="n">assert_versions</span><span class="p">()</span>
-<div class="viewcode-block" id="ResultRetriever._user">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._user">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._user">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._user">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_user</span> <span class="o">=</span> <span class="n">user</span></div>
 
-<div class="viewcode-block" id="ResultRetriever._domain">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._domain">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._domain">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._domain">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">get_domain</span><span class="p">(</span><span class="n">user</span><span class="p">)</span></div>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">==</span> <span class="s2">&quot;eos&quot;</span><span class="p">:</span>
@@ -299,23 +299,23 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_directory</span> <span class="o">=</span> <span class="n">get_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
 
-<div class="viewcode-block" id="ResultRetriever._dev_server">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._dev_server">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._dev_server">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._dev_server">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dev_server</span> <span class="o">=</span> <span class="n">dev_server</span></div>
 
-<div class="viewcode-block" id="ResultRetriever._to_delete">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._to_delete">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._to_delete">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._to_delete">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_to_delete</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_untar_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
-<div class="viewcode-block" id="ResultRetriever._df">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever._df">[docs]</a>
+<div class="viewcode-block" id="JobRetriever._df">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever._df">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_results</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_directory</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever.get_overview">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_overview">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.get_overview">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.get_overview">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a comprehensive overview of all available results.</span>
@@ -329,8 +329,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever.get_study_list">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_study_list">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.get_study_list">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.get_study_list">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_study_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a list of all unique study names in the available results.</span>
@@ -343,8 +343,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever.get_study_status">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.get_study_status">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.get_study_status">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.get_study_status">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_study_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get detailed status information for a specific study.</span>
@@ -444,8 +444,8 @@
         <span class="k">return</span> <span class="n">result_job_names</span><span class="p">,</span> <span class="n">diff_jobs</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever.iterate_results">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.iterate_results">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.iterate_results">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.iterate_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">iterate_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Iterate over all results for a specific study.</span>
@@ -475,7 +475,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; retriever = ResultRetriever(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; retriever = JobRetriever(&#39;myuser&#39;, dev_server=True)</span>
 <span class="sd">        &gt;&gt;&gt; for job_name, particles in retriever.iterate_results(&#39;my_study&#39;):</span>
 <span class="sd">        ...     print(f&quot;Processing job: {job_name}&quot;)</span>
 <span class="sd">        ...     print(f&quot;Number of particles: {len(particles.x)}&quot;)</span>
@@ -496,8 +496,8 @@
             <span class="k">yield</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">particles</span></div>
 
 
-<div class="viewcode-block" id="ResultRetriever.clean">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.clean">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.clean">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.clean">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clean up results for a specific study.</span>
@@ -536,13 +536,13 @@
 
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ResultRetriever.iterate">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.iterate">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.iterate">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.iterate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">iterate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class method to directly iterate over results for a user and study.</span>
 
-<span class="sd">        Convenient method that creates a ResultRetriever instance and immediately</span>
+<span class="sd">        Convenient method that creates a JobRetriever instance and immediately</span>
 <span class="sd">        starts iterating over results without requiring explicit instantiation.</span>
 
 <span class="sd">        Parameters</span>
@@ -563,7 +563,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; for job_name, particles in ResultRetriever.iterate(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True):</span>
+<span class="sd">        &gt;&gt;&gt; for job_name, particles in JobRetriever.iterate(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True):</span>
 <span class="sd">        ...     # Process particles data</span>
 <span class="sd">        ...     pass</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -572,8 +572,8 @@
 
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ResultRetriever.overview">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.overview">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.overview">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.overview">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">overview</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class method to get an overview of results for a specific user.</span>
@@ -594,7 +594,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; overview_df = ResultRetriever.overview(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; overview_df = JobRetriever.overview(&#39;myuser&#39;, dev_server=True)</span>
 <span class="sd">        &gt;&gt;&gt; print(overview_df.groupby(&#39;study_name&#39;).size())</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
@@ -602,8 +602,8 @@
 
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ResultRetriever.status">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.status">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.status">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.status">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">study_name</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class method to get status of results for a specific user and study.</span>
@@ -629,7 +629,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; available, missing = ResultRetriever.status(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; available, missing = JobRetriever.status(&#39;myuser&#39;, &#39;my_study&#39;, dev_server=True)</span>
 <span class="sd">        &gt;&gt;&gt; print(f&quot;Available jobs: {len(available)}, Missing jobs: {len(missing)}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>
@@ -637,8 +637,8 @@
 
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ResultRetriever.study_list">
-<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.ResultRetriever.study_list">[docs]</a>
+<div class="viewcode-block" id="JobRetriever.study_list">
+<a class="viewcode-back" href="../../api/xboinc/retrieve/index.html#xboinc.JobRetriever.study_list">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">study_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class method to get a list of all studies for a specific user.</span>
@@ -659,7 +659,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; studies = ResultRetriever.study_list(&#39;myuser&#39;, dev_server=True)</span>
+<span class="sd">        &gt;&gt;&gt; studies = JobRetriever.study_list(&#39;myuser&#39;, dev_server=True)</span>
 <span class="sd">        &gt;&gt;&gt; print(studies)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="n">dev_server</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="n">silent</span><span class="p">)</span>

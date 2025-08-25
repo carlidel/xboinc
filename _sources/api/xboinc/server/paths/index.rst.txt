@@ -14,8 +14,6 @@ Attributes
    xboinc.server.paths.eosdir
    xboinc.server.paths.dropdir
    xboinc.server.paths.infowudir
-   xboinc.server.paths._test_afs
-   xboinc.server.paths._test_eos
 
 
 Module Contents
@@ -30,8 +28,4 @@ Module Contents
 .. py:data:: dropdir
 
 .. py:data:: infowudir
-
-.. py:data:: _test_afs
-
-.. py:data:: _test_eos
 

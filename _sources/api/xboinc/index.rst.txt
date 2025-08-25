@@ -39,10 +39,10 @@ Classes
 
 .. autoapisummary::
 
-   xboinc.ResultRetriever
+   xboinc.JobRetriever
    xboinc.XbInput
    xboinc.XbState
-   xboinc.JobManager
+   xboinc.JobSubmitter
 
 
 Functions
@@ -86,7 +86,7 @@ Package Contents
    :rtype: pd.DataFrame
 
 
-.. py:function:: generate_executable(*, keep_source=False, clean=True, vcpkg_root=None, target_triplet='x64-linux')
+.. py:function:: generate_executable(*, keep_source=False, clean=True, vcpkg_root=None, target_triplet=None)
 
    Generate the Xboinc executable.
 
@@ -97,9 +97,16 @@ Package Contents
    :param vcpkg_root: The path to the local VCPKG installation. If none, an executable
                       without the BOINC API is generated. Defaults to None.
    :type vcpkg_root: pathlib.Path, optional
-   :param target_triplet: The target architecture to compile to. Currently x64-linux and
-                          x64-mingw-static (i.e. Windows 64-bit) are supported.
-                          Defaults to x64-linux.
+   :param target_triplet: The target architecture to compile to. If none, host architecture
+                          will be used. Note that only a subset of host architectures are
+                          supported.
+                          Supported target triplets:
+                          - x64-linux - 64-bit Linux
+                          - x86-linux - 32-bit Linux
+                          - x64-mingw-static - 64-bit Windows
+                          - x86-mingw-static - 32-bit Windows
+                          Supported host triplets:
+                          - x64-linux
    :type target_triplet: string, optional
 
    :rtype: None
@@ -116,7 +123,7 @@ Package Contents
 
 
 .. py:data:: __version__
-   :value: '0.4.1'
+   :value: '0.4.2'
 
 
 .. py:data:: __xsuite__versions__
@@ -135,7 +142,7 @@ Package Contents
    :rtype: None.
 
 
-.. py:function:: register(user, directory)
+.. py:function:: register(user, directory, permissions_given=False)
 
    Register a user to the BOINC server and dev server, by declaring
    the username and user boinc directory, and giving access rights
@@ -149,11 +156,16 @@ Package Contents
                      Should not be accessed manually by the user to avoid syncing
                      issues.
    :type directory: pathlib.Path
+   :param permissions_given: Set it to True to certify that the service account sixtadm has already
+                             the necessary r/w permissions on the specified directory. Do that for EOS
+                             paths after giving the appropriate read/write permissions on CERNbox
+                             to the target folder!
+   :type permissions_given: bool
 
    :rtype: None.
 
 
-.. py:class:: ResultRetriever(user, dev_server=False, silent=False)
+.. py:class:: JobRetriever(user, dev_server=False, silent=False)
 
    Class to retrieve and manage results from Xboinc simulations.
 
@@ -193,7 +205,7 @@ Package Contents
 
    .. rubric:: Examples
 
-   >>> retriever = ResultRetriever('myuser', dev_server=True)
+   >>> retriever = JobRetriever('myuser', dev_server=True)
    >>> studies = retriever.get_study_list()
    >>> for job_name, particles in retriever.iterate_results('my_study'):
    ...     # Process particles data
@@ -315,7 +327,7 @@ Package Contents
 
       .. rubric:: Examples
 
-      >>> retriever = ResultRetriever('myuser', dev_server=True)
+      >>> retriever = JobRetriever('myuser', dev_server=True)
       >>> for job_name, particles in retriever.iterate_results('my_study'):
       ...     print(f"Processing job: {job_name}")
       ...     print(f"Number of particles: {len(particles.x)}")
@@ -347,7 +359,7 @@ Package Contents
 
       Class method to directly iterate over results for a user and study.
 
-      Convenient method that creates a ResultRetriever instance and immediately
+      Convenient method that creates a JobRetriever instance and immediately
       starts iterating over results without requiring explicit instantiation.
 
       :param user: The user that submitted the BOINC jobs
@@ -363,7 +375,7 @@ Package Contents
 
       .. rubric:: Examples
 
-      >>> for job_name, particles in ResultRetriever.iterate('myuser', 'my_study', dev_server=True):
+      >>> for job_name, particles in JobRetriever.iterate('myuser', 'my_study', dev_server=True):
       ...     # Process particles data
       ...     pass
 
@@ -387,7 +399,7 @@ Package Contents
 
       .. rubric:: Examples
 
-      >>> overview_df = ResultRetriever.overview('myuser', dev_server=True)
+      >>> overview_df = JobRetriever.overview('myuser', dev_server=True)
       >>> print(overview_df.groupby('study_name').size())
 
 
@@ -417,7 +429,7 @@ Package Contents
 
       .. rubric:: Examples
 
-      >>> available, missing = ResultRetriever.status('myuser', 'my_study', dev_server=True)
+      >>> available, missing = JobRetriever.status('myuser', 'my_study', dev_server=True)
       >>> print(f"Available jobs: {len(available)}, Missing jobs: {len(missing)}")
 
 
@@ -440,7 +452,7 @@ Package Contents
 
       .. rubric:: Examples
 
-      >>> studies = ResultRetriever.study_list('myuser', dev_server=True)
+      >>> studies = JobRetriever.study_list('myuser', dev_server=True)
       >>> print(studies)
 
 
@@ -570,7 +582,7 @@ Package Contents
 
 .. py:function:: assert_versions()
 
-.. py:class:: JobManager(user, study_name, line=None, dev_server=False, **kwargs)
+.. py:class:: JobSubmitter(user, study_name, line=None, dev_server=False, **kwargs)
 
    A class to manage jobs for submission to the Xboinc server.
 
@@ -578,7 +590,7 @@ Package Contents
    jobs and submitting them as a batch to the BOINC server. It handles job validation,
    time estimation, file preparation, and submission.
 
-   The JobManager ensures that:
+   The JobSubmitter ensures that:
    - Job execution times fall within acceptable bounds
    - Job names are unique within a study
    - All necessary files are properly packaged and submitted
@@ -595,14 +607,14 @@ Package Contents
    Basic usage with a single line for all jobs:
 
    >>> line = xtrack.Line.from_dict(line_dict)
-   >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
+   >>> manager = JobSubmitter("user123", "my_study", line=line, dev_server=True)
    >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
    >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
    >>> manager.submit()
 
    Usage with different lines per job:
 
-   >>> manager = JobManager("user123", "my_study", dev_server=True)
+   >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
    >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
    >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
    >>> manager.submit()
@@ -657,13 +669,13 @@ Package Contents
 
       Ensure that jobs have not already been submitted.
 
-      :raises ValueError: If jobs have already been submitted from this JobManager instance.
+      :raises ValueError: If jobs have already been submitted from this JobSubmitter instance.
 
 
 
    .. py:method:: add(*, job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, **kwargs)
 
-      Add a single job to the JobManager instance.
+      Add a single job to the JobSubmitter instance.
 
       This method creates the necessary input files (binary and JSON metadata)
       for a single tracking job. The job is validated for execution time bounds
@@ -685,7 +697,7 @@ Package Contents
                         to be tracked.
       :type particles: xpart.Particles
       :param line: The tracking line for this specific job. If None, uses the line
-                   provided during JobManager initialization. Providing a line per
+                   provided during JobSubmitter initialization. Providing a line per
                    job is slower due to repeated preprocessing.
       :type line: xtrack.Line, optional
       :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
@@ -716,6 +728,40 @@ Package Contents
 
 
 
+   .. py:method:: slice_and_add(*, base_job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, target_execution_time=SWEET_SPOT_TIME, **kwargs)
+
+      Given an arbitarily large number of particles, this method slices the
+      particle distribution into smaller jobs that fit within the target
+      time limit indicated.
+
+      :param base_job_name: Unique base name for this job within the study. Cannot contain '__'
+                            (double underscore).
+      :type base_job_name: str
+      :param num_turns: The number of tracking turns for this job. Must be positive.
+      :type num_turns: int
+      :param ele_start: The starting element index for tracking. Default is 0 (first element).
+                        If provided different from 0 with particles set at a certain starting
+                        position, raises a ValueError.
+      :type ele_start: int, optional
+      :param ele_stop: The stopping element index for tracking. Default is -1 (last element).
+      :type ele_stop: int, optional
+      :param particles: The particles object containing the initial particle distribution
+                        to be tracked.
+      :type particles: xpart.Particles
+      :param line: The tracking line for this specific job. If None, uses the line
+                   provided during JobSubmitter initialization. Providing a line per
+                   job is slower due to repeated preprocessing.
+      :type line: xtrack.Line, optional
+      :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
+                               If positive, simulation state will be saved every N turns.
+      :type checkpoint_every: int, optional
+      :param target_execution_time: The target execution time for this job in seconds. Default is
+                                    a SWEET_SPOT_TIME of 2 hours.
+      :type target_execution_time: float, optional
+      :param \*\*kwargs: Additional job metadata to be included in the job JSON file.
+
+
+
    .. py:method:: submit()
 
       Package and submit all added jobs to the BOINC server.
@@ -728,14 +774,14 @@ Package Contents
       1. Creates a .tar.gz archive with all job files
       2. Moves the archive to the appropriate submission directory
       3. Cleans up temporary files
-      4. Marks the JobManager as submitted
+      4. Marks the JobSubmitter as submitted
 
       :raises ValueError: If jobs have already been submitted or if the user domain is invalid.
 
       .. rubric:: Notes
 
-      After submission, this JobManager instance cannot be used to add more
-      jobs. Create a new JobManager instance for additional submissions.
+      After submission, this JobSubmitter instance cannot be used to add more
+      jobs. Create a new JobSubmitter instance for additional submissions.
 
       The submission directory depends on the dev_server setting:
       - Development server: {user_directory}/input_dev
@@ -751,7 +797,7 @@ Package Contents
 
    .. py:method:: __len__()
 
-      Return the number of jobs added to this JobManager instance.
+      Return the number of jobs added to this JobSubmitter instance.
 
       :returns: The number of jobs that have been added but not yet submitted.
       :rtype: int
@@ -760,22 +806,22 @@ Package Contents
 
    .. py:method:: __repr__()
 
-      Return a string representation of the JobManager instance.
+      Return a string representation of the JobSubmitter instance.
 
       :returns: A concise string representation showing key attributes and status.
       :rtype: str
 
       .. rubric:: Examples
 
-      >>> manager = JobManager("user123", "my_study", dev_server=True)
+      >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
       >>> repr(manager)
-      'JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
+      'JobSubmitter(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
 
 
 
    .. py:method:: get_job_summary()
 
-      Return a comprehensive summary of all jobs in this JobManager instance.
+      Return a comprehensive summary of all jobs in this JobSubmitter instance.
 
       :returns: A dictionary containing:
                 - user: The submitting user

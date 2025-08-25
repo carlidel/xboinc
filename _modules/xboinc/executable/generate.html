@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -134,6 +134,8 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">xobjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xo</span>
@@ -249,9 +251,8 @@
 
 <div class="viewcode-block" id="generate_executable">
 <a class="viewcode-back" href="../../../api/xboinc/index.html#xboinc.executable.generate.generate_executable">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">generate_executable</span><span class="p">(</span>
-    <span class="o">*</span><span class="p">,</span> <span class="n">keep_source</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vcpkg_root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_triplet</span><span class="o">=</span><span class="s2">&quot;x64-linux&quot;</span>
-<span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_executable</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">keep_source</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vcpkg_root</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">target_triplet</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the Xboinc executable.</span>
 
@@ -265,15 +266,54 @@
 <span class="sd">        The path to the local VCPKG installation. If none, an executable</span>
 <span class="sd">        without the BOINC API is generated. Defaults to None.</span>
 <span class="sd">    target_triplet : string, optional</span>
-<span class="sd">        The target architecture to compile to. Currently x64-linux and</span>
-<span class="sd">        x64-mingw-static (i.e. Windows 64-bit) are supported.</span>
-<span class="sd">        Defaults to x64-linux.</span>
+<span class="sd">        The target architecture to compile to. If none, host architecture</span>
+<span class="sd">        will be used. Note that only a subset of host architectures are</span>
+<span class="sd">        supported.</span>
+<span class="sd">        Supported target triplets:</span>
+<span class="sd">        - x64-linux - 64-bit Linux</span>
+<span class="sd">        - x86-linux - 32-bit Linux</span>
+<span class="sd">        - x64-mingw-static - 64-bit Windows</span>
+<span class="sd">        - x86-mingw-static - 32-bit Windows</span>
+<span class="sd">        Supported host triplets:</span>
+<span class="sd">        - x64-linux</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">assert_versions</span><span class="p">()</span>
+
+    <span class="c1"># Target triplets</span>
+    <span class="n">triplets</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;x64-linux&quot;</span><span class="p">:</span>        <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;x86_64-pc-linux-gnu&#39;</span><span class="p">,</span> <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;make&#39;</span><span class="p">,</span>         <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;cmake&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;x86-linux&quot;</span><span class="p">:</span>        <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;i686-pc-linux-gnu&#39;</span><span class="p">,</span>   <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;make&#39;</span><span class="p">,</span>         <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;cmake&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;arm64-osx&quot;</span><span class="p">:</span>        <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;arm64-apple-darwin&#39;</span><span class="p">,</span>  <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;make&#39;</span><span class="p">,</span>         <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;cmake&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;x86_64-osx&quot;</span><span class="p">:</span>       <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;x86_64-apple-darwin&#39;</span><span class="p">,</span> <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;make&#39;</span><span class="p">,</span>         <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;cmake&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;x64-mingw-static&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;windows_x86_64&#39;</span><span class="p">,</span>      <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;mingw64-make&#39;</span><span class="p">,</span> <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;mingw64-cmake&#39;</span><span class="p">},</span>
+        <span class="s2">&quot;x86-mingw-static&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;tag&#39;</span><span class="p">:</span> <span class="s1">&#39;windows_intelx86&#39;</span><span class="p">,</span>    <span class="s1">&#39;make&#39;</span><span class="p">:</span> <span class="s1">&#39;mingw32-make&#39;</span><span class="p">,</span> <span class="s1">&#39;cmake&#39;</span><span class="p">:</span> <span class="s1">&#39;mingw32-cmake&#39;</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">target_triplet</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># detect if we are on macOS</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
+            <span class="n">target_triplet</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;x86_64-osx&quot;</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;x86_64&quot;</span> <span class="k">else</span> <span class="s2">&quot;arm64-osx&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;linux&quot;</span><span class="p">):</span>
+            <span class="n">target_triplet</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;x64-linux&quot;</span> <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;x86_64&quot;</span> <span class="k">else</span> <span class="s2">&quot;x86-linux&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Host architecture seems to not be supported! &quot;</span>
+                <span class="s2">&quot;Please specify manually a target triplet. &quot;</span>
+                <span class="s2">&quot;If execution still fails, consider running &quot;</span>
+                <span class="s2">&quot;generate_executable_source() and document the necessary steps &quot;</span>
+                <span class="s2">&quot;for building the executable.&quot;</span>
+            <span class="p">)</span>
+    <span class="k">if</span> <span class="n">target_triplet</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">triplets</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target triplet </span><span class="si">{</span><span class="n">target_triplet</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;osx&#39;</span> <span class="ow">in</span> <span class="n">target_triplet</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;macOS still requires testing before support can be added.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Check vcpkg path</span>
     <span class="k">if</span> <span class="n">vcpkg_root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -283,35 +323,22 @@
 
     <span class="n">config</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xb_input.h&quot;</span>
     <span class="n">tracker</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;xtrack_tracker.h&quot;</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-        <span class="ow">or</span> <span class="ow">not</span> <span class="n">tracker</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">_sources</span><span class="p">])</span>
-    <span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">tracker</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> \
+    <span class="ow">or</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">_sources</span><span class="p">]):</span>
         <span class="n">generate_executable_source</span><span class="p">()</span>
 
     <span class="c1"># Locate xtrack</span>
     <span class="n">xtrack_dir</span> <span class="o">=</span> <span class="n">xt</span><span class="o">.</span><span class="n">_pkg_root</span>
 
     <span class="c1"># Create executable name</span>
-    <span class="n">app_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_version</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="c1"># Currently, we only support the x64-linux and x64-mingw-static triplets</span>
-    <span class="c1"># corresponding, respectively, to x86_64-pc-linux-gnu and windows_x86_64</span>
-    <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-linux&quot;</span><span class="p">:</span>
-        <span class="n">app_tag</span> <span class="o">+=</span> <span class="s2">&quot;-x86_64-pc-linux-gnu&quot;</span>
-    <span class="k">elif</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-mingw-static&quot;</span><span class="p">:</span>
-        <span class="n">app_tag</span> <span class="o">+=</span> <span class="s2">&quot;-windows_x86_64&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Target triplet </span><span class="si">{</span><span class="n">target_triplet</span><span class="si">}</span><span class="s2"> not supported. &quot;</span>
-            <span class="s2">&quot;Currently only x64-linux and x64-mingw-static are supported.&quot;</span>
-        <span class="p">)</span>
+    <span class="n">app_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_version</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">triplets</span><span class="p">[</span><span class="n">target_triplet</span><span class="p">][</span><span class="s1">&#39;tag&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="c1"># Compile!</span>
     <span class="c1"># 1. create a directory for the build</span>
     <span class="n">build_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;build&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">build_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">build_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">build_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">build_dir</span><span class="p">)</span>
+    <span class="n">build_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># 2. set the environment variables for cmake</span>
     <span class="n">env_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -320,7 +347,7 @@
     <span class="p">}</span>
     <span class="n">cmake_args</span> <span class="o">=</span> <span class="p">[</span>
         <span class="sa">f</span><span class="s2">&quot;-DXTRACK_PYTHON_DIR=</span><span class="si">{</span><span class="n">xtrack_dir</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;-DCMAKE_BUILD_TYPE=Release&quot;</span>
+        <span class="s2">&quot;-DCMAKE_BUILD_TYPE=Release&quot;</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="c1"># add vcpkg root if provided</span>
@@ -333,24 +360,25 @@
             <span class="sa">f</span><span class="s2">&quot;-DCMAKE_TOOLCHAIN_FILE=</span><span class="si">{</span><span class="n">vcpkg_root</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="si">}</span><span class="s2">/scripts/buildsystems/vcpkg.cmake&quot;</span>
         <span class="p">)</span>
 
-    <span class="n">cmake_command</span> <span class="o">=</span> <span class="p">([</span><span class="s2">&quot;cmake&quot;</span> <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">!=</span> <span class="s2">&quot;x64-mingw-static&quot;</span> <span class="k">else</span> <span class="s2">&quot;mingw64-cmake&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">cmake_args</span><span class="p">)</span>
-
     <span class="c1"># 3. run cmake to configure the build</span>
+    <span class="n">cmake_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="n">triplets</span><span class="p">[</span><span class="n">target_triplet</span><span class="p">][</span><span class="s1">&#39;cmake&#39;</span><span class="p">],</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">cmake_args</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running command: </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmake_command</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running command: </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmake_cmd</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-            <span class="n">cmake_command</span><span class="p">,</span>
+            <span class="n">cmake_cmd</span><span class="p">,</span>
             <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
             <span class="n">env</span><span class="o">=</span><span class="n">env_dict</span><span class="p">,</span>
-            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuration failed. Stderr:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Configuration failed.</span><span class="se">\n</span><span class="s2">StdOut: </span><span class="si">{</span><span class="n">stdout</span><span class="si">}</span><span class="se">\n</span><span class="s2">StdErr: </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="c1"># 4. run make to build the executable</span>
-    <span class="n">make_cmd</span> <span class="o">=</span> <span class="s2">&quot;make&quot;</span> <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">!=</span> <span class="s2">&quot;x64-mingw-static&quot;</span> <span class="k">else</span> <span class="s2">&quot;mingw64-make&quot;</span>
+    <span class="n">make_cmd</span> <span class="o">=</span> <span class="n">triplets</span><span class="p">[</span><span class="n">target_triplet</span><span class="p">][</span><span class="s1">&#39;make&#39;</span><span class="p">]</span>
     <span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;xboinc_test&quot;</span> <span class="k">if</span> <span class="n">vcpkg_root</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;xboinc&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running command: </span><span class="si">{</span><span class="n">make_cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -358,21 +386,26 @@
             <span class="p">[</span><span class="n">make_cmd</span><span class="p">,</span> <span class="n">app_name</span><span class="p">],</span>
             <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
             <span class="n">env</span><span class="o">=</span><span class="n">env_dict</span><span class="p">,</span>
-            <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compilation failed. Stderr:</span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="n">stdout</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">stderr</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">stderr</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compilation failed.</span><span class="se">\n</span><span class="s2">StdOut: </span><span class="si">{</span><span class="n">stdout</span><span class="si">}</span><span class="se">\n</span><span class="s2">StdErr: </span><span class="si">{</span><span class="n">stderr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="c1"># 5. rename the executable</span>
-    <span class="k">if</span> <span class="n">target_triplet</span> <span class="o">==</span> <span class="s2">&quot;x64-mingw-static&quot;</span><span class="p">:</span>
-        <span class="c1"># For MinGW, we need to rename the executable to have a .exe extension</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">build_dir</span> <span class="o">/</span> <span class="p">(</span><span class="n">app_name</span> <span class="o">+</span> <span class="s2">&quot;.exe&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">.exe&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;mingw&#39;</span> <span class="ow">in</span> <span class="n">target_triplet</span><span class="p">:</span>
+        <span class="n">exec_path</span> <span class="o">=</span> <span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">.exe&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">build_dir</span> <span class="o">/</span> <span class="n">app_name</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">exec_path</span> <span class="o">=</span> <span class="n">build_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">app_tag</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">app_name</span> <span class="o">=</span> <span class="n">build_dir</span> <span class="o">/</span> <span class="n">app_name</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">app_name</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s1">&#39;mingw&#39;</span> <span class="ow">in</span> <span class="n">target_triplet</span> <span class="ow">and</span> <span class="n">app_name</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.exe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">app_name</span> <span class="o">=</span> <span class="n">app_name</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.exe&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executable </span><span class="si">{</span><span class="n">app_name</span><span class="si">}</span><span class="s2"> not found after compilation!&quot;</span><span class="p">)</span>
+    <span class="n">app_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">exec_path</span><span class="p">)</span>
 
     <span class="c1"># 6. clean up</span>
     <span class="k">if</span> <span class="n">clean</span><span class="p">:</span>

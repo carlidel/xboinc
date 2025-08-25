@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -174,7 +174,7 @@
 <a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc._give_rights">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_give_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="s2">&quot;rlwikd&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Ask CERN IT for explanation...&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Direct ACL manipulation on EOS is not supported. If you need to set read/write permissions, please use the web interface of your CERNbox account.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">LocalPath</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;Local directories are not supported for BOINC server registration.&quot;</span>
@@ -196,7 +196,7 @@
 <a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc._remove_rights">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">_remove_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">EosPath</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Ask CERN IT for explanation...&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Direct ACL manipulation on EOS is not supported. If you need to set read/write permissions, please use the web interface of your CERNbox account.&quot;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">LocalPath</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
             <span class="s2">&quot;Local directories are not supported for BOINC server registration.&quot;</span>
@@ -216,7 +216,7 @@
 
 <div class="viewcode-block" id="register">
 <a class="viewcode-back" href="../../api/xboinc/register/index.html#xboinc.register">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">permissions_given</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register a user to the BOINC server and dev server, by declaring</span>
 <span class="sd">    the username and user boinc directory, and giving access rights</span>
@@ -232,6 +232,11 @@
 <span class="sd">        AFS or EOS), which will hold the new submissions and results.</span>
 <span class="sd">        Should not be accessed manually by the user to avoid syncing</span>
 <span class="sd">        issues.</span>
+<span class="sd">    permissions_given : bool</span>
+<span class="sd">        Set it to True to certify that the service account sixtadm has already</span>
+<span class="sd">        the necessary r/w permissions on the specified directory. Do that for EOS</span>
+<span class="sd">        paths after giving the appropriate read/write permissions on CERNbox</span>
+<span class="sd">        to the target folder!</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -256,11 +261,12 @@
     <span class="n">user_file</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">_create_json</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
     <span class="c1"># This is a small hack to avoid losing sixtadm ACLs during testing</span>
     <span class="n">acl</span> <span class="o">=</span> <span class="s2">&quot;rlwikda&quot;</span> <span class="k">if</span> <span class="n">user</span> <span class="o">==</span> <span class="n">server_account</span> <span class="k">else</span> <span class="s2">&quot;rlwikd&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">_give_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">permissions_given</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_give_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">e</span>
     <span class="n">input_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input&quot;</span>
     <span class="n">input_dev_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;input_dev&quot;</span>
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">directory</span> <span class="o">/</span> <span class="s2">&quot;output&quot;</span>
@@ -269,14 +275,15 @@
     <span class="n">input_dev_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">output_dev_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
-        <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
-        <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
-        <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
-        <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">permissions_given</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+            <span class="n">_give_rights</span><span class="p">(</span><span class="n">input_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+            <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+            <span class="n">_give_rights</span><span class="p">(</span><span class="n">output_dev_dir</span><span class="p">,</span> <span class="n">acl</span><span class="o">=</span><span class="n">acl</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">user_file</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="n">e</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">ff</span> <span class="o">:=</span> <span class="n">FsPath</span><span class="p">(</span><span class="n">dropdir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;de</span><span class="si">{</span><span class="n">user_file</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="n">ff</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Removed existing deregistration file on server dropdir.&quot;</span><span class="p">)</span>
@@ -342,7 +349,7 @@
                 <span class="n">_remove_rights</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
                 <span class="n">_remove_rights</span><span class="p">(</span><span class="n">output_dev_dir</span><span class="p">)</span>
                 <span class="n">_remove_rights</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">,</span> <span class="ne">NotImplementedError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Warning: could not remove ACL on </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;directory&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> for server &quot;</span>
                     <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;account </span><span class="si">{</span><span class="n">server_account</span><span class="si">}</span><span class="s2">!</span><span class="se">\n</span><span class="s2">Please do this manually.&quot;</span>

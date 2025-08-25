@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -154,9 +154,9 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager.__len__">__len__() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.__len__">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.__len__">__len__() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.__len__">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager.__repr__">__repr__() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.__repr__">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.__repr__">__repr__() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.__repr__">[1]</a>
 </li>
       <li><a href="api/xboinc/index.html#xboinc.__version__">__version__ (in module xboinc)</a>
 
@@ -170,9 +170,9 @@
         <li><a href="api/xboinc/general/index.html#xboinc.general.__xsuite__versions__">(in module xboinc.general)</a>
 </li>
       </ul></li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._assert_not_submitted">_assert_not_submitted() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._assert_not_submitted">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._assert_not_submitted">_assert_not_submitted() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._assert_not_submitted">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._bin_files">_bin_files (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._bin_files">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._bin_files">_bin_files (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._bin_files">[1]</a>
 </li>
       <li><a href="api/xboinc/simulation_io/input/index.html#xboinc.simulation_io.input._build_line_metadata">_build_line_metadata() (in module xboinc.simulation_io.input)</a>
 </li>
@@ -184,16 +184,16 @@
 </li>
       <li><a href="api/xboinc/simulation_io/default_tracker/index.html#xboinc.simulation_io.default_tracker._default_tracker_cache">_default_tracker_cache (in module xboinc.simulation_io.default_tracker)</a>
 </li>
-      <li><a href="api/xboinc/index.html#id2">_dev_server (ResultRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.ResultRetriever._dev_server">[1]</a>, <a href="api/xboinc/retrieve/index.html#id2">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._dev_server">[3]</a>
+      <li><a href="api/xboinc/index.html#id2">_dev_server (JobRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobRetriever._dev_server">[1]</a>, <a href="api/xboinc/retrieve/index.html#id2">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._dev_server">[3]</a>
 </li>
-      <li><a href="api/xboinc/index.html#id3">_df (ResultRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.ResultRetriever._df">[1]</a>, <a href="api/xboinc/retrieve/index.html#id3">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._df">[3]</a>
+      <li><a href="api/xboinc/index.html#id3">_df (JobRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobRetriever._df">[1]</a>, <a href="api/xboinc/retrieve/index.html#id3">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._df">[3]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever._directory">_directory (ResultRetriever attribute)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._directory">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever._directory">_directory (JobRetriever attribute)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._directory">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._domain">_domain (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._domain">[1]</a>
+      <li><a href="api/xboinc/index.html#id1">_domain (JobRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobRetriever._domain">[1]</a>, <a href="api/xboinc/retrieve/index.html#id1">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._domain">[3]</a>
 
       <ul>
-        <li><a href="api/xboinc/index.html#id1">(ResultRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.ResultRetriever._domain">[1]</a>, <a href="api/xboinc/retrieve/index.html#id1">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._domain">[3]</a>
+        <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._domain">(JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._domain">[1]</a>
 </li>
       </ul></li>
       <li><a href="api/xboinc/submit/index.html#xboinc.submit._get_num_elements_from_line">_get_num_elements_from_line() (in module xboinc.submit)</a>
@@ -206,16 +206,16 @@
 </li>
       <li><a href="api/xboinc/index.html#xboinc.XbState._i_turn">_i_turn (XbState attribute)</a>, <a href="api/xboinc/simulation_io/index.html#xboinc.simulation_io.XbState._i_turn">[1]</a>, <a href="api/xboinc/simulation_io/output/index.html#xboinc.simulation_io.output.XbState._i_turn">[2]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever._index_results">_index_results() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._index_results">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever._index_results">_index_results() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._index_results">[1]</a>
 </li>
       <li><a href="api/xboinc/simulation_io/version/index.html#xboinc.simulation_io.version._int_to_version">_int_to_version() (in module xboinc.simulation_io.version)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._json_files">_json_files (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._json_files">[1]</a>
-</li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._line">_line (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._line">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._json_files">_json_files (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._json_files">[1]</a>
+</li>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._line">_line (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._line">[1]</a>
+</li>
       <li><a href="api/xboinc/index.html#xboinc.XbInput._parity_check">_parity_check (XbInput attribute)</a>, <a href="api/xboinc/simulation_io/index.html#xboinc.simulation_io.XbInput._parity_check">[1]</a>, <a href="api/xboinc/simulation_io/input/index.html#xboinc.simulation_io.input.XbInput._parity_check">[2]</a>
 </li>
       <li><a href="api/xboinc/index.html#xboinc.XbState._particles">_particles (XbState attribute)</a>, <a href="api/xboinc/simulation_io/index.html#xboinc.simulation_io.XbState._particles">[1]</a>, <a href="api/xboinc/simulation_io/output/index.html#xboinc.simulation_io.output.XbState._particles">[2]</a>
@@ -236,36 +236,24 @@
 </li>
       <li><a href="api/xboinc/executable/generate/index.html#xboinc.executable.generate._sources">_sources (in module xboinc.executable.generate)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._study_name">_study_name (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._study_name">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._study_name">_study_name (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._study_name">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._submit_file">_submit_file (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._submit_file">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._submit_file">_submit_file (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._submit_file">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._submitted">_submitted (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._submitted">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._submitted">_submitted (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._submitted">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._tempdir">_tempdir (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._tempdir">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._tempdir">_tempdir (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._tempdir">[1]</a>
 </li>
-      <li><a href="api/xboinc/server/index.html#xboinc.server._test_afs">_test_afs (in module xboinc.server)</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever._to_delete">_to_delete (JobRetriever attribute)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._to_delete">[1]</a>
+</li>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._unique_job_names">_unique_job_names (JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._unique_job_names">[1]</a>
+</li>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever._untar_results">_untar_results() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._untar_results">[1]</a>
+</li>
+      <li><a href="api/xboinc/index.html#id0">_user (JobRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobRetriever._user">[1]</a>, <a href="api/xboinc/retrieve/index.html#id0">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever._user">[3]</a>
 
       <ul>
-        <li><a href="api/xboinc/server/paths/index.html#xboinc.server.paths._test_afs">(in module xboinc.server.paths)</a>
-</li>
-      </ul></li>
-      <li><a href="api/xboinc/server/index.html#xboinc.server._test_eos">_test_eos (in module xboinc.server)</a>
-
-      <ul>
-        <li><a href="api/xboinc/server/paths/index.html#xboinc.server.paths._test_eos">(in module xboinc.server.paths)</a>
-</li>
-      </ul></li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever._to_delete">_to_delete (ResultRetriever attribute)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._to_delete">[1]</a>
-</li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._unique_job_names">_unique_job_names (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._unique_job_names">[1]</a>
-</li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever._untar_results">_untar_results() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._untar_results">[1]</a>
-</li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager._user">_user (JobManager attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager._user">[1]</a>
-
-      <ul>
-        <li><a href="api/xboinc/index.html#id0">(ResultRetriever attribute)</a>, <a href="api/xboinc/index.html#xboinc.ResultRetriever._user">[1]</a>, <a href="api/xboinc/retrieve/index.html#id0">[2]</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever._user">[3]</a>
+        <li><a href="api/xboinc/index.html#xboinc.JobSubmitter._user">(JobSubmitter attribute)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter._user">[1]</a>
 </li>
       </ul></li>
       <li><a href="api/xboinc/index.html#xboinc.XbInput._version">_version (XbInput attribute)</a>, <a href="api/xboinc/simulation_io/index.html#xboinc.simulation_io.XbInput._version">[1]</a>, <a href="api/xboinc/simulation_io/input/index.html#xboinc.simulation_io.input.XbInput._version">[2]</a>
@@ -286,7 +274,7 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager.add">add() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.add">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.add">add() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.add">[1]</a>
 </li>
       <li><a href="api/xboinc/server/index.html#xboinc.server.afsusr">afsusr (in module xboinc.server)</a>
 
@@ -346,7 +334,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/xboinc/index.html#xboinc.XbInput.checkpoint_every">checkpoint_every (XbInput attribute)</a>, <a href="api/xboinc/simulation_io/index.html#xboinc.simulation_io.XbInput.checkpoint_every">[1]</a>, <a href="api/xboinc/simulation_io/input/index.html#xboinc.simulation_io.input.XbInput.checkpoint_every">[2]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.clean">clean() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.clean">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.clean">clean() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.clean">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -368,7 +356,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#id4">dev_server (JobManager attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobManager.dev_server">[1]</a>, <a href="api/xboinc/submit/index.html#id0">[2]</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.dev_server">[3]</a>
+      <li><a href="api/xboinc/index.html#id4">dev_server (JobSubmitter attribute)</a>, <a href="api/xboinc/index.html#xboinc.JobSubmitter.dev_server">[1]</a>, <a href="api/xboinc/submit/index.html#id0">[2]</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.dev_server">[3]</a>
 </li>
       <li><a href="api/xboinc/server/index.html#xboinc.server.dropdir">dropdir (in module xboinc.server)</a>
 
@@ -464,13 +452,13 @@
 </li>
       <li><a href="api/xboinc/user/index.html#xboinc.user.get_domain">get_domain() (in module xboinc.user)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager.get_job_summary">get_job_summary() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.get_job_summary">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.get_job_summary">get_job_summary() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.get_job_summary">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.get_overview">get_overview() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.get_overview">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.get_overview">get_overview() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.get_overview">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.get_study_list">get_study_list() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.get_study_list">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.get_study_list">get_study_list() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.get_study_list">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.get_study_status">get_study_status() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.get_study_status">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.get_study_status">get_study_status() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.get_study_status">[1]</a>
 </li>
       <li><a href="api/xboinc/user/index.html#xboinc.user.get_user_data">get_user_data() (in module xboinc.user)</a>
 </li>
@@ -492,9 +480,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/xboinc/executable/generate/index.html#xboinc.executable.generate.insert_in_all_files">insert_in_all_files (in module xboinc.executable.generate)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.iterate">iterate() (ResultRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.iterate">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.iterate">iterate() (JobRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.iterate">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.iterate_results">iterate_results() (ResultRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.iterate_results">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.iterate_results">iterate_results() (JobRetriever method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.iterate_results">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -502,10 +490,18 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager">JobManager (class in xboinc)</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever">JobRetriever (class in xboinc)</a>
 
       <ul>
-        <li><a href="api/xboinc/submit/index.html#xboinc.submit.JobManager">(class in xboinc.submit)</a>
+        <li><a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever">(class in xboinc.retrieve)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter">JobSubmitter (class in xboinc)</a>
+
+      <ul>
+        <li><a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter">(class in xboinc.submit)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -613,7 +609,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.overview">overview() (ResultRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.overview">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.overview">overview() (JobRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.overview">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -665,12 +661,6 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/xboinc/user/index.html#xboinc.user.remove_user">remove_user() (in module xboinc.user)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever">ResultRetriever (class in xboinc)</a>
-
-      <ul>
-        <li><a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever">(class in xboinc.retrieve)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -679,13 +669,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/xboinc/server/index.html#xboinc.server.server_account">server_account (in module xboinc.server)</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.status">status() (ResultRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.status">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.slice_and_add">slice_and_add() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.slice_and_add">[1]</a>
+</li>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.status">status() (JobRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.status">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/xboinc/index.html#xboinc.ResultRetriever.study_list">study_list() (ResultRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.ResultRetriever.study_list">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobRetriever.study_list">study_list() (JobRetriever class method)</a>, <a href="api/xboinc/retrieve/index.html#xboinc.retrieve.JobRetriever.study_list">[1]</a>
 </li>
-      <li><a href="api/xboinc/index.html#xboinc.JobManager.submit">submit() (JobManager method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobManager.submit">[1]</a>
+      <li><a href="api/xboinc/index.html#xboinc.JobSubmitter.submit">submit() (JobSubmitter method)</a>, <a href="api/xboinc/submit/index.html#xboinc.submit.JobSubmitter.submit">[1]</a>
+</li>
+      <li><a href="api/xboinc/submit/index.html#xboinc.submit.SWEET_SPOT_TIME">SWEET_SPOT_TIME (in module xboinc.submit)</a>
 </li>
   </ul></td>
 </tr></table>

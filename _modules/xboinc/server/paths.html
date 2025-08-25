@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -135,34 +135,25 @@
 
 <div class="viewcode-block" id="afsusr">
 <a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server.afsusr">[docs]</a>
-<span class="n">afsusr</span>  <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="s1">&#39;/afs/cern.ch/user/s/sixtadm&#39;</span><span class="p">)</span></div>
+<span class="n">afsusr</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="s1">&#39;/afs/cern.ch/user/s/sixtadm&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="eosusr">
 <a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server.eosusr">[docs]</a>
-<span class="n">eosusr</span>  <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="s1">&#39;/eos/user/s/sixtadm&#39;</span><span class="p">)</span></div>
+<span class="n">eosusr</span> <span class="o">=</span> <span class="n">FsPath</span><span class="p">(</span><span class="s1">&#39;/eos/user/s/sixtadm&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="eosdir">
 <a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server.eosdir">[docs]</a>
-<span class="n">eosdir</span>     <span class="o">=</span> <span class="n">eosusr</span> <span class="o">/</span> <span class="s1">&#39;xboinc_server&#39;</span>         <span class="c1"># EOS spooldir for server</span></div>
+<span class="n">eosdir</span>    <span class="o">=</span> <span class="n">eosusr</span> <span class="o">/</span> <span class="s1">&#39;xboinc_server&#39;</span> <span class="c1"># EOS spooldir for server</span></div>
 
 <div class="viewcode-block" id="dropdir">
 <a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server.dropdir">[docs]</a>
-<span class="n">dropdir</span>    <span class="o">=</span> <span class="n">eosdir</span> <span class="o">/</span> <span class="s1">&#39;drop&#39;</span>                  <span class="c1"># only location where users have write access (i.e. to register)</span></div>
+<span class="n">dropdir</span>   <span class="o">=</span> <span class="n">eosdir</span> <span class="o">/</span> <span class="s1">&#39;drop&#39;</span>          <span class="c1"># only location where users have write access (i.e. to register)</span></div>
 
 <div class="viewcode-block" id="infowudir">
 <a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server.infowudir">[docs]</a>
-<span class="n">infowudir</span> <span class="o">=</span> <span class="n">eosdir</span> <span class="o">/</span> <span class="s2">&quot;info&quot;</span>                   <span class="c1"># location of work units info database</span></div>
+<span class="n">infowudir</span> <span class="o">=</span> <span class="n">eosdir</span> <span class="o">/</span> <span class="s2">&quot;info&quot;</span>          <span class="c1"># location of work units info database</span></div>
 
-
-
-<div class="viewcode-block" id="_test_afs">
-<a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server._test_afs">[docs]</a>
-<span class="n">_test_afs</span> <span class="o">=</span> <span class="n">afsusr</span> <span class="o">/</span> <span class="s1">&#39;public&#39;</span> <span class="o">/</span> <span class="s1">&#39;test_xboinc&#39;</span></div>
-
-<div class="viewcode-block" id="_test_eos">
-<a class="viewcode-back" href="../../../api/xboinc/server/paths/index.html#xboinc.server._test_eos">[docs]</a>
-<span class="n">_test_eos</span> <span class="o">=</span> <span class="n">eosusr</span> <span class="o">/</span> <span class="s1">&#39;test_xboinc&#39;</span></div>
 
 </pre></div>
 

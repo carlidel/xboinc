@@ -86,13 +86,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -153,7 +153,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.register._remove_rights" title="xboinc.register._remove_rights"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_remove_rights</span></code></a>(directory)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#xboinc.register.register" title="xboinc.register.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(user, directory)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#xboinc.register.register" title="xboinc.register.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(user, directory[, permissions_given])</p></td>
 <td><p>Register a user to the BOINC server and dev server, by declaring</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.register.deregister" title="xboinc.register.deregister"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deregister</span></code></a>(user)</p></td>
@@ -186,7 +186,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="xboinc.register.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/xboinc/register.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.register.register" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions_given</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/xboinc/register.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.register.register" title="Link to this definition"></a></dt>
 <dd><p>Register a user to the BOINC server and dev server, by declaring
 the username and user boinc directory, and giving access rights
 to the BOINC admin process. This is not instantaneous, as the
@@ -199,6 +199,10 @@ BOINC server periodically parses new users.</p>
 AFS or EOS), which will hold the new submissions and results.
 Should not be accessed manually by the user to avoid syncing
 issues.</p></li>
+<li><p><strong>permissions_given</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Set it to True to certify that the service account sixtadm has already
+the necessary r/w permissions on the specified directory. Do that for EOS
+paths after giving the appropriate read/write permissions on CERNbox
+to the target folder!</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

@@ -25,8 +25,6 @@ Attributes
    xboinc.server.eosdir
    xboinc.server.dropdir
    xboinc.server.infowudir
-   xboinc.server._test_afs
-   xboinc.server._test_eos
 
 
 Functions
@@ -67,8 +65,4 @@ Package Contents
 .. py:data:: dropdir
 
 .. py:data:: infowudir
-
-.. py:data:: _test_afs
-
-.. py:data:: _test_eos
 

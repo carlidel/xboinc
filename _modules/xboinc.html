@@ -83,13 +83,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/xboinc/index.html#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -133,7 +133,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">.executable</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_executable</span><span class="p">,</span> <span class="n">generate_executable_source</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.general</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">__xsuite__versions__</span><span class="p">,</span> <span class="n">_pkg_root</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.register</span><span class="w"> </span><span class="kn">import</span> <span class="n">deregister</span><span class="p">,</span> <span class="n">register</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.retrieve</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResultRetriever</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.retrieve</span><span class="w"> </span><span class="kn">import</span> <span class="n">JobRetriever</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.simulation_io</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">XbInput</span><span class="p">,</span>
     <span class="n">XbState</span><span class="p">,</span>
@@ -141,7 +141,7 @@
     <span class="n">app_version_int</span><span class="p">,</span>
     <span class="n">assert_versions</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.submit</span><span class="w"> </span><span class="kn">import</span> <span class="n">JobManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.submit</span><span class="w"> </span><span class="kn">import</span> <span class="n">JobSubmitter</span>
 
 <div class="viewcode-block" id="_skip_xsuite_version_check">
 <a class="viewcode-back" href="../api/xboinc/index.html#xboinc._skip_xsuite_version_check">[docs]</a>

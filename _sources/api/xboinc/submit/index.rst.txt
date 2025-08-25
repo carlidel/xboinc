@@ -7,7 +7,7 @@ xboinc.submit
 
    Job submission management for the Xboinc BOINC server.
 
-   This module provides the JobManager class for managing and submitting particle tracking
+   This module provides the JobSubmitter class for managing and submitting particle tracking
    jobs to the Xboinc BOINC server. It handles job preparation, validation, packaging,
    and submission with proper time estimation and resource management.
 
@@ -27,6 +27,7 @@ Attributes
    xboinc.submit.BENCHMARK_DATA
    xboinc.submit.LOWER_TIME_BOUND
    xboinc.submit.UPPER_TIME_BOUND
+   xboinc.submit.SWEET_SPOT_TIME
 
 
 Classes
@@ -34,7 +35,7 @@ Classes
 
 .. autoapisummary::
 
-   xboinc.submit.JobManager
+   xboinc.submit.JobSubmitter
 
 
 Functions
@@ -58,6 +59,10 @@ Module Contents
    :value: 259200
 
 
+.. py:data:: SWEET_SPOT_TIME
+   :value: 28800
+
+
 .. py:function:: _get_num_elements_from_line(line)
 
    Extract element count statistics from a tracking line.
@@ -78,7 +83,7 @@ Module Contents
    {'Drift': 100, 'Quadrupole': 50, 'Bend': 25}
 
 
-.. py:class:: JobManager(user, study_name, line=None, dev_server=False, **kwargs)
+.. py:class:: JobSubmitter(user, study_name, line=None, dev_server=False, **kwargs)
 
    A class to manage jobs for submission to the Xboinc server.
 
@@ -86,7 +91,7 @@ Module Contents
    jobs and submitting them as a batch to the BOINC server. It handles job validation,
    time estimation, file preparation, and submission.
 
-   The JobManager ensures that:
+   The JobSubmitter ensures that:
    - Job execution times fall within acceptable bounds
    - Job names are unique within a study
    - All necessary files are properly packaged and submitted
@@ -103,14 +108,14 @@ Module Contents
    Basic usage with a single line for all jobs:
 
    >>> line = xtrack.Line.from_dict(line_dict)
-   >>> manager = JobManager("user123", "my_study", line=line, dev_server=True)
+   >>> manager = JobSubmitter("user123", "my_study", line=line, dev_server=True)
    >>> manager.add(job_name="job1", num_turns=1000, particles=particles1)
    >>> manager.add(job_name="job2", num_turns=2000, particles=particles2)
    >>> manager.submit()
 
    Usage with different lines per job:
 
-   >>> manager = JobManager("user123", "my_study", dev_server=True)
+   >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
    >>> manager.add(job_name="job1", num_turns=1000, particles=particles1, line=line1)
    >>> manager.add(job_name="job2", num_turns=2000, particles=particles2, line=line2)
    >>> manager.submit()
@@ -165,13 +170,13 @@ Module Contents
 
       Ensure that jobs have not already been submitted.
 
-      :raises ValueError: If jobs have already been submitted from this JobManager instance.
+      :raises ValueError: If jobs have already been submitted from this JobSubmitter instance.
 
 
 
    .. py:method:: add(*, job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, **kwargs)
 
-      Add a single job to the JobManager instance.
+      Add a single job to the JobSubmitter instance.
 
       This method creates the necessary input files (binary and JSON metadata)
       for a single tracking job. The job is validated for execution time bounds
@@ -193,7 +198,7 @@ Module Contents
                         to be tracked.
       :type particles: xpart.Particles
       :param line: The tracking line for this specific job. If None, uses the line
-                   provided during JobManager initialization. Providing a line per
+                   provided during JobSubmitter initialization. Providing a line per
                    job is slower due to repeated preprocessing.
       :type line: xtrack.Line, optional
       :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
@@ -224,6 +229,40 @@ Module Contents
 
 
 
+   .. py:method:: slice_and_add(*, base_job_name, num_turns, ele_start=0, ele_stop=-1, particles, line=None, checkpoint_every=-1, target_execution_time=SWEET_SPOT_TIME, **kwargs)
+
+      Given an arbitarily large number of particles, this method slices the
+      particle distribution into smaller jobs that fit within the target
+      time limit indicated.
+
+      :param base_job_name: Unique base name for this job within the study. Cannot contain '__'
+                            (double underscore).
+      :type base_job_name: str
+      :param num_turns: The number of tracking turns for this job. Must be positive.
+      :type num_turns: int
+      :param ele_start: The starting element index for tracking. Default is 0 (first element).
+                        If provided different from 0 with particles set at a certain starting
+                        position, raises a ValueError.
+      :type ele_start: int, optional
+      :param ele_stop: The stopping element index for tracking. Default is -1 (last element).
+      :type ele_stop: int, optional
+      :param particles: The particles object containing the initial particle distribution
+                        to be tracked.
+      :type particles: xpart.Particles
+      :param line: The tracking line for this specific job. If None, uses the line
+                   provided during JobSubmitter initialization. Providing a line per
+                   job is slower due to repeated preprocessing.
+      :type line: xtrack.Line, optional
+      :param checkpoint_every: Checkpoint interval in turns. Default is -1 (no checkpointing).
+                               If positive, simulation state will be saved every N turns.
+      :type checkpoint_every: int, optional
+      :param target_execution_time: The target execution time for this job in seconds. Default is
+                                    a SWEET_SPOT_TIME of 2 hours.
+      :type target_execution_time: float, optional
+      :param \*\*kwargs: Additional job metadata to be included in the job JSON file.
+
+
+
    .. py:method:: submit()
 
       Package and submit all added jobs to the BOINC server.
@@ -236,14 +275,14 @@ Module Contents
       1. Creates a .tar.gz archive with all job files
       2. Moves the archive to the appropriate submission directory
       3. Cleans up temporary files
-      4. Marks the JobManager as submitted
+      4. Marks the JobSubmitter as submitted
 
       :raises ValueError: If jobs have already been submitted or if the user domain is invalid.
 
       .. rubric:: Notes
 
-      After submission, this JobManager instance cannot be used to add more
-      jobs. Create a new JobManager instance for additional submissions.
+      After submission, this JobSubmitter instance cannot be used to add more
+      jobs. Create a new JobSubmitter instance for additional submissions.
 
       The submission directory depends on the dev_server setting:
       - Development server: {user_directory}/input_dev
@@ -259,7 +298,7 @@ Module Contents
 
    .. py:method:: __len__()
 
-      Return the number of jobs added to this JobManager instance.
+      Return the number of jobs added to this JobSubmitter instance.
 
       :returns: The number of jobs that have been added but not yet submitted.
       :rtype: int
@@ -268,22 +307,22 @@ Module Contents
 
    .. py:method:: __repr__()
 
-      Return a string representation of the JobManager instance.
+      Return a string representation of the JobSubmitter instance.
 
       :returns: A concise string representation showing key attributes and status.
       :rtype: str
 
       .. rubric:: Examples
 
-      >>> manager = JobManager("user123", "my_study", dev_server=True)
+      >>> manager = JobSubmitter("user123", "my_study", dev_server=True)
       >>> repr(manager)
-      'JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
+      'JobSubmitter(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)'
 
 
 
    .. py:method:: get_job_summary()
 
-      Return a comprehensive summary of all jobs in this JobManager instance.
+      Return a comprehensive summary of all jobs in this JobSubmitter instance.
 
       :returns: A dictionary containing:
                 - user: The submitting user

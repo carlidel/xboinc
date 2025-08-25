@@ -35,7 +35,7 @@ Module Contents
 
 .. py:function:: _remove_rights(directory)
 
-.. py:function:: register(user, directory)
+.. py:function:: register(user, directory, permissions_given=False)
 
    Register a user to the BOINC server and dev server, by declaring
    the username and user boinc directory, and giving access rights
@@ -49,6 +49,11 @@ Module Contents
                      Should not be accessed manually by the user to avoid syncing
                      issues.
    :type directory: pathlib.Path
+   :param permissions_given: Set it to True to certify that the service account sixtadm has already
+                             the necessary r/w permissions on the specified directory. Do that for EOS
+                             paths after giving the appropriate read/write permissions on CERNbox
+                             to the target folder!
+   :type permissions_given: bool
 
    :rtype: None.
 

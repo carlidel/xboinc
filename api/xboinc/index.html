@@ -86,13 +86,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#xboinc._pkg_root"><code class="docutils literal notranslate"><span class="pre">_pkg_root</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.deregister"><code class="docutils literal notranslate"><span class="pre">deregister()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#xboinc.ResultRetriever"><code class="docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xboinc.JobRetriever"><code class="docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.XbInput"><code class="docutils literal notranslate"><span class="pre">XbInput</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.XbState"><code class="docutils literal notranslate"><span class="pre">XbState</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.app_version"><code class="docutils literal notranslate"><span class="pre">app_version</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.app_version_int"><code class="docutils literal notranslate"><span class="pre">app_version_int</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc.assert_versions"><code class="docutils literal notranslate"><span class="pre">assert_versions()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#xboinc.JobManager"><code class="docutils literal notranslate"><span class="pre">JobManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xboinc.JobSubmitter"><code class="docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#xboinc._skip_xsuite_version_check"><code class="docutils literal notranslate"><span class="pre">_skip_xsuite_version_check</span></code></a></li>
 </ul>
 </li>
@@ -174,7 +174,7 @@
 <h2><span class="section-number">3.1.3. </span>Classes<a class="headerlink" href="#classes" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.ResultRetriever" title="xboinc.ResultRetriever"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ResultRetriever</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.JobRetriever" title="xboinc.JobRetriever"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JobRetriever</span></code></a></p></td>
 <td><p>Class to retrieve and manage results from Xboinc simulations.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#xboinc.XbInput" title="xboinc.XbInput"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XbInput</span></code></a></p></td>
@@ -183,7 +183,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.XbState" title="xboinc.XbState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XbState</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#xboinc.JobManager" title="xboinc.JobManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JobManager</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#xboinc.JobSubmitter" title="xboinc.JobSubmitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JobSubmitter</span></code></a></p></td>
 <td><p>A class to manage jobs for submission to the Xboinc server.</p></td>
 </tr>
 </tbody>
@@ -208,7 +208,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.deregister" title="xboinc.deregister"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deregister</span></code></a>(user)</p></td>
 <td><p>Remove a user from the BOINC server and dev server.  This is</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="register/index.html#module-xboinc.register" title="xboinc.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(user, directory)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="register/index.html#module-xboinc.register" title="xboinc.register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register</span></code></a>(user, directory[, permissions_given])</p></td>
 <td><p>Register a user to the BOINC server and dev server, by declaring</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.assert_versions" title="xboinc.assert_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_versions</span></code></a>()</p></td>
@@ -238,7 +238,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="xboinc.query_registered_work_units">
-<span class="sig-name descname"><span class="pre">query_registered_work_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)"><span class="pre">pandas.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/df_wu.html#query_registered_work_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.query_registered_work_units" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">query_registered_work_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.2)"><span class="pre">pandas.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/df_wu.html#query_registered_work_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.query_registered_work_units" title="Link to this definition"></a></dt>
 <dd><p>List all work units for the registered users with an optional status filter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -258,7 +258,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="xboinc.generate_executable">
-<span class="sig-name descname"><span class="pre">generate_executable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcpkg_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_triplet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x64-linux'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/executable/generate.html#generate_executable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.generate_executable" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">generate_executable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcpkg_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_triplet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/executable/generate.html#generate_executable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.generate_executable" title="Link to this definition"></a></dt>
 <dd><p>Generate the Xboinc executable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -267,9 +267,16 @@
 <li><p><strong>clean</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether or not to clean the make directory. Defaults to True.</p></li>
 <li><p><strong>vcpkg_root</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><em>pathlib.Path</em></a><em>, </em><em>optional</em>) – The path to the local VCPKG installation. If none, an executable
 without the BOINC API is generated. Defaults to None.</p></li>
-<li><p><strong>target_triplet</strong> (<em>string</em><em>, </em><em>optional</em>) – The target architecture to compile to. Currently x64-linux and
-x64-mingw-static (i.e. Windows 64-bit) are supported.
-Defaults to x64-linux.</p></li>
+<li><p><strong>target_triplet</strong> (<em>string</em><em>, </em><em>optional</em>) – The target architecture to compile to. If none, host architecture
+will be used. Note that only a subset of host architectures are
+supported.
+Supported target triplets:
+- x64-linux - 64-bit Linux
+- x86-linux - 32-bit Linux
+- x64-mingw-static - 64-bit Windows
+- x86-mingw-static - 32-bit Windows
+Supported host triplets:
+- x64-linux</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -294,7 +301,7 @@ Defaults to x64-linux.</p></li>
 
 <dl class="py data">
 <dt class="sig sig-object py" id="xboinc.__version__">
-<span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.4.1'</span></em><a class="reference internal" href="../../_modules/xboinc/general.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.__version__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.4.2'</span></em><a class="reference internal" href="../../_modules/xboinc/general.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.__version__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -325,7 +332,7 @@ the users to remove.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="xboinc.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/register.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.register" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions_given</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/register.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.register" title="Link to this definition"></a></dt>
 <dd><p>Register a user to the BOINC server and dev server, by declaring
 the username and user boinc directory, and giving access rights
 to the BOINC admin process. This is not instantaneous, as the
@@ -338,6 +345,10 @@ BOINC server periodically parses new users.</p>
 AFS or EOS), which will hold the new submissions and results.
 Should not be accessed manually by the user to avoid syncing
 issues.</p></li>
+<li><p><strong>permissions_given</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Set it to True to certify that the service account sixtadm has already
+the necessary r/w permissions on the specified directory. Do that for EOS
+paths after giving the appropriate read/write permissions on CERNbox
+to the target folder!</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -347,15 +358,15 @@ issues.</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResultRetriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JobRetriever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever" title="Link to this definition"></a></dt>
 <dd><p>Class to retrieve and manage results from Xboinc simulations.</p>
 <p>This class provides functionality to retrieve, index, and manage simulation
 results from BOINC work units. It can untar result files, create indexes,
 and provide various views and statistics about completed jobs.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._user">
-<span class="sig-name descname"><span class="pre">_user</span></span><a class="headerlink" href="#xboinc.ResultRetriever._user" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._user">
+<span class="sig-name descname"><span class="pre">_user</span></span><a class="headerlink" href="#xboinc.JobRetriever._user" title="Link to this definition"></a></dt>
 <dd><p>The user that submitted the BOINC jobs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -365,8 +376,8 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._domain">
-<span class="sig-name descname"><span class="pre">_domain</span></span><a class="headerlink" href="#xboinc.ResultRetriever._domain" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._domain">
+<span class="sig-name descname"><span class="pre">_domain</span></span><a class="headerlink" href="#xboinc.JobRetriever._domain" title="Link to this definition"></a></dt>
 <dd><p>The domain where results are stored (e.g., ‘eos’)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -376,8 +387,8 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._directory">
-<span class="sig-name descname"><span class="pre">_directory</span></span><a class="headerlink" href="#xboinc.ResultRetriever._directory" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._directory">
+<span class="sig-name descname"><span class="pre">_directory</span></span><a class="headerlink" href="#xboinc.JobRetriever._directory" title="Link to this definition"></a></dt>
 <dd><p>Path to the directory containing results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -387,8 +398,8 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._dev_server">
-<span class="sig-name descname"><span class="pre">_dev_server</span></span><a class="headerlink" href="#xboinc.ResultRetriever._dev_server" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._dev_server">
+<span class="sig-name descname"><span class="pre">_dev_server</span></span><a class="headerlink" href="#xboinc.JobRetriever._dev_server" title="Link to this definition"></a></dt>
 <dd><p>Whether using development server</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -398,8 +409,8 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._df">
-<span class="sig-name descname"><span class="pre">_df</span></span><a class="headerlink" href="#xboinc.ResultRetriever._df" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._df">
+<span class="sig-name descname"><span class="pre">_df</span></span><a class="headerlink" href="#xboinc.JobRetriever._df" title="Link to this definition"></a></dt>
 <dd><p>Indexed DataFrame of all available results</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -409,7 +420,7 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retriever</span> <span class="o">=</span> <span class="n">ResultRetriever</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retriever</span> <span class="o">=</span> <span class="n">JobRetriever</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">studies</span> <span class="o">=</span> <span class="n">retriever</span><span class="o">.</span><span class="n">get_study_list</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">particles</span> <span class="ow">in</span> <span class="n">retriever</span><span class="o">.</span><span class="n">iterate_results</span><span class="p">(</span><span class="s1">&#39;my_study&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="c1"># Process particles data</span>
@@ -417,8 +428,8 @@ and provide various views and statistics about completed jobs.</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._untar_results">
-<span class="sig-name descname"><span class="pre">_untar_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xaux.FsPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever._untar_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever._untar_results" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._untar_results">
+<span class="sig-name descname"><span class="pre">_untar_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xaux.FsPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever._untar_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever._untar_results" title="Link to this definition"></a></dt>
 <dd><p>Untar all compressed result files in the given path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -431,8 +442,8 @@ and provide various views and statistics about completed jobs.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._index_results">
-<span class="sig-name descname"><span class="pre">_index_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xaux.FsPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.1)"><span class="pre">pandas.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever._index_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever._index_results" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._index_results">
+<span class="sig-name descname"><span class="pre">_index_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">xaux.FsPath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.3.2)"><span class="pre">pandas.DataFrame</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever._index_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever._index_results" title="Link to this definition"></a></dt>
 <dd><p>Index all result files in the given path and create a DataFrame.</p>
 <p>Scans for .bin files in subdirectories and extracts metadata from
 filenames to create a structured index of available results.</p>
@@ -469,8 +480,8 @@ Each row represents one available result file</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever._to_delete">
-<span class="sig-name descname"><span class="pre">_to_delete</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.ResultRetriever._to_delete" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever._to_delete">
+<span class="sig-name descname"><span class="pre">_to_delete</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.JobRetriever._to_delete" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -479,8 +490,8 @@ Each row represents one available result file</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.get_overview">
-<span class="sig-name descname"><span class="pre">get_overview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.get_overview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.get_overview" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.get_overview">
+<span class="sig-name descname"><span class="pre">get_overview</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.get_overview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.get_overview" title="Link to this definition"></a></dt>
 <dd><p>Get a comprehensive overview of all available results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -494,8 +505,8 @@ user, study_name, job_name, wu_name, bin_file</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.get_study_list">
-<span class="sig-name descname"><span class="pre">get_study_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.get_study_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.get_study_list" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.get_study_list">
+<span class="sig-name descname"><span class="pre">get_study_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.get_study_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.get_study_list" title="Link to this definition"></a></dt>
 <dd><p>Get a list of all unique study names in the available results.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -508,8 +519,8 @@ user, study_name, job_name, wu_name, bin_file</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.get_study_status">
-<span class="sig-name descname"><span class="pre">get_study_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.get_study_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.get_study_status" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.get_study_status">
+<span class="sig-name descname"><span class="pre">get_study_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.get_study_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.get_study_status" title="Link to this definition"></a></dt>
 <dd><p>Get detailed status information for a specific study.</p>
 <p>Compares local results with server work units to provide comprehensive
 status information including completion rates and missing jobs.</p>
@@ -544,8 +555,8 @@ status information including completion rates and missing jobs.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.iterate_results">
-<span class="sig-name descname"><span class="pre">iterate_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.iterate_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.iterate_results" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.iterate_results">
+<span class="sig-name descname"><span class="pre">iterate_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.iterate_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.iterate_results" title="Link to this definition"></a></dt>
 <dd><p>Iterate over all results for a specific study.</p>
 <p>Yields tuples of job names and their corresponding particle data
 for all completed jobs in the specified study.</p>
@@ -568,7 +579,7 @@ for all completed jobs in the specified study.</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retriever</span> <span class="o">=</span> <span class="n">ResultRetriever</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">retriever</span> <span class="o">=</span> <span class="n">JobRetriever</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">particles</span> <span class="ow">in</span> <span class="n">retriever</span><span class="o">.</span><span class="n">iterate_results</span><span class="p">(</span><span class="s1">&#39;my_study&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Processing job: </span><span class="si">{</span><span class="n">job_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of particles: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -577,8 +588,8 @@ for all completed jobs in the specified study.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.clean">
-<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.clean" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.clean" title="Link to this definition"></a></dt>
 <dd><p>Clean up results for a specific study.</p>
 <p>Removes all binary result files, empty directories, and clears
 the study from the internal DataFrame index.</p>
@@ -598,10 +609,10 @@ will be permanently deleted.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.iterate">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iterate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.iterate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.iterate" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.iterate">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iterate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.iterate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.iterate" title="Link to this definition"></a></dt>
 <dd><p>Class method to directly iterate over results for a user and study.</p>
-<p>Convenient method that creates a ResultRetriever instance and immediately
+<p>Convenient method that creates a JobRetriever instance and immediately
 starts iterating over results without requiring explicit instantiation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -617,7 +628,7 @@ starts iterating over results without requiring explicit instantiation.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">particles</span> <span class="ow">in</span> <span class="n">ResultRetriever</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;my_study&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">job_name</span><span class="p">,</span> <span class="n">particles</span> <span class="ow">in</span> <span class="n">JobRetriever</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;my_study&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="c1"># Process particles data</span>
 <span class="gp">... </span>    <span class="k">pass</span>
 </pre></div>
@@ -625,8 +636,8 @@ starts iterating over results without requiring explicit instantiation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.overview">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.overview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.overview" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.overview">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">overview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.overview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.overview" title="Link to this definition"></a></dt>
 <dd><p>Class method to get an overview of results for a specific user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -644,15 +655,15 @@ starts iterating over results without requiring explicit instantiation.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">overview_df</span> <span class="o">=</span> <span class="n">ResultRetriever</span><span class="o">.</span><span class="n">overview</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">overview_df</span> <span class="o">=</span> <span class="n">JobRetriever</span><span class="o">.</span><span class="n">overview</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">overview_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;study_name&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.status">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.status" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.status">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.status" title="Link to this definition"></a></dt>
 <dd><p>Class method to get status of results for a specific user and study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -676,15 +687,15 @@ starts iterating over results without requiring explicit instantiation.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">available</span><span class="p">,</span> <span class="n">missing</span> <span class="o">=</span> <span class="n">ResultRetriever</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;my_study&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">available</span><span class="p">,</span> <span class="n">missing</span> <span class="o">=</span> <span class="n">JobRetriever</span><span class="o">.</span><span class="n">status</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;my_study&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available jobs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">available</span><span class="p">)</span><span class="si">}</span><span class="s2">, Missing jobs: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.ResultRetriever.study_list">
-<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">study_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#ResultRetriever.study_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.ResultRetriever.study_list" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobRetriever.study_list">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">study_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">silent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/retrieve.html#JobRetriever.study_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobRetriever.study_list" title="Link to this definition"></a></dt>
 <dd><p>Class method to get a list of all studies for a specific user.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -702,7 +713,7 @@ starts iterating over results without requiring explicit instantiation.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">studies</span> <span class="o">=</span> <span class="n">ResultRetriever</span><span class="o">.</span><span class="n">study_list</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">studies</span> <span class="o">=</span> <span class="n">JobRetriever</span><span class="o">.</span><span class="n">study_list</span><span class="p">(</span><span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">studies</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -891,20 +902,20 @@ contain anything else (otherwise the offset will be wrong).</p>
 <dd></dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="xboinc.JobManager">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JobManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JobSubmitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dev_server</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter" title="Link to this definition"></a></dt>
 <dd><p>A class to manage jobs for submission to the Xboinc server.</p>
 <p>This class provides a convenient interface for adding multiple particle tracking
 jobs and submitting them as a batch to the BOINC server. It handles job validation,
 time estimation, file preparation, and submission.</p>
-<p>The JobManager ensures that:
+<p>The JobSubmitter ensures that:
 - Job execution times fall within acceptable bounds
 - Job names are unique within a study
 - All necessary files are properly packaged and submitted
 - Proper cleanup is performed after submission</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager.dev_server">
-<span class="sig-name descname"><span class="pre">dev_server</span></span><a class="headerlink" href="#xboinc.JobManager.dev_server" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.dev_server">
+<span class="sig-name descname"><span class="pre">dev_server</span></span><a class="headerlink" href="#xboinc.JobSubmitter.dev_server" title="Link to this definition"></a></dt>
 <dd><p>Whether jobs are submitted to the development server.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -916,14 +927,14 @@ time estimation, file preparation, and submission.</p>
 <p class="rubric">Examples</p>
 <p>Basic usage with a single line for all jobs:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">line</span> <span class="o">=</span> <span class="n">xtrack</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">line_dict</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobManager</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobSubmitter</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s2">&quot;job1&quot;</span><span class="p">,</span> <span class="n">num_turns</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="n">particles1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s2">&quot;job2&quot;</span><span class="p">,</span> <span class="n">num_turns</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="n">particles2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Usage with different lines per job:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobManager</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobSubmitter</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s2">&quot;job1&quot;</span><span class="p">,</span> <span class="n">num_turns</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="n">particles1</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_name</span><span class="o">=</span><span class="s2">&quot;job2&quot;</span><span class="p">,</span> <span class="n">num_turns</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">particles</span><span class="o">=</span><span class="n">particles2</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
@@ -935,70 +946,70 @@ time estimation, file preparation, and submission.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._user">
-<span class="sig-name descname"><span class="pre">_user</span></span><a class="headerlink" href="#xboinc.JobManager._user" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._user">
+<span class="sig-name descname"><span class="pre">_user</span></span><a class="headerlink" href="#xboinc.JobSubmitter._user" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._domain">
-<span class="sig-name descname"><span class="pre">_domain</span></span><a class="headerlink" href="#xboinc.JobManager._domain" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._domain">
+<span class="sig-name descname"><span class="pre">_domain</span></span><a class="headerlink" href="#xboinc.JobSubmitter._domain" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._study_name">
-<span class="sig-name descname"><span class="pre">_study_name</span></span><a class="headerlink" href="#xboinc.JobManager._study_name" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._study_name">
+<span class="sig-name descname"><span class="pre">_study_name</span></span><a class="headerlink" href="#xboinc.JobSubmitter._study_name" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._line">
-<span class="sig-name descname"><span class="pre">_line</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#xboinc.JobManager._line" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._line">
+<span class="sig-name descname"><span class="pre">_line</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#xboinc.JobSubmitter._line" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._submit_file">
-<span class="sig-name descname"><span class="pre">_submit_file</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Uninferable__Uninferable__Uninferable.tar.gz'</span></em><a class="headerlink" href="#xboinc.JobManager._submit_file" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._submit_file">
+<span class="sig-name descname"><span class="pre">_submit_file</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Uninferable__Uninferable__Uninferable.tar.gz'</span></em><a class="headerlink" href="#xboinc.JobSubmitter._submit_file" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._json_files">
-<span class="sig-name descname"><span class="pre">_json_files</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.JobManager._json_files" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._json_files">
+<span class="sig-name descname"><span class="pre">_json_files</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.JobSubmitter._json_files" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._bin_files">
-<span class="sig-name descname"><span class="pre">_bin_files</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.JobManager._bin_files" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._bin_files">
+<span class="sig-name descname"><span class="pre">_bin_files</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#xboinc.JobSubmitter._bin_files" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._tempdir">
-<span class="sig-name descname"><span class="pre">_tempdir</span></span><a class="headerlink" href="#xboinc.JobManager._tempdir" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._tempdir">
+<span class="sig-name descname"><span class="pre">_tempdir</span></span><a class="headerlink" href="#xboinc.JobSubmitter._tempdir" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._submitted">
-<span class="sig-name descname"><span class="pre">_submitted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#xboinc.JobManager._submitted" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._submitted">
+<span class="sig-name descname"><span class="pre">_submitted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#xboinc.JobSubmitter._submitted" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="xboinc.JobManager._unique_job_names">
-<span class="sig-name descname"><span class="pre">_unique_job_names</span></span><a class="headerlink" href="#xboinc.JobManager._unique_job_names" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._unique_job_names">
+<span class="sig-name descname"><span class="pre">_unique_job_names</span></span><a class="headerlink" href="#xboinc.JobSubmitter._unique_job_names" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager._assert_not_submitted">
-<span class="sig-name descname"><span class="pre">_assert_not_submitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager._assert_not_submitted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager._assert_not_submitted" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter._assert_not_submitted">
+<span class="sig-name descname"><span class="pre">_assert_not_submitted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter._assert_not_submitted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter._assert_not_submitted" title="Link to this definition"></a></dt>
 <dd><p>Ensure that jobs have not already been submitted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If jobs have already been submitted from this JobManager instance.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If jobs have already been submitted from this JobSubmitter instance.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_turns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager.add" title="Link to this definition"></a></dt>
-<dd><p>Add a single job to the JobManager instance.</p>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_turns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.add" title="Link to this definition"></a></dt>
+<dd><p>Add a single job to the JobSubmitter instance.</p>
 <p>This method creates the necessary input files (binary and JSON metadata)
 for a single tracking job. The job is validated for execution time bounds
 and prepared for batch submission.</p>
@@ -1016,7 +1027,7 @@ position, raises a ValueError.</p></li>
 <li><p><strong>particles</strong> (<em>xpart.Particles</em>) – The particles object containing the initial particle distribution
 to be tracked.</p></li>
 <li><p><strong>line</strong> (<em>xtrack.Line</em><em>, </em><em>optional</em>) – The tracking line for this specific job. If None, uses the line
-provided during JobManager initialization. Providing a line per
+provided during JobSubmitter initialization. Providing a line per
 job is slower due to repeated preprocessing.</p></li>
 <li><p><strong>checkpoint_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Checkpoint interval in turns. Default is -1 (no checkpointing).
 If positive, simulation state will be saved every N turns.</p></li>
@@ -1046,8 +1057,39 @@ between LOWER_TIME_BOUND (90s) and UPPER_TIME_BOUND (3 days).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager.submit">
-<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager.submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager.submit" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.slice_and_add">
+<span class="sig-name descname"><span class="pre">slice_and_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_job_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_turns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">particles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_every</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_execution_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SWEET_SPOT_TIME</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.slice_and_add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.slice_and_add" title="Link to this definition"></a></dt>
+<dd><p>Given an arbitarily large number of particles, this method slices the
+particle distribution into smaller jobs that fit within the target
+time limit indicated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_job_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Unique base name for this job within the study. Cannot contain ‘__’
+(double underscore).</p></li>
+<li><p><strong>num_turns</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – The number of tracking turns for this job. Must be positive.</p></li>
+<li><p><strong>ele_start</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – The starting element index for tracking. Default is 0 (first element).
+If provided different from 0 with particles set at a certain starting
+position, raises a ValueError.</p></li>
+<li><p><strong>ele_stop</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – The stopping element index for tracking. Default is -1 (last element).</p></li>
+<li><p><strong>particles</strong> (<em>xpart.Particles</em>) – The particles object containing the initial particle distribution
+to be tracked.</p></li>
+<li><p><strong>line</strong> (<em>xtrack.Line</em><em>, </em><em>optional</em>) – The tracking line for this specific job. If None, uses the line
+provided during JobSubmitter initialization. Providing a line per
+job is slower due to repeated preprocessing.</p></li>
+<li><p><strong>checkpoint_every</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – Checkpoint interval in turns. Default is -1 (no checkpointing).
+If positive, simulation state will be saved every N turns.</p></li>
+<li><p><strong>target_execution_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>, </em><em>optional</em>) – The target execution time for this job in seconds. Default is
+a SWEET_SPOT_TIME of 2 hours.</p></li>
+<li><p><strong>**kwargs</strong> – Additional job metadata to be included in the job JSON file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.submit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.submit" title="Link to this definition"></a></dt>
 <dd><p>Package and submit all added jobs to the BOINC server.</p>
 <p>This method creates a compressed tar archive containing all job files
 and moves it to the user’s submission directory where the BOINC server
@@ -1056,15 +1098,15 @@ will periodically check for new submissions.</p>
 1. Creates a .tar.gz archive with all job files
 2. Moves the archive to the appropriate submission directory
 3. Cleans up temporary files
-4. Marks the JobManager as submitted</p>
+4. Marks the JobSubmitter as submitted</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If jobs have already been submitted or if the user domain is invalid.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>After submission, this JobManager instance cannot be used to add more
-jobs. Create a new JobManager instance for additional submissions.</p>
+<p>After submission, this JobSubmitter instance cannot be used to add more
+jobs. Create a new JobSubmitter instance for additional submissions.</p>
 <p>The submission directory depends on the dev_server setting:
 - Development server: {user_directory}/input_dev
 - Production server: {user_directory}/input</p>
@@ -1077,9 +1119,9 @@ jobs. Create a new JobManager instance for additional submissions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager.__len__">
-<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager.__len__" title="Link to this definition"></a></dt>
-<dd><p>Return the number of jobs added to this JobManager instance.</p>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.__len__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.__len__" title="Link to this definition"></a></dt>
+<dd><p>Return the number of jobs added to this JobSubmitter instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The number of jobs that have been added but not yet submitted.</p>
@@ -1091,9 +1133,9 @@ jobs. Create a new JobManager instance for additional submissions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager.__repr__" title="Link to this definition"></a></dt>
-<dd><p>Return a string representation of the JobManager instance.</p>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.__repr__" title="Link to this definition"></a></dt>
+<dd><p>Return a string representation of the JobSubmitter instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A concise string representation showing key attributes and status.</p>
@@ -1103,17 +1145,17 @@ jobs. Create a new JobManager instance for additional submissions.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobManager</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">manager</span> <span class="o">=</span> <span class="n">JobSubmitter</span><span class="p">(</span><span class="s2">&quot;user123&quot;</span><span class="p">,</span> <span class="s2">&quot;my_study&quot;</span><span class="p">,</span> <span class="n">dev_server</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">repr</span><span class="p">(</span><span class="n">manager</span><span class="p">)</span>
-<span class="go">&#39;JobManager(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)&#39;</span>
+<span class="go">&#39;JobSubmitter(user=user123, study_name=my_study, num_jobs=0, dev_server=True, submitted=False)&#39;</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="xboinc.JobManager.get_job_summary">
-<span class="sig-name descname"><span class="pre">get_job_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobManager.get_job_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobManager.get_job_summary" title="Link to this definition"></a></dt>
-<dd><p>Return a comprehensive summary of all jobs in this JobManager instance.</p>
+<dt class="sig sig-object py" id="xboinc.JobSubmitter.get_job_summary">
+<span class="sig-name descname"><span class="pre">get_job_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/xboinc/submit.html#JobSubmitter.get_job_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.JobSubmitter.get_job_summary" title="Link to this definition"></a></dt>
+<dd><p>Return a comprehensive summary of all jobs in this JobSubmitter instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A dictionary containing:
