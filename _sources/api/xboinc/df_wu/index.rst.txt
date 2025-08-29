@@ -76,22 +76,23 @@ Module Contents
    :rtype: pd.DataFrame
 
 
-.. py:function:: query_subscribed_users() -> list[str]
+.. py:function:: query_subscribed_users() -> list[tuple[str, str]]
 
-   Get a list of all users subscribed to the work unit database.
+   Get a list of all users subscribed to the work unit database with their status.
 
-   :returns: List of usernames subscribed to the work unit database.
-   :rtype: list[str]
+   :returns: List of tuples containing (username, status) for users subscribed to the work unit database.
+   :rtype: list[tuple[str, str]]
 
 
-.. py:function:: check_user_subscription(user: str) -> bool
+.. py:function:: check_user_subscription(user: str) -> str
 
    Check if a user is subscribed to the work unit database.
 
    :param user: The username to check.
    :type user: str
 
-   :returns: True if the user is subscribed, False otherwise.
-   :rtype: bool
+   :returns: The status of the user if subscribed, "not_subscribed" otherwise,
+             "broken" if the user's directory is invalid.
+   :rtype: str
 
 

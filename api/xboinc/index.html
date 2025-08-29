@@ -193,7 +193,7 @@
 <h2><span class="section-number">3.1.4. </span>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.check_user_subscription" title="xboinc.check_user_subscription"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_user_subscription</span></code></a>(→ bool)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#xboinc.check_user_subscription" title="xboinc.check_user_subscription"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_user_subscription</span></code></a>(→ str)</p></td>
 <td><p>Check if a user is subscribed to the work unit database.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#xboinc.query_registered_work_units" title="xboinc.query_registered_work_units"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_registered_work_units</span></code></a>(→ pandas.DataFrame)</p></td>
@@ -221,17 +221,18 @@
 <h2><span class="section-number">3.1.5. </span>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="xboinc.check_user_subscription">
-<span class="sig-name descname"><span class="pre">check_user_subscription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/df_wu.html#check_user_subscription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.check_user_subscription" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">check_user_subscription</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/xboinc/df_wu.html#check_user_subscription"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.check_user_subscription" title="Link to this definition"></a></dt>
 <dd><p>Check if a user is subscribed to the work unit database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>user</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The username to check.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the user is subscribed, False otherwise.</p>
+<dd class="field-even"><p>The status of the user if subscribed, “not_subscribed” otherwise,
+“broken” if the user’s directory is invalid.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -301,7 +302,7 @@ Supported host triplets:
 
 <dl class="py data">
 <dt class="sig sig-object py" id="xboinc.__version__">
-<span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.4.2'</span></em><a class="reference internal" href="../../_modules/xboinc/general.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.__version__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__version__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.4.3'</span></em><a class="reference internal" href="../../_modules/xboinc/general.html#__version__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#xboinc.__version__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py data">
@@ -565,7 +566,7 @@ for all completed jobs in the specified study.</p>
 <dd class="field-odd"><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the study to iterate over</p>
 </dd>
 <dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>tuple of (str, xpart.Particles)</em> – Job name and corresponding particles object for each result</p>
+<dd class="field-even"><p><em>tuple of (str, dict, xpart.Particles)</em> – Job name, corresponding metadata, and particles object for each result</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If study_name is not found in available results</p>

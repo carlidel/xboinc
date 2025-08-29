@@ -166,7 +166,7 @@ Module Contents
       :param study_name: Name of the study to iterate over
       :type study_name: str
 
-      :Yields: *tuple of (str, xpart.Particles)* -- Job name and corresponding particles object for each result
+      :Yields: *tuple of (str, dict, xpart.Particles)* -- Job name, corresponding metadata, and particles object for each result
 
       :raises ValueError: If study_name is not found in available results
 

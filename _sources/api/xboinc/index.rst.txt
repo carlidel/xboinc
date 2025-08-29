@@ -62,15 +62,16 @@ Functions
 Package Contents
 ----------------
 
-.. py:function:: check_user_subscription(user: str) -> bool
+.. py:function:: check_user_subscription(user: str) -> str
 
    Check if a user is subscribed to the work unit database.
 
    :param user: The username to check.
    :type user: str
 
-   :returns: True if the user is subscribed, False otherwise.
-   :rtype: bool
+   :returns: The status of the user if subscribed, "not_subscribed" otherwise,
+             "broken" if the user's directory is invalid.
+   :rtype: str
 
 
 .. py:function:: query_registered_work_units(status: Optional[str] = None, dev_server: bool = False) -> pandas.DataFrame
@@ -123,7 +124,7 @@ Package Contents
 
 
 .. py:data:: __version__
-   :value: '0.4.2'
+   :value: '0.4.3'
 
 
 .. py:data:: __xsuite__versions__
@@ -316,7 +317,7 @@ Package Contents
       :param study_name: Name of the study to iterate over
       :type study_name: str
 
-      :Yields: *tuple of (str, xpart.Particles)* -- Job name and corresponding particles object for each result
+      :Yields: *tuple of (str, dict, xpart.Particles)* -- Job name, corresponding metadata, and particles object for each result
 
       :raises ValueError: If study_name is not found in available results
 

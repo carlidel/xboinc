@@ -350,7 +350,7 @@ for all completed jobs in the specified study.</p>
 <dd class="field-odd"><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the study to iterate over</p>
 </dd>
 <dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>tuple of (str, xpart.Particles)</em> – Job name and corresponding particles object for each result</p>
+<dd class="field-even"><p><em>tuple of (str, dict, xpart.Particles)</em> – Job name, corresponding metadata, and particles object for each result</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If study_name is not found in available results</p>
